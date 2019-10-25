@@ -29,12 +29,12 @@
 * 创新方面：
 * 其他方面：
 ### Authors  
-学号|姓名|用户名|任务数|任务  
-----|----|----|----|----  
-2017011951|高予蜀|gaoyushu|4|index / register / contact / solution  
-2017011950|周弘|DongXin9|4|3.1 / 3.1.1 PC+MC  
-2017011945|孙童|wangluyu1998|4|3.1.2 / 4 PC+MC  
-2017011980|牛玉欣|xiaoqingxin2333|4|3.2 / 3.2.2 PC+MC  
+学号|姓名|用户名   
+----|----|----  
+2017011951|高予蜀|gaoyushu
+2017011950|周弘|DongXin9
+2017011945|孙童|wangluyu1998
+2017011980|牛玉欣|xiaoqingxin2333
 ----
 ### Acknowledgement
 * Thanks to ourself~
