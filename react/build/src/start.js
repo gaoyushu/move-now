@@ -9,6 +9,7 @@ export default class Start extends Component {
         return (
            
                 <div className='start'>
+                    <img src='src/images/logo.png' className='start-img'/>
                     <p>一篇日记 认识一个人</p>
                     <Link to='/register'>
                         <button className="start-but1">注册</button>

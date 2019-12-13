@@ -9,14 +9,11 @@ export default class Set extends Component {
                 <div className='ss'>
                     <div className='headers'>
                         {/* 跳到花海 */}
-                        <Link to='/flower'>
-                        <span style={{textDecoration:'none',color:'#fff',fontWeight:'bolder',width:'10%',fontSize:'25px',float:'left'}}>{`<`}</span>
-                        </Link> 
-                        <span style={{float:"left",paddingLeft:'35%'}}>设置</span>
-                    </div>
-                    <div className='s-cont'>
-                        账号
-                        <span style={{marginLeft:'10%'}}>朝花夕拾</span>
+                        <Link to='/my'><div style={{width:'10%',lineHeight:'45px',float:'left'}}> 
+                            <span style={{float:'right',textDecoration:'none',color:'#fff',fontWeight:'bold',fontSize:'30px'}}>{`<`}</span>
+                       </div> </Link>
+                        <p style={{width:'80%',float:'left',paddingRight:'10%',textAlign:'center',fontSize:'17px',lineHeight:'50px'}}>设置</p>
+                    
                     </div>
                     <div className='s-cont'>
                         修改密码
@@ -34,17 +31,17 @@ export default class Set extends Component {
                         清除缓存
                     </div>
                     {/* 跳到关于我们 */}
-                    <Link to='/about'>
+                    {/* <Link to='/about'>
                         <div className='s-cont'>
                             关于我们
                         </div>
                     </Link>
-                    {/* 跳到启动页 */}
+                    {/* 跳到启动页 
                     <Link to='/'>
                         <div className='s-out'>
                             退出账号
                         </div>
-                    </Link>
+                    </Link> */}
                         
                </div> 
                {/* <div>

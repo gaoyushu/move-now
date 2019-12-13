@@ -17,12 +17,22 @@ export default class Content extends Component {
                 </div>
                 <div className='comments'>
                     <div className='comm'>
-                        <span className='c-user' >牵牛花:</span>
+                        <div className='simi-tou'>
+                            <div className='simi-touxiang'>
+                                <img src='src/images/touxiang.jpg'/>
+                            </div>
+                            <span className='c-user' >牵牛花:</span>
+                        </div>
                         <p className='c-content'>{`我也开始健身和学习英语啦，感觉学习真的不容耽搁，活到老学到老啦><`}</p>
                         <span className='c-time' >2019/12/3 10:29</span>
                     </div>
                     <div className='comm'>
-                        <span className='c-user' >玫瑰:</span>
+                        <div className='simi-tou'>
+                            <div className='simi-touxiang'>
+                                <img src='src/images/touxiang.jpg'/>
+                            </div>
+                            <span className='c-user' >玫瑰:</span>
+                        </div>
                         <p className='c-content'>{`对啊，12月底还有英语四六级！`}</p>
                         <span className='c-time' >2019/12/3 10:29</span>
                     </div>
