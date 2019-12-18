@@ -1,6 +1,26 @@
 import React, { Component } from 'react'
 import {Link,Route} from 'react-router-dom';
 export default class Open extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            data:[],
+            status:0
+        }
+      }
+    componentDidMount(){
+        fetch('http://116.62.14.0:8666/chat/friends/1')
+        .then(res =>{ return res.json() })
+        .then(res =>{
+             console.log(res); 
+             this.setState({
+                data:res.data,
+                status:res.status
+
+            })
+        });
+
+      }
     render() {
         return (
             <div>
@@ -21,18 +41,24 @@ export default class Open extends Component {
                         公开
                     </div>
                 </div>
-                <div className='f-p'>
-                    <Link to='/homeF'><div className='f-p-h'>
+                {
+                this.state.status!==-1
+                ?this.state.data.map((item,key)=>(
+                <div className='f-p' key={key} >
+                    <Link to={'/open/home/'+item.fuid}><div className='f-p-h'>
                         <img src='src/images/logo.png' />
                     </div></Link>
                     <div className='f-p-t'>
-                        朝花夕拾
+                        {item.uname}
                     </div>
                     <div className='f-p-y'>
-                        这里是一条没什么用的签名……
+                        {item.uintroduce}
                     </div>
                 </div>
-                <div className='f-p'>
+                ))
+                :<div></div>
+            }
+                {/* <div className='f-p'>
                     <div className='f-p-h'>
                         <img src='src/images/logo.png' />
                     </div>
@@ -53,7 +79,7 @@ export default class Open extends Component {
                     <div className='f-p-y'>
                         这里是一条没什么用的签名……
                     </div>
-                </div>
+                </div> */}
             </div>
         )
     }

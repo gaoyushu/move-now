@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import {Link,Route} from 'react-router-dom';
-export default class Anonymous extends Component {
+export default class Open extends Component {
     constructor(props){
         super(props);
         this.state={
             data:[]
         }
       }
-      componentDidMount(){
-        fetch('http://116.62.14.0:8666/chat/exchange/1')
+    componentDidMount(){
+        fetch('http://116.62.14.0:8712/zhaohuaxishi/chat/friends/'+localStorage.getItem('token'))
         .then(res =>{ return res.json() })
         .then(res =>{
              console.log(res); 
@@ -30,39 +30,32 @@ export default class Anonymous extends Component {
                     
                 </div>
                 <div className='f-choise'>
-                    <div className='f-but1'>
-                        匿名
-                    </div>
-                    <Link to='/open'>
-                        <div className='f-but2'>
-                            公开
+                    <Link to='/anonymous'>
+                        <div className='f-but11'>
+                            匿名
                         </div>
-                    </Link>    
+                    </Link>                     
+                    <div className='f-but21'>
+                        公开
+                    </div>
                 </div>
                 {
-                this.state.data=="匿名列表为空或获取好友失败，后端错误，请联系管理员！"
-                ?<div></div>
-                :this.state.data.map((item,key)=>(
-                        <Link to={{
-                            pathname:'/exdiary',
-                            state:{
-                                shortdes_id:item.shortdes_id
-                            }
-                        }}><div className='f-p'>
-                            <div className='f-p-h'>
-                                <img src='http://116.62.14.0:8666/api/image/5' />
-                            </div>
-                            <div className='f-p-t'>
-                                朝花夕拾
-                            </div>
-                            <div className='f-p-y'>
-                                {item.shortdes}
-                            </div>
-                        </div></Link>
-                    ))
-                
-                
-                }
+                this.state.data!=="匿名列表为空或获取好友失败，后端错误，请联系管理员！"
+                ?this.state.data.map((item,key)=>(
+                <div className='f-p' key={key} >
+                    <Link to={'/open/home/'+item.fuid}><div className='f-p-h'>
+                        <img src='src/images/logo.png' />
+                    </div></Link>
+                    <div className='f-p-t'>
+                        {item.uname}
+                    </div>
+                    <div className='f-p-y'>
+                        {item.uintroduce}
+                    </div>
+                </div>
+                ))
+                :<div></div>
+            }
                 {/* <div className='f-p'>
                     <div className='f-p-h'>
                         <img src='src/images/logo.png' />
@@ -71,7 +64,7 @@ export default class Anonymous extends Component {
                         朝花夕拾
                     </div>
                     <div className='f-p-y'>
-                        一句话：只要你主动，我们就会有故事
+                        这里是一条没什么用的签名……
                     </div>
                 </div>
                 <div className='f-p'>
@@ -82,18 +75,7 @@ export default class Anonymous extends Component {
                         朝花夕拾
                     </div>
                     <div className='f-p-y'>
-                        一句话：只要你主动，我们就会有故事
-                    </div>
-                </div>
-                <div className='f-p'>
-                    <div className='f-p-h'>
-                        <img src='src/images/logo.png' />
-                    </div>
-                    <div className='f-p-t'>
-                        朝花夕拾
-                    </div>
-                    <div className='f-p-y'>
-                        一句话：只要你主动，我们就会有故事
+                        这里是一条没什么用的签名……
                     </div>
                 </div> */}
             </div>

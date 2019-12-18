@@ -1,32 +1,23 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom';
-import Pubsub from 'pubsub-js'
 export default class SquareBranch extends Component {
     constructor(props){
         super(props);
         this.state={
             selectedTab: "/square",
-            likeImg:'http://116.62.14.0:8666/api/image/29',
-            likeImg1:'http://116.62.14.0:8666/api/image/28',
+            likeImg:'http://116.62.14.0:8699/zhaohuaxishi/image/2',
+            likeImg1:'http://116.62.14.0:8699/zhaohuaxishi/image/3',
             likeC:0,
             data:[],
-            token:''
         }
       }
       componentDidMount(){
         console.log(this.props.location.pathname);
         let arr=this.props.location.pathname.split('/');
-        Pubsub.subscribe('token', (msg, data) => {
-            this.setState({
-                token:data
-        },()=>{
-
-        })
-    })
         // var datas=arr.length===2?'follow':arr[2];
         var datas=arr[2];
         console.log(datas);
-            fetch('http://116.62.14.0:8666/square/'+datas+'/1').then(res =>res.json())
+            fetch('http://116.62.14.0:8083/zhaohuaxishi/square/'+datas+'/'+localStorage.getItem('token')).then(res =>res.json())
                 .then(res =>{
              console.log(res); 
              this.setState({
@@ -38,7 +29,7 @@ export default class SquareBranch extends Component {
       }
       setLike=(idx)=>{
           console.log(this.state.data[idx].did)
-            fetch('http://116.62.14.0:8666/square/praise/1'+'/'+`${this.state.data[idx].did}`,{
+            fetch('http://116.62.14.0:8083/zhaohuaxishi/square/praise/'+localStorage.getItem('token')+'/'+`${this.state.data[idx].did}`,{
                 method: 'PUT',
                 headers: {
                   'Accept': 'application/json',
@@ -75,7 +66,7 @@ export default class SquareBranch extends Component {
                     <div className='s-top' >
                         <Link to={'/square/'+data+'/home/'+item.uid}>
                             <div className='s-top-h'>
-                                <img src="http://116.62.14.0:8666/api/image/5" />
+                                <img src="src/images/logo.png" />
                             </div>
                         </Link>       
                         <div className='s-top-t'>
@@ -92,7 +83,7 @@ export default class SquareBranch extends Component {
                     </Link>
                     <div className='s-bottom'>
                         <div className='s-comment'>
-                            <img src='http://116.62.14.0:8666/api/image/46'/>
+                            <img src='src/images/评论.png'/>
                             {item.comments}
                         </div>
                         <div className='s-like' key={idx} >

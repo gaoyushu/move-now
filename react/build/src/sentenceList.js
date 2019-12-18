@@ -2,6 +2,42 @@ import React, { Component } from 'react';
 import { Accordion, List } from 'antd-mobile';
 import {Link,Route} from 'react-router-dom';
 export default class SentenceList extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            open:[],
+            close:[]
+        }
+      }
+    componentDidMount(){
+        fetch('http://116.62.14.0:8666/change/mine/1')
+        .then(res =>{ return res.json() })
+        .then(res =>{
+             console.log(res);
+             var opend=res.data.open;
+             var closed=res.data.close;
+             for(var i=0;i<opend.length;i++){
+                var time =opend[i].dtime;
+                if(time){
+                var time1=time.split(',')[0];
+                opend[i].time=time1;
+                }
+             }
+             for(var i=0;i<closed.length;i++){
+                var time =closed[i].dtime;
+                if(time){
+                var time1=time.split(',')[0];
+                closed[i].time=time1;
+                }
+             }
+             this.setState({
+                open:opend,
+                close:closed
+
+            })
+        });
+
+      }
     render() {
         return (
             <div>
@@ -16,93 +52,65 @@ export default class SentenceList extends Component {
                     <Accordion accordion openAnimation={{}} className="my-accordion">
                         <Accordion.Panel header="正在进行">
                             <List className="my-list">
+                                {this.state.open
+                ?this.state.open.map((item,key)=>(
                                 <List.Item>
-                                    <Link to='sentenceMy'><div className='sl' >
+                                    <Link to={{
+                        pathname:'/sentenceMy',
+                        state:{
+                            shortdes_id:item.shortdes_id
+                        }
+                    }}><div className='sl' >
                                         <div className='sl-t'>
-                                            只要你主动，我们就会有故事
+                                            {item.shortdes}
                                         </div>
                                         <div className='sl-b'>
                                             <div className='sl-b-r'>
                                                 申请人数：
-                                                <span style={{fontWeight:'bolder'}}>1</span>
+                                            <span style={{fontWeight:'bolder'}}>{item.dnum}</span>
                                             </div>
                                             <div className='sl-b-r'>
-                                                2019/12/11 19:03
+                                                {item.time}
                                             </div>
                                         </div>
                                     </div></Link>
 
                                 </List.Item>
-                                <List.Item>
-                                    <div className='sl' >
-                                        <div className='sl-t'>
-                                            只要你主动，我们就会有故事
-                                        </div>
-                                        <div className='sl-b'>
-                                            <div className='sl-b-r'>
-                                                申请人数：
-                                                <span style={{fontWeight:'bolder'}}>1</span>
-                                            </div>
-                                            <div className='sl-b-r'>
-                                                2019/12/11 19:03
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </List.Item>
-                                <List.Item>
-                                    <div className='sl' >
-                                        <div className='sl-t'>
-                                            只要你主动，我们就会有故事
-                                        </div>
-                                        <div className='sl-b'>
-                                            <div className='sl-b-r'>
-                                                申请人数：
-                                                <span style={{fontWeight:'bolder'}}>1</span>
-                                            </div>
-                                            <div className='sl-b-r'>
-                                                2019/12/11 19:03
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </List.Item>
+                                ))
+                            :<div></div>
+                            }
+                                
                             </List>
                         </Accordion.Panel>
                         <Accordion.Panel header="已完成">
                             <List className="my-list">
+                            {this.state.close
+                                ?this.state.close.map((item,key)=>(
                                 <List.Item>
-                                    <Link to='sentenceMy'><div className='sl' >
+                                    <Link to={{
+                        pathname:'/sentenceMy',
+                        state:{
+                            shortdes_id:item.shortdes_id
+                        }
+                    }}><div className='sl' >
                                         <div className='sl-t'>
-                                            只要你主动，我们就会有故事
+                                        {item.shortdes}
                                         </div>
                                         <div className='sl-b'>
                                             <div className='sl-b-r'>
                                                 申请人数：
-                                                <span style={{fontWeight:'bolder'}}>1</span>
+                                                <span style={{fontWeight:'bolder'}}>{item.dnum}</span>
                                             </div>
                                             <div className='sl-b-r'>
-                                                2019/12/11 19:03
+                                            {item.time}
                                             </div>
                                         </div>
                                     </div></Link>
                                 </List.Item>
-                                <List.Item>
-                                    <div className='sl' >
-                                        <div className='sl-t'>
-                                            只要你主动，我们就会有故事
-                                        </div>
-                                        <div className='sl-b'>
-                                            <div className='sl-b-r'>
-                                                申请人数：
-                                                <span style={{fontWeight:'bolder'}}>1</span>
-                                            </div>
-                                            <div className='sl-b-r'>
-                                                2019/12/11 19:03
-                                            </div>
-                                        </div>
-                                    </div>
-                                </List.Item>
+                                ))
+                                :<div></div>    
+                            }
+                                
                             </List>
                         </Accordion.Panel>
                     </Accordion>
