@@ -3,6 +3,30 @@ import { NavBar, Icon, Tabs } from 'antd-mobile';
 import { BrowserRouter as Router,Route,Link} from 'react-router-dom';
 
 export default class SentenceM extends Component {
+    constructor(props){
+        super(props);
+        this.state={
+            data:[],
+        }
+      }
+    componentDidMount(){
+        console.log(this.props.location.state.shortdes_id);
+        var url='http://116.62.14.0:8666/change/detail/'+this.props.location.state.shortdes_id+'/'+localStorage.getItem('token');
+        console.log(url);
+        fetch('http://116.62.14.0:8666/change/detail/'+this.props.location.state.shortdes_id+'/'+localStorage.getItem('token'))
+        .then(res =>{ return res.json() })
+        .then(res =>{
+             console.log(res); 
+             this.setState({
+                data:res.data
+    
+            }
+            
+            
+            )
+        });
+    
+      }
     render() {
         return (
             
@@ -13,18 +37,18 @@ export default class SentenceM extends Component {
                         </Link>
                     </div>
                     <div style={{marginTop:70,width:'100%',height:70,display:'table',position:'relative'}}>
-                            <div className='exchange-touxiang' style={{transform:'translate(-50%)',position:'absolute',left:'50%',width:70,height:70}}>
-                                <img src='src/images/touxiang.jpg' style={{width:70,height:70}}/>
+                            <div className='exchange-touxiang' style={{backgroundColor:'#000',transform:'translate(-50%)',position:'absolute',left:'50%',width:70,height:70}}>
+                                <img src='http://116.62.14.0:8666/api/image/5' style={{width:70,height:70}}/>
                             </div>
                         </div>
                     <div style={{width:'100%',backgroundColor:'#fff',marginTop:0,paddingTop:5}}>
                         <div style={{fontWeight:600,width:'100%',paddingBottom:15,marginTop:10,fontSize:'17px',textAlign:'center'}}>
-                            <p>只要你主动，我们就会有故事</p>
+                            <p>{this.state.data.shortdes}</p>
                         </div>
-                        <div style={{width:'100%',textAlign:'center',fontSize:'14px',color:'#ccc'}}><p>19/12/11 14:49</p></div>
+        <div style={{width:'100%',textAlign:'center',fontSize:'14px',color:'#ccc'}}><p>{this.state.data.dtime}</p></div>
                     <div style={{width:'100%',marginTop:15}}>
                         {/* <div style={{width:'94%',marginLeft:'3%',backgroundColor:'#f5f6f8',borderRadius:'10%'}}> */}
-                            <p style={{lineHeight:'25px',paddingTop:0,paddingLeft:25,paddingRight:25,paddingBottom:10}}>其实没有的没有的没有的没有的，没有的没有的没有的没有的没有的没有的，没有的没有的没有的没有的，没有的没有的没有的没有的没有的没有的没有的没有的没有的没有的，没有的没有的没有的没有的没有的没有的，没有的没有的没有的没有的没有的</p>
+        <p style={{lineHeight:'25px',paddingTop:0,paddingLeft:25,paddingRight:25,paddingBottom:10}}>{this.state.data.longdes}</p>
                         {/* </div> */}
                     </div>
                     </div>

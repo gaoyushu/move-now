@@ -67,7 +67,7 @@ export default class New extends Component {
                     width: "22px",
                     height: "22px",
                     background:
-                        "url(src/images/广场1.png) center center /  21px 21px no-repeat"
+                        "url(http://116.62.14.0:8666/api/image/31) center center /  21px 21px no-repeat"
                     }}
                 />
                 }
@@ -77,7 +77,7 @@ export default class New extends Component {
                     width: "22px",
                     height: "22px",
                     background:
-                        "url(src/images/广场.png) center center /  21px 21px no-repeat"
+                        "url(http://116.62.14.0:8666/api/image/32) center center /  21px 21px no-repeat"
                     }}
                 />
                 }
@@ -96,7 +96,7 @@ export default class New extends Component {
                     width: "22px",
                     height: "22px",
                     background:
-                        "url(src/images/交换1.png) center center /  21px 21px no-repeat"
+                        "url(http://116.62.14.0:8666/api/image/16) center center /  21px 21px no-repeat"
                     }}
                 />
                 }
@@ -106,7 +106,7 @@ export default class New extends Component {
                     width: "22px",
                     height: "22px",
                     background:
-                        "url(src/images/交换.png) center center /  21px 21px no-repeat"
+                        "url(http://116.62.14.0:8666/api/image/17) center center /  21px 21px no-repeat"
                     }}
                 />
                 }
@@ -128,7 +128,7 @@ export default class New extends Component {
                     width: "22px",
                     height: "22px",
                     background:
-                        "url(src/images/日记1.png) center center /  21px 21px no-repeat"
+                        "url(http://116.62.14.0:8666/api/image/37) center center /  21px 21px no-repeat"
                     }}
                 />
                 }
@@ -138,7 +138,7 @@ export default class New extends Component {
                     width: "22px",
                     height: "22px",
                     background:
-                        "url(src/images/日记.png) center center /  21px 21px no-repeat"
+                        "url(http://116.62.14.0:8666/api/image/38) center center /  21px 21px no-repeat"
                     }}
                 />
                 }
@@ -160,7 +160,7 @@ export default class New extends Component {
                     width: "22px",
                     height: "22px",
                     background:
-                        "url(src/images/我的1.png) center center /  21px 21px no-repeat"
+                        "url(http://116.62.14.0:8666/api/image/34) center center /  21px 21px no-repeat"
                     }}
                 />
                 }
@@ -170,7 +170,7 @@ export default class New extends Component {
                     width: "22px",
                     height: "22px",
                     background:
-                        "url(src/images/我的.png) center center /  21px 21px no-repeat"
+                        "url(http://116.62.14.0:8666/api/image/36) center center /  21px 21px no-repeat"
                     }}
                 />
                 }

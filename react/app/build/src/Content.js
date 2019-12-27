@@ -2,40 +2,63 @@ import React, { Component } from 'react';
 
 
 export default class Content extends Component {
+    constructor(){
+        super();
+        this.state={
+            i:0,
+            j:0,
+            // backgroundColor1:'white',
+            // color1:'#1C4678',
+            // c1:'公开',
+            backgroundColor2:'white',
+            color2:'#1C4678',
+            c2:'公开',
+            data:[]
+        }
+    }
+  
+    //   componentDidMount(){
+    //     console.log(this.props.location.state.did);
+    //     var url='http://116.62.14.0:8799/change/detail/'+this.props.location.state.did+'/3';
+    //     console.log(url);
+    //     // fetch('http://116.62.14.0:8799/change/detail/'+this.props.location.state.shortdes_id+'/3')
+    //     fetch('http://116.62.14.0:8710/diary/detail/'+this.props.location.state.did+'/1')
+    //     .then(res =>{ return res.json() })
+    //     .then(res =>{
+    //          console.log(res); 
+    //          this.setState({
+    //             data:res.data
+
+    //         })
+    //     });
+
+    //   }
     render() {
         return (
             <div>
                 <div style={{backgroundColor:'#fff',float:'left',width:'100%'}}>
                 <div className='mains'>
                 <span style={{fontSize:'18px',fontWeight:'bolder',width:'100%',float:'left',marginTop:'5%',marginBottom:'5%'}} >今天小记</span>
-                <p>· 前几天刷微博看到有人说 成年人突然下定决心想要改变生活时 会不约而同做两件事：健身&学英语</p>
-                <p>· 怀疑网友在我的生活里安了监控 现在办了健身卡也开始重拾英语 / 每天在cambly上跟native speaker练口语 不试不知道 自己已经垃圾成这样了[泪]</p>
-                <p>· 买了两箱全麦面包 吃不完了 悔恨 不该囤货！只能再买个三明治机 帮助吃完了 哎！（其实心动已久） </p>
-                <p>· 前几天刷微博看到有人说 成年人突然下定决心想要改变生活时 会不约而同做两件事：健身&学英语</p>
-                <p>· 怀疑网友在我的生活里安了监控 现在办了健身卡也开始重拾英语 / 每天在cambly上跟native speaker练口语 不试不知道 自己已经垃圾成这样了[泪]</p>
-                <p>· 买了两箱全麦面包 吃不完了 悔恨 不该囤货！只能再买个三明治机 帮助吃完了 哎！（其实心动已久） </p> ​​​​​​​​
+        <p>· {this.state.data.dcontent}</p>
+                
                 </div>
                 <div className='comments'>
+                    {/* {
+                        this.state.data.comments=='暂无评论'?<div></div>
+                        :this.state.data.map((item,key)=>( */}
                     <div className='comm'>
                         <div className='simi-tou'>
                             <div className='simi-touxiang'>
                                 <img src='src/images/touxiang.jpg'/>
                             </div>
-                            <span className='c-user' >牵牛花:</span>
+                            <span className='c-user' >{this.state.data.uname}:</span>
                         </div>
-                        <p className='c-content'>{`我也开始健身和学习英语啦，感觉学习真的不容耽搁，活到老学到老啦><`}</p>
-                        <span className='c-time' >2019/12/3 10:29</span>
+                        <p className='c-content'>{this.state.data.comcontent}</p>
+    <span className='c-time' >{this.state.data.comtime}</span>
                     </div>
-                    <div className='comm'>
-                        <div className='simi-tou'>
-                            <div className='simi-touxiang'>
-                                <img src='src/images/touxiang.jpg'/>
-                            </div>
-                            <span className='c-user' >玫瑰:</span>
-                        </div>
-                        <p className='c-content'>{`对啊，12月底还有英语四六级！`}</p>
-                        <span className='c-time' >2019/12/3 10:29</span>
-                    </div>
+                        {/* ))
+    } */}
+                  
                 </div>
                 </div>
             </div>

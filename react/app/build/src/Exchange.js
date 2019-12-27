@@ -1,112 +1,132 @@
 import React, { Component } from 'react'
-import {TabBar} from 'antd-mobile'
+import {TabBar,Carousel, WingBlank } from 'antd-mobile'
 import { BrowserRouter as Router,Route,Link} from 'react-router-dom';
 export default class Exchange extends Component {
     constructor(props){
         super(props);
         this.state={
-            selectedTab: "/exchange"
+            selectedTab: "/exchange",
+            data:[],
+            ok:-1,
+            // data1: ['1', '2', '3'],
+            // imgHeight: 176,
         }
       }
+      componentDidMount(){
+        fetch('http://116.62.14.0:8666/change/list')
+        .then(res =>{ return res.json() })
+        .then(res =>{
+             console.log(res); 
+             this.setState({
+                data:res.data
+
+            })
+        });
+
+        setTimeout(() => {
+            this.setState({
+              data1: ['AiyWuByWklrrUDlFignR', 'TekJlZRVCjLFexlOCuWn', 'IJOtIlfsYdTyaDTRVrLI'],
+            });
+          }, 100);
+
+      }
+
     render() {
+        // console.log(this.state.data.shortdes_id)
+        // var path = {
+        //     pathname:'/sentenceYou',
+        //                         state:{
+        //                             shortdes_id:this.state.data.shortdes_id
+                                
+        //                         }
+        //   }
         return (
             <div>
+                 {/* <WingBlank style={{margin:0,position:'relative',top:'45px'}}>
+        <Carousel
+          autoplay={false}
+          infinite
+          beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
+          afterChange={index => console.log('slide to', index)}
+        >
+          {this.state.data1.map(val => (
+            <a
+              key={val}
+            //   href="http://www.alipay.com"
+              style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight }}
+            >
+              <img
+                src={'http://116.62.14.0:8666/api/image/8'}
+                alt=""
+                style={{ width: '100%', verticalAlign: 'top' }}
+                onLoad={() => {
+                  // fire window resize event to change height
+                  window.dispatchEvent(new Event('resize'));
+                  this.setState({ imgHeight: 'auto' });
+                }}
+              />
+            </a>
+          ))}
+        </Carousel>
+      </WingBlank> */}
                 <div className='exchange-head'>
-                    <Link to='/sentenceList'><img src='src/images/我的2.png'/></Link>
-                    <Link to='/sentence'><img src='src/images/加号1.png'/></Link>
-                    <img src='src/images/刷新1.png'/>
+                    <Link to='/sentenceList'><img src='http://116.62.14.0:8666/api/image/35'/></Link>
+                    <Link to='/anonymous'><img src='http://116.62.14.0:8666/api/image/52'/></Link>
+                    <img src='http://116.62.14.0:8666/api/image/23'/>
                     {/* <Link to='/exdiary'><img src='src/images/页面.png'/></Link> */}
                 </div>
-                <div className='exchange-div' style={{marginTop:50}}>
+                {typeof(this.state.data)!=='string'?
+                this.state.data.map((item,key)=>(
+                    key==0?
+                    <Link to={{
+                        pathname:'/sentenceYou',
+                        state:{
+                            shortdes_id:item.shortdes_id
+                        }
+                    }} key={key}><div className='exchange-div' style={{marginTop:60}} key={key}>
                     <div className='exchange-divt'>
-                        <div className='exchange-touxiang'>
-                            <img src='src/images/touxiang.jpg'/>
+                        <div className='exchange-touxiang' style={{backgroundColor:'#000'}}>
+                            <img src='http://116.62.14.0:8666/api/image/5'/>
                         </div>
                         <div className='exchange-name'>
                             <p className='exchange-n'>朝花夕拾</p>
-                            <p className='exchange-d'>2019/12/12 16:32</p>
+                <p className='exchange-d'>{item.dtime}</p>
                         </div>
                         
                     </div>
-                    <Link to='/sentenceYou'><div className='exchange-divb'>
-                        <p>只要你主动，我们就会有故事</p>
+                    <div className='exchange-divb'>
+                <p>{item.shortdes}</p>
+                    </div>
+                </div></Link>
+                    :
+                    <div className='exchange-div' style={{marginTop:10}} key={key}>
+                    <div className='exchange-divt'>
+                        <div className='exchange-touxiang' style={{backgroundColor:'#000'}}>
+                            <img src='http://116.62.14.0:8666/api/image/5'/>
+                        </div>
+                        <div className='exchange-name'>
+                            <p className='exchange-n'>朝花夕拾</p>
+                <p className='exchange-d'>{item.dtime}</p>
+                        </div>
+                        
+                    </div>
+                    <Link to={{
+                        pathname:'/sentenceYou',
+                        state:{
+                            shortdes_id:item.shortdes_id
+                        }
+                    }}><div className='exchange-divb'>
+                <p>{item.shortdes}</p>
                     </div></Link>
                 </div>
-
-                <div className='exchange-div'>
-                    <div className='exchange-divt'>
-                        <div className='exchange-touxiang'>
-                            <img src='src/images/touxiang.jpg'/>
-                        </div>
-                        <div className='exchange-name'>
-                            <p className='exchange-n'>朝花夕拾</p>
-                            <p className='exchange-d'>2019/12/12 16:32</p>
-                        </div>
-                    </div>
-                    <div className='exchange-divb'>
-                        <p>只要你主动，我们就会有故事</p>
-                    </div>
-                </div>
-
-                <div className='exchange-div'>
-                    <div className='exchange-divt'>
-                        <div className='exchange-touxiang'>
-                            <img src='src/images/touxiang.jpg'/>
-                        </div>
-                        <div className='exchange-name'>
-                            <p className='exchange-n'>朝花夕拾</p>
-                            <p className='exchange-d'>2019/12/12 16:32</p>
-                        </div>
-                    </div>
-                    <div className='exchange-divb'>
-                        <p>只要你主动，我们就会有故事</p>
-                    </div>
-                </div>
-
-                <div className='exchange-div'>
-                    <div className='exchange-divt'>
-                        <div className='exchange-touxiang'>
-                            <img src='src/images/touxiang.jpg'/>
-                        </div>
-                        <div className='exchange-name'>
-                            <p className='exchange-n'>朝花夕拾</p>
-                            <p className='exchange-d'>2019/12/12 16:32</p>
-                        </div>
-                    </div>
-                    <div className='exchange-divb'>
-                        <p>只要你主动，我们就会有故事</p>
-                    </div>
-                </div>
-
-                <div className='exchange-div'>
-                    <div className='exchange-divt'>
-                        <div className='exchange-touxiang'>
-                            <img src='src/images/touxiang.jpg'/>
-                        </div>
-                        <div className='exchange-name'>
-                            <p className='exchange-n'>朝花夕拾</p>
-                            <p className='exchange-d'>2019/12/12 16:32</p>
-                        </div>
-                    </div>
-                    <div className='exchange-divb'>
-                        <p>只要你主动，我们就会有故事</p>
-                    </div>
-                </div>
-
-                <div className='exchange-div'>
-                    <div className='exchange-divt'>
-                        <div className='exchange-touxiang'>
-                            <img src='src/images/touxiang.jpg'/>
-                        </div>
-                        <div className='exchange-name'>
-                            <p className='exchange-n'>朝花夕拾</p>
-                            <p className='exchange-d'>2019/12/12 16:32</p>
-                        </div>
-                    </div>
-                    <div className='exchange-divb'>
-                        <p>只要你主动，我们就会有故事</p>
-                    </div>
-                </div>
+                
+                )):<div> 没有一句话或获取最新一句话失败！" </div>}
+                <Link to={{
+                        pathname:'/sentence',
+                        state:{
+                            ok:this.state.ok
+                        }
+                    }}><img src='http://116.62.14.0:8666/api/image/26' style={{position:'fixed',zIndex:'1000',bottom:65,left:20,width:40,height:40}}/></Link>
 
                 <div style={{paddingTop:40,paddingBottom:70,position:'relative',width:'100%'}}>
                         <p style={{color:'#8bcca1',fontSize:'12px',textAlign:'center'}}>已经到底啦</p>
@@ -135,7 +155,7 @@ export default class Exchange extends Component {
                     width: "22px",
                     height: "22px",
                     background:
-                        "url(src/images/广场1.png) center center /  21px 21px no-repeat"
+                        "url(http://116.62.14.0:8666/api/image/31) center center /  21px 21px no-repeat"
                     }}
                 />
                 }
@@ -145,7 +165,7 @@ export default class Exchange extends Component {
                     width: "22px",
                     height: "22px",
                     background:
-                        "url(src/images/广场.png) center center /  21px 21px no-repeat"
+                        "url(http://116.62.14.0:8666/api/image/32) center center /  21px 21px no-repeat"
                     }}
                 />
                 }
@@ -165,7 +185,7 @@ export default class Exchange extends Component {
                     width: "22px",
                     height: "22px",
                     background:
-                        "url(src/images/交换1.png) center center /  21px 21px no-repeat"
+                        "url(http://116.62.14.0:8666/api/image/16) center center /  21px 21px no-repeat"
                     }}
                 />
                 }
@@ -175,7 +195,7 @@ export default class Exchange extends Component {
                     width: "22px",
                     height: "22px",
                     background:
-                        "url(src/images/交换.png) center center /  21px 21px no-repeat"
+                        "url(http://116.62.14.0:8666/api/image/17) center center /  21px 21px no-repeat"
                     }}
                 />
                 }
@@ -196,7 +216,7 @@ export default class Exchange extends Component {
                     width: "22px",
                     height: "22px",
                     background:
-                        "url(src/images/日记1.png) center center /  21px 21px no-repeat"
+                        "url(http://116.62.14.0:8666/api/image/37) center center /  21px 21px no-repeat"
                     }}
                 />
                 }
@@ -206,7 +226,7 @@ export default class Exchange extends Component {
                     width: "22px",
                     height: "22px",
                     background:
-                        "url(src/images/日记.png) center center /  21px 21px no-repeat"
+                        "url(http://116.62.14.0:8666/api/image/38) center center /  21px 21px no-repeat"
                     }}
                 />
                 }
@@ -228,7 +248,7 @@ export default class Exchange extends Component {
                     width: "22px",
                     height: "22px",
                     background:
-                        "url(src/images/我的1.png) center center /  21px 21px no-repeat"
+                        "url(http://116.62.14.0:8666/api/image/34) center center /  21px 21px no-repeat"
                     }}
                 />
                 }
@@ -238,7 +258,7 @@ export default class Exchange extends Component {
                     width: "22px",
                     height: "22px",
                     background:
-                        "url(src/images/我的.png) center center /  21px 21px no-repeat"
+                        "url(http://116.62.14.0:8666/api/image/36) center center /  21px 21px no-repeat"
                     }}
                 />
                 }

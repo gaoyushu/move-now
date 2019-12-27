@@ -5,191 +5,182 @@ export default class Home extends Component {
     constructor(props){
         super(props);
         this.state={
-            selectedTab: "/my",
-            display1:'block',
-            display2:'none',
-            display3:'block',
-            display4:'none'
+            like:'http://116.62.14.0:8666/api/image/28',
+            unlike:'http://116.62.14.0:8666/api/image/29',
+            follow:'http://116.62.14.0:8666/api/image/19',
+            unfollow:'http://116.62.14.0:8666/api/image/20',
+            data:{},
+            diary:[],
+            path:'',
+            path1:''
         }
     }
-    zan=()=>{
-        this.setState({
-            display1:'none',
-            display2:'block',
-        })
-    }
-    zan1=()=>{
-        this.setState({
-            display2:'none',
-            display1:'block',
-        })
-    }
-    collect=()=>{
-        this.setState({
-            display3:'none',
-            display4:'block',
-        })
-    }
-    collect1=()=>{
-        this.setState({
-            display4:'none',
-            display3:'block',
-        })
-    }
+    componentDidMount(){
+        if(this.props.location.pathname.indexOf('open')!==-1){
+            let crr=this.props.location.pathname.split('/');
+            this.setState({
+                path:'/open',
+                path1:'/open/home/details/'
+            })
+        }else{
+            console.log(this.props.location.pathname);
+            let arr=this.props.location.pathname.split('/');
+            var path='/'+arr[1]+'/'+arr[2];
+            var path1='/'+arr[1]+'/'+arr[2]+'/home/details/'
+            this.setState({
+                path:path,
+                path1:path1
+            })
+        }
+
+        let uid=this.props.match.params.uid;
+        fetch('http://116.62.14.0:8666/square/userhome/'+localStorage.getItem('token')+'/'+uid)
+        .then(res =>{ return res.json() })
+        .then(res =>{
+            console.log(res); 
+            var datas=res.data;
+                if(datas.diary!=='当前用户没有日记！'){
+                    for(var i=0;i<datas.diary.length;i++){
+                        var times=datas.diary[i].dtime;
+                        var times1=times.split(' ')[0];
+                        var times2=times1.split('/');
+                        var month=times2[0];
+                        var day=times2[1];
+                        var year=times2[2];
+                        datas.diary[i].month=month;
+                        datas.diary[i].day=day;
+                        datas.diary[i].year=year;
+                    }
+                    this.setState({
+                        data:datas,
+                        diary:datas.diary
+                    })
+
+            }else{
+                this.setState({
+                    data:datas,
+                    diary:null
+                })
+            }
+        });
+   }
+   setFollow=()=>{
+       console.log(this.state.data.uid)
+        fetch('http://116.62.14.0:8666/square/concerns/'+localStorage.getItem('token'), {
+            method: 'PUT',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },body: JSON.stringify({cuid:`${this.state.data.uid}`})
+        }).then(res =>{ return res.json() }).then(d =>{ console.log(d); })
+       if(this.state.data.isFollow==='true'){
+           var dds=this.state.data;
+           dds.isFollow='false';
+           dds.ufans=dds.ufans-1;
+           this.setState({
+               data:dds
+           })
+       }
+       else{
+            var dds=this.state.data;
+            dds.isFollow='true';
+            dds.ufans=dds.ufans+1;
+            this.setState({
+                data:dds
+            })
+       }
+   }
+   setLike=(idx)=>{
+        console.log(this.state.data.diary[idx].did)
+        fetch('http://116.62.14.0:8666/square/praise/'+localStorage.getItem('token')+'/'+`${this.state.data.diary[idx].did}`, {
+            method: 'PUT',
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+        }).then(res =>{ return res.json() }).then(d =>{ console.log(d); }
+        ,[]);
+        if(this.state.data.diary[idx].pstatus==='true'){
+            let arrs=this.state.data;
+            arrs.diary[idx].pstatus='false'
+            arrs.diary[idx].dpraise=arrs.diary[idx].dpraise-1;
+            this.setState({
+                data:arrs
+            })
+        }
+        else{
+            let arrs=this.state.data;
+            arrs.diary[idx].pstatus='true';
+            arrs.diary[idx].dpraise=arrs.diary[idx].dpraise+1;
+            this.setState({
+                data:arrs
+            })
+        }
+   }
     render() {
+        console.log(this.props.location.pathname);
+        let arr=this.props.location.pathname.split('/');
+        // var path='/'+arr[1]+'/'+arr[2];
+        // var path1='/'+arr[1]+'/'+arr[2]+'/home/details/'
         return (
             <div>
                 <div className='home-head'>
-                    <Link to='/follow'>
+                    <Link to={this.state.path}>
                         <span style={{marginLeft:10,textDecoration:'none',color:'#fff',fontWeight:'bold',fontSize:'30px',float:'left'}}>{`<`}</span>
                     </Link>
-                    <img src='src/images/关注.png' style={{display:this.state.display3,width:30,height:30,float:'right',marginTop:10,marginRight:5}} onClick={this.collect}/>
-                    <img src='src/images/关注1.png' style={{display:this.state.display4,width:30,height:30,float:'right',marginTop:10,marginRight:5}} onClick={this.collect1}/>
-                    <div className='home-headt'>
+                    {this.state.data.isFollow!=='myself'? 
+                        <img src={this.state.data.isFollow==='true'?this.state.follow:this.state.unfollow} style={{width:30,height:30,float:'right',marginTop:10,marginRight:5}} onClick={this.setFollow}/>
+                        :<div style={{width:30,height:30,float:'right',marginTop:10,marginRight:5}}></div>
+                    }    
+                    <div className='home-headt' style={{color:'#000',fontWeight:'bold'}}>
                         <div className='home-img'>
-                            <img src='src/images/touxiang.jpg'/>
+                            <img src={'http://116.62.14.0:8666/api/image/'+this.state.data.uimage}/>
                         </div>
                         <div className='home-name'> 
-                            <p>快乐的代码机器</p>
+                            <p>{this.state.data.uname}</p>
                         </div>
                     </div>
-                    <div className='home-headb'>
-                        
-                        
+                    <div className='home-headb' style={{color:'#000'}}>                     
                         <div className='home-two1'>
-                            <p className='home-p1'>关注 10</p>
+                            <p className='home-p1'>关注 {this.state.data.ufriend}</p>
                             {/* <p className='home-p2'>10</p> */}
                         </div>
                         <div className='home-two2'>
-                            <p className='home-p1'>粉丝 10</p>
+                            <p className='home-p1'>粉丝 {this.state.data.ufans}</p>
                             {/* <p className='home-p2'>10</p> */}
                         </div>
                     </div>
-                    <div className='home-sign'>
-                        <p>我不是真正的快乐</p>
+                    <div className='home-sign' style={{color:'#000'}}>
+                        <p>{this.state.data.uintroduce}</p>
                     </div>
                 </div>
-                        <div className='home-div' style={{backgroundColor:'#fff',width:'100%',marginLeft:0,marginTop:'1px'}}>
+                {this.state.diary===null?<div>此用户未发表日记</div>:
+                    this.state.diary.map((item,idx)=>(
+                        <div key={idx} className='home-div' style={{backgroundColor:'#fff',width:'100%',marginLeft:0,marginTop:'1px'}}>
                             <div className='home-diary' style={{marginTop:5}}>
                                 <div className='home-diaryl'>
-                                    <p style={{fontSize:'19px',textAlign:'center',paddingTop:'5px'}}>01</p>
-                                    <p style={{fontSize:'10px',color:'#8bcca1',textAlign:'center'}}>2019/12</p>
+                                    <p style={{fontSize:'19px',textAlign:'center',paddingTop:'5px'}}>{item.day}</p>
+                                    <p style={{fontSize:'10px',color:'#8bcca1',textAlign:'center'}}>{item.year}/{item.month}</p>
                                 </div>
                                 <div className='home-diaryr'>
-                                <Link to='/detailsYou'><div className='home-diaryrt'>
-                                        <p>冬天的意义啦啦啦啦啦啦啦啦绿绿绿绿绿绿绿绿绿绿绿</p>
+                                <Link to={this.state.path1+item.did}><div className='home-diaryrt'>
+                                        <p>{item.dtitle}</p>
                                     </div></Link>
                                     <div className='home-diaryrb'>
-                                        <p>8</p>
-                                        <img src='src/images/喜欢.png' style={{display:this.state.display1}} onClick={this.zan}/>
-                                        
-                                        <img src='src/images/喜欢1.png' style={{display:this.state.display2}} onClick={this.zan1}/>
-                                        <p>10</p>
-                                        <Link to='/detailsYou'><img src='src/images/评论.png'/></Link>
+                                        <p>{item.dpraise}</p>
+                                        <img src={item.pstatus==='true'?this.state.like:this.state.unlike} onClick={()=>this.setLike(idx)}/>
+                                        <p>{item.comments}</p>
+                                        <Link to='/detailsYou'><img src='http://116.62.14.0:8666/api/image/46'/></Link>
                                     </div>  
                                     
                                 </div>
                             </div>
                         </div>
-
-                        <div className='home-div' style={{backgroundColor:'#fff',width:'100%',marginLeft:0,marginTop:'1px'}}>
-                            <div className='home-diary' style={{marginTop:5}}>
-                                <div className='home-diaryl'>
-                                    <p style={{fontSize:'19px',textAlign:'center',paddingTop:'5px'}}>01</p>
-                                    <p style={{fontSize:'10px',color:'#8bcca1',textAlign:'center'}}>2019/12</p>
-                                </div>
-                                <Link to='/detailsYou'><div className='home-diaryr'>
-                                    <div className='home-diaryrt'>
-                                        <p>好想吃咖喱鸡块饭哦</p>
-                                    </div>
-                                    <div className='home-diaryrb'>
-                                        <p>8</p>
-                                        <img src='src/images/喜欢.png' style={{display:this.state.display1}} onClick={this.zan}/>
-                                        
-                                        <img src='src/images/喜欢1.png' style={{display:this.state.display2}} onClick={this.zan1}/>
-                                        <p>10</p>
-                                        <Link to='/detailsYou'><img src='src/images/评论.png'/></Link>
-                                    </div>  
-                                    
-                                </div></Link>
-                            </div>
-                        </div>
-
-                        <div className='home-div' style={{backgroundColor:'#fff',width:'100%',marginLeft:0,marginTop:'1px'}}>
-                            <div className='home-diary' style={{marginTop:5}}>
-                                <div className='home-diaryl'>
-                                    <p style={{fontSize:'19px',textAlign:'center',paddingTop:'5px'}}>01</p>
-                                    <p style={{fontSize:'10px',color:'#8bcca1',textAlign:'center'}}>2019/12</p>
-                                </div>
-                                <Link to='/detailsYou'><div className='home-diaryr'>
-                                    <div className='home-diaryrt'>
-                                        <p>今天也要加班写实训</p>
-                                    </div>
-                                    <div className='home-diaryrb'>
-                                        <p>8</p>
-                                        <img src='src/images/喜欢.png' style={{display:this.state.display1}} onClick={this.zan}/>
-                                        
-                                        <img src='src/images/喜欢1.png' style={{display:this.state.display2}} onClick={this.zan1}/>
-                                        <p>10</p>
-                                        <Link to='/detailsYou'><img src='src/images/评论.png'/></Link>
-                                    </div>  
-                                    
-                                </div></Link>
-                            </div>
-                        </div>
-                        <div className='home-div' style={{backgroundColor:'#fff',width:'100%',marginLeft:0,marginTop:'1px'}}>
-                            <div className='home-diary' style={{marginTop:5}}>
-                                <div className='home-diaryl'>
-                                    <p style={{fontSize:'19px',textAlign:'center',paddingTop:'5px'}}>01</p>
-                                    <p style={{fontSize:'10px',color:'#8bcca1',textAlign:'center'}}>2019/12</p>
-                                </div>
-                                <Link to='/detailsYou'><div className='home-diaryr'>
-                                    <div className='home-diaryrt'>
-                                        <p>嘻嘻嘻嘻</p>
-                                    </div>
-                                    <div className='home-diaryrb'>
-                                        <p>8</p>
-                                        <img src='src/images/喜欢.png' style={{display:this.state.display1}} onClick={this.zan}/>
-                                        
-                                        <img src='src/images/喜欢1.png' style={{display:this.state.display2}} onClick={this.zan1}/>
-                                        <p>10</p>
-                                        <Link to='/detailsYou'><img src='src/images/评论.png'/></Link>
-                                    </div>  
-                                    
-                                </div></Link>
-                            </div>
-                        </div>
-                        <div className='home-div' style={{backgroundColor:'#fff',width:'100%',marginLeft:0,marginTop:'1px'}}>
-                            <div className='home-diary' style={{marginTop:5}}>
-                                <div className='home-diaryl'>
-                                    <p style={{fontSize:'19px',textAlign:'center',paddingTop:'5px'}}>01</p>
-                                    <p style={{fontSize:'10px',color:'#8bcca1',textAlign:'center'}}>2019/12</p>
-                                </div>
-                                <Link to='/detailsYou'><div className='home-diaryr'>
-                                    <div className='home-diaryrt'>
-                                        <p>眼睛要瞎了</p>
-                                    </div>
-                                    <div className='home-diaryrb'>
-                                        <p>8</p>
-                                        <img src='src/images/喜欢.png' style={{display:this.state.display1}} onClick={this.zan}/>
-                                        
-                                        <img src='src/images/喜欢1.png' style={{display:this.state.display2}} onClick={this.zan1}/>
-                                        <p>10</p>
-                                        <Link to='/detailsYou'><img src='src/images/评论.png'/></Link>
-                                    </div>  
-                                    
-                                </div></Link>
-                            </div>
-                        </div>
+                    ))                      
+                    }
                         <div style={{paddingTop:40,paddingBottom:20,position:'relative',width:'100%'}}>
                         <p style={{color:'#8bcca1',fontSize:'12px',textAlign:'center'}}>已经到底啦</p>
-                    </div>
-
-                    
-                 
-                
-                
-            
+                    </div>            
       </div>
         )
     }
