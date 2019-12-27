@@ -1,0 +1,49 @@
+.all{
+  width:700px;
+  height:700px;
+  border:2px solid black;
+  margin: 0 auto;
+  position: relative;
+}
+#bottom{
+  width: 450px;
+  height: 50px;
+  border:2px solid black;
+  position:absolute;
+  bottom: 4px;
+  left:20px;
+}
+#submit{
+  width: 70px;
+  height: 56px;
+  border:none;
+  position: absolute;
+  bottom: 4px;
+  right:120px;
+}
+#Bridge{
+  width:70px;
+  height: 56px;
+  border:none;
+  position: absolute;
+  bottom: 4px;
+  right:30px;
+}
+
+#b{
+  width:300px;
+  height:50px;
+  border:1px solid black;
+  text-align: center;
+  float: right;
+}
+ul,li{
+  list-style: none;
+  margin-top:10px;
+  padding: 0px;
+
+} 
+#c{
+  width:700px; 
+  height:50px;
+}
