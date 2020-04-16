@@ -29,20 +29,6 @@ export default class List extends Component {
       });
   }
 
-  componentWillUpdate() {
-    // if (this.state.oldpage != this.state.newpage) {
-    // fetch(datapath)
-    //   .then(res => res.json())
-    //   .then(res => {
-    //     this.setState({
-    //         status:res.status,
-    //       data: res.data,
-    //     });
-    //     console.log(res)
-    //   },[]);
-    // }
-  }
-
   render() {
     // 后端错误 status=-1
     var show1 = <Text>ERROR!code=500</Text>;

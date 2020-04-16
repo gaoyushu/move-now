@@ -10,16 +10,17 @@ export default class Tools extends React.Component {
 
   // 刷新功能
   updata = () =>{
+    this.props.changeReload;
   }
 
-  // 跳转加好友
-  jumpAddFriend = () =>{
-    
+  // 跳转匿名交换列表
+  jumpExlist = () =>{
+    Actions.exedlist();
   }
 
-  // 跳转好友界面
-  jumpFriends = () =>{
-
+  // 跳转我的一句话列表
+  jumpMine = () =>{
+    Actions.exmine();
   }
 
   render() {
@@ -30,10 +31,10 @@ export default class Tools extends React.Component {
           <TouchableOpacity style={styles.imgdiv} onPress={this.updata}>
             <Image style={styles.img} source={{uri:imgpath+23}} resizeMode='contain'/>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.imgdiv} onPress={this.jumpAddFriend}>
-            <Image style={styles.img} source={{uri:imgpath+25}} resizeMode='contain'/>
+          <TouchableOpacity style={styles.imgdiv} onPress={this.jumpExlist}>
+            <Image style={styles.img} source={{uri:imgpath+52}} resizeMode='contain'/>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.imgdiv} onPress={this.jumpFriends}>
+          <TouchableOpacity style={styles.imgdiv} onPress={this.jumpMine}>
             <Image style={styles.img} source={{uri:imgpath+35}} resizeMode='contain'/>
           </TouchableOpacity>
         </View>

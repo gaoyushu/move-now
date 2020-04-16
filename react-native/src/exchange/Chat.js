@@ -29,9 +29,11 @@ export default class Detail extends Component {
   render() {
     return (
       <View>
-        <Button title='申请交换' onPress={()=>{Actions.exapply()}}/>
-        <Text>交换详情页 传oneid：{this.props.oneid}</Text>
-        <Text>跳转 申请交换</Text>
+      <Button title='相遇信息' onPress={()=>{Actions.exmeet()}}/>
+      <Button title='选择日记' onPress={()=>{Actions.exchoice()}}/>
+      <Button title='日记详情' onPress={()=>{Actions.exdetail()}}/>
+        <Text>双人交换页面 token oneid 加好友post并显示在当前页面</Text>
+        <Text>跳转 相遇信息 选择日记 日记详情</Text>
       </View>
     );
   }

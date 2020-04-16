@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
-import {Actions, ActionConst} from 'react-native-router-flux';
+import {View, Text, Image, TouchableOpacity, Button} from 'react-native';
+import {Actions} from 'react-native-router-flux';
 
 import styles from '../../css/exchange/Card';
 
@@ -9,14 +9,16 @@ const path = 'http://116.62.14.0:8666/';
 const imgpath = path + 'api/image/'; // 图片路径
 
 export default class Card extends Component {
+  
   // 跳转本条详情
   jumpDetail = (id) => {
-    Actions.jump('exchange-detail');
+    var data=this.props.data.shortdes_id;
+    Actions.exdetail({'oneid':data});
   };
 
   render() {
     return (
-      <TouchableOpacity onPress={this.jumpDetail(this.props.ddid)}>
+      <TouchableOpacity onPress={this.jumpDetail}>
         <View style={styles.bigdiv}>
           <View style={styles.div}>
             <View style={styles.head}>
