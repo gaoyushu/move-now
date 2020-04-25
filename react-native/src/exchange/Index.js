@@ -24,7 +24,7 @@ export default class Index extends Component{
   render(){
     return (
       <ScrollView>
-        <Text>{this.state.reload}</Text>
+        {/* <Text>{this.state.reload}</Text> */}
         <Tools changeReload={this.changeReload}/>
         <List/>
         <Scene key='test' component={Detail}/>

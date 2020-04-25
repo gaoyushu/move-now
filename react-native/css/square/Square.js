@@ -1,0 +1,135 @@
+import React, { Component } from 'react'
+import { StyleSheet, Dimensions } from 'react-native'
+const {width,scale} = Dimensions.get('window');
+const s = width / 640;
+var square = StyleSheet.create({
+    tabbox:{
+        height:45,
+        width:width,
+        flexDirection:'row',
+    },
+    slide:{
+        width:width*(1/3),
+        height:45,
+        backgroundColor:'#fff',
+        alignItems:'center',
+        justifyContent:'center',
+        borderBottomWidth:1,
+        borderBottomColor:'gainsboro'
+    },
+    slidetext:{
+        color:'#8BCCA1'
+    },
+    slideactive:{
+        borderBottomColor:'#ffdf41',
+        borderBottomWidth:4
+    },
+    searchbox:{
+        width:width,
+        height:45,
+        backgroundColor:'#fff',
+        justifyContent:'center',
+        alignItems:'center',
+        flexDirection:'row'
+
+    },
+    search:{
+        width:width*0.94,
+        backgroundColor:'#efeff4',
+        flexDirection:'row',
+        height:35,
+        borderRadius:5,
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    content:{
+        width:width,
+        backgroundColor:'#fff',
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    box:{
+        width:width,
+        paddingTop:10,
+        paddingBottom:10,
+        borderBottomColor:'#f5f6f8',
+        borderBottomWidth:20,
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    contenttop:{
+        width:width*0.84,
+        flexDirection:'row',
+        alignItems:'center',
+        height:100*s
+    },
+    contenthead:{
+        width:75*s,
+        height:75*s,
+        overflow:'hidden',
+        borderRadius:37.5*s
+    },
+    header:{
+        width:75*s,
+        height:75*s
+    },
+    contenttopright:{
+        paddingLeft:30*s
+    },
+    contenttopright1:{
+        marginBottom:10*s
+    },
+    uname:{
+        fontSize:16
+    },
+    dtime:{
+        fontSize:13,
+        color:'#9E9E9E'
+    },
+    contentcenter:{
+        width:width*0.84,
+        paddingTop:15*s,
+        paddingBottom:15*s,
+        justifyContent:'center'
+    },
+    contenttext:{
+        paddingBottom:15*s,
+        
+    },
+    contenttexts:{
+        fontSize:14
+    },
+    contentbottom:{
+        width:width*0.84,
+        flexDirection:'row',
+        borderTopColor:'#efeff4',
+        borderTopWidth:1,
+        paddingTop:15*s,
+        paddingBottom:15*s
+    },
+    comment:{
+        marginLeft:width*0.5,
+        width:35*s,
+        height:35*s,
+        alignItems:'center',
+    },
+    like:{
+        marginLeft:width*0.05,
+        width:35*s,
+        height:35*s,
+        alignItems:'center',
+    },
+    bottomtext:{
+        width:20*s,
+        height:35*s,
+        alignItems:'center',
+        marginLeft:5*s
+    },
+    button:{
+        flexDirection:'row'
+    }
+
+
+})
+
+module.exports = square;
