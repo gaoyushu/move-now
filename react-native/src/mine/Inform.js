@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Text, View, Image, TouchableOpacity, ScrollView, TouchableOpacityBase } from 'react-native'
+import { Text, View, Image, TouchableOpacity, ScrollView} from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'//渐变插件
 import { Actions } from 'react-native-router-flux'
 
-import styles from '../../css/InformStyle';
+import styles from '../../css/mine/InformStyle';
 
 import Accordion from 'react-native-collapsible/Accordion';
 import Icon from 'react-native-vector-icons/Entypo';

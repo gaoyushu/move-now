@@ -3,8 +3,9 @@ import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'rea
 import LinearGradient from 'react-native-linear-gradient'//渐变插件
 
 import ImagePicker from 'react-native-image-picker';
-import styles from '../../css/omeStyle';
+import styles from '../../css/mine/HomeStyle';
 import { Actions } from 'react-native-router-flux';
+import {Toast} from '@ant-design/react-native';
 
 
 console.disableYellowBox = true;
@@ -31,7 +32,7 @@ export default class App extends Component {
         }
     }
     componentDidMount() {
-        fetch('http://116.62.14.0:8666/mine/mine/1587840424595').then(res => res.json())
+        fetch('http://116.62.14.0:8666/mine/mine/1587910080066').then(res => res.json())
             .then(res => {
                 this.setState({
                     data: res.dataone,
@@ -46,7 +47,7 @@ export default class App extends Component {
             })
     }
     componentDidUpdate() {
-        fetch('http://116.62.14.0:8666/mine/mine/1587840424595').then(res => res.json())
+        fetch('http://116.62.14.0:8666/mine/mine/1587910080066').then(res => res.json())
             .then(res => {
                 this.setState({
                     data: res.dataone,
@@ -74,9 +75,21 @@ export default class App extends Component {
                 const source = { uri: response.uri };
                 this.setState({
                     imageUrl: source.uri,
+                }, () => {
+                    fetch('http://116.62.14.0:8666/api/image', {
+                        method: 'POST',
+                        mode: "cors",
+                        body: this.state.imageUrl,
+                    }).then(res => res.json())
+                        .then(res => {
+                          console.log(res.data)
+                        }
+
+                        )
                 });
             }
         });
+
     }
 
     render() {
@@ -86,7 +99,7 @@ export default class App extends Component {
         return (
             <View style={styles.all}>
                 <View style={styles.one}>
-                    <View style={{ width: '35%', height: 190 }}>
+                    <View style={{ width: '35%', height: 170}}>
                         <TouchableOpacity onPress={() => { this.takephoto() }}>
                             <Image
                                 style={styles.imgOne}
@@ -110,10 +123,10 @@ export default class App extends Component {
                         <Text style={{ fontSize: 23, paddingTop: 10 }}>{this.state.ufans}</Text>
                         <Text style={{ fontSize: 19 }}>粉丝</Text>
                     </View>
-                    <View style={styles.twoinner}>
+                    <TouchableOpacity style={styles.twoinner} onPress={() => Actions.myFriend()}>
                         <Text style={{ fontSize: 23, paddingTop: 10 }}>{this.state.ufriend}</Text>
                         <Text style={{ fontSize: 19 }}>好友</Text>
-                    </View>
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.three}>
@@ -149,7 +162,9 @@ export default class App extends Component {
                     colors={['#8bcca1', '#57a099']}
                     style={styles.login}
                 >
+                    {/* <TouchableOpacity onPress={()=>Actions.login}> 退出登录*/}
                     <Text style={{ fontSize: 23, color: 'white' }}>退出登录</Text>
+                    {/* </TouchableOpacity> */}
                 </LinearGradient>
             </View>
         )

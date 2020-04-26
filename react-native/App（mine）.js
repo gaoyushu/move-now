@@ -6,6 +6,7 @@ import Inform from './src/mine/Inform';
 import Set from './src/mine/Set';
 import About from './src/mine/About';
 import Edit from './src/mine/Edit';
+import  Friend from "./src/mine/Friend";
 
 export default class App extends Component {
   render() {
@@ -22,6 +23,8 @@ export default class App extends Component {
             <Scene key='mineSet' component={Set}/>
             <Scene key='mineAbout' component={About}/>
             <Scene key='mineEdit' component={Edit}/>
+            <Scene key='myFriend' component={Friend}/>
+            {/* <Scene key='login' component={}/>//退出登录页面 */}
           </Scene>
 
         </Scene>

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, Image, TouchableOpacity, TextInput, Dimensions } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'//渐变插件
 import { Actions } from 'react-native-router-flux';
-import styles from '../../css/EditStyle';
+import styles from '../../css/mine/EditStyle';
 
 
 export default class Edit extends Component {
@@ -21,7 +21,7 @@ export default class Edit extends Component {
         }
     }
     componentDidMount() {
-        fetch('http://116.62.14.0:8666/mine/mine/1587622237905').then(res => res.json())
+        fetch('http://116.62.14.0:8666/mine/mine/1587900926601').then(res => res.json())
             .then(res => {
                 this.setState({
                     data: res.dataone,
@@ -44,7 +44,7 @@ export default class Edit extends Component {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ token: '1587622237905', uname: this.state.name, uintroduce: this.state.introduce, uemail: this.state.email })
+            body: JSON.stringify({ token: '1587900926601', uname: this.state.name, uintroduce: this.state.introduce, uemail: this.state.email })
         }).then(res => { return res.json() })
             .then(res => {
                 console.log(res);
@@ -60,11 +60,11 @@ export default class Edit extends Component {
             introduce: b
         })
     }
-    changeThree = (c) => {
-        this.setState({
-            email: c
-        })
-    }
+    // changeThree = (c) => {
+    //     this.setState({
+    //         email: c
+    //     })
+    // }
     render() {
         const { width } = Dimensions.get('window');
         // console.log(width)
@@ -110,7 +110,7 @@ export default class Edit extends Component {
                         <Text style={styles.texte}>邮箱</Text>
                         <TextInput
                             style={styles.textf}
-                            onChangeText={(Text) => { this.changeThree(Text) }}
+                            // onChangeText={(Text) => { this.changeThree(Text) }}
                         >{this.state.uemail}</TextInput>
 
                     </View>
