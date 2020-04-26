@@ -1,0 +1,16 @@
+diary.js
+yarn add moment
+import moment from 'moment'
+
+----------------------
+login.js
+yarn add react-native-linear-gradient
+react-native link react-native-linear-gradient
+import {BVLinearGradient} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+<LinearGradient
+	start={{x: 0, y: 0}} end={{x: 1, y: 1}}//默认竖向
+                colors={['#8bcca1' , '#57a099']}
+                style={{height: 70, flex: 1}}>
+                    
+</LinearGradient>
