@@ -47,35 +47,33 @@ export default class Square extends Component {
     }
     //pop回来刷新数据
     // UNSAFE_componentWillReceiveProps(nextProps){
-    //   console.log(nextProps)
-    //   console.log(nextProps.isRefresh)
-    //   console.log(nextProps.data)
-    //   if(nextProps.isRefresh){
-    //      if(this.state.isActive1){
-    //       myFetch.get('/square/follow/1586768446984')
-    //       .then(res=>{
-    //         this.setState({
-    //           data:res.data
-    //         })
-    //       })
-    //     }else if(this.state.isActive2){
-    //       myFetch.get('/square/new/1586768446984')
-    //       .then(res=>{
-    //         this.setState({
-    //           data:res.data
-    //         })
-    //       })
-    //     }else{
-    //       myFetch.get('/square/hot/1586768446984')
-    //       .then(res=>{
-    //         this.setState({
-    //           data:res.data
-    //         })
-    //       })
-    //     }
-    //   }
+      refreshs=()=>{
+      // if(nextProps.isRefresh){
+         if(this.state.isActive1){
+          myFetch.get('/square/follow/'+this.state.token)
+          .then(res=>{
+            this.setState({
+              data:res.data
+            })
+          })
+        }else if(this.state.isActive2){
+          myFetch.get('/square/new/'+this.state.token)
+          .then(res=>{
+            this.setState({
+              data:res.data
+            })
+          })
+        }else{
+          myFetch.get('/square/hot/'+this.state.token)
+          .then(res=>{
+            this.setState({
+              data:res.data
+            })
+          })
+        }
+      // }
      
-    // }
+    }
     //点击关注
     onpress1=()=>{
       this.setState({
@@ -194,7 +192,7 @@ export default class Square extends Component {
           this.state.data.map((item,idx)=>(
             <View style={square.box}>
               <View style={square.contenttop}>
-                <TouchableOpacity onPress={()=>{Actions.home({uid:item.uid})}}>
+                <TouchableOpacity onPress={()=>{Actions.home({uid:item.uid,refresh:()=>{this.refreshs()}})}}>
                   <View style={square.contenthead}>
                     <Image source={{uri:"http://116.62.14.0:8666/api/image/"+item.uimage}} style={square.header} />
                   </View>

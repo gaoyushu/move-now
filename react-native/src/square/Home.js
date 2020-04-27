@@ -146,7 +146,8 @@ export default class Home extends Component {
     var arr=[];
     arr=this.state.diary;
     // Actions.refresh({data:arr,isRefresh:true})
-    Actions.pop({refresh:{data:arr,isRefresh:true}});
+    // Actions.pop({refresh:{data:arr,isRefresh:true}});
+    Actions.pop(this.props.refresh());
   }
 
   render() {

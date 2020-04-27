@@ -81,6 +81,15 @@ export default class Detail extends Component {
       }
     })
   }
+  //pop返回刷新页面
+  refreshs=()=>{
+    myFetch.get('/changed/detail/'+this.state.token+'/'+this.state.shortdes_id)
+    .then(res=>{
+      this.setState({
+        data:res.data
+      })
+    })
+  }
   render() {
     return (
       <View>
@@ -97,7 +106,7 @@ export default class Detail extends Component {
         </LinearGradient>
         <ScrollView>
           <View style={chat.icons}> 
-            <TouchableOpacity onPress={()=>{Actions.exchoice({shortdes_id:this.state.shortdes_id})}} style={chat.images1} >
+            <TouchableOpacity onPress={()=>{Actions.exchoice({shortdes_id:this.state.shortdes_id,refresh:()=>{this.refreshs()}})}} style={chat.images1} >
               <Image source={{uri:"http://116.62.14.0:8666/api/image/26"}} style={chat.images} />
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>{Actions.exmeet()}} style={chat.images2}>

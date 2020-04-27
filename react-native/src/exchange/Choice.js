@@ -99,7 +99,7 @@ export default class Detail extends Component {
     // })
   }
   pops=()=>{
-    Actions.pop()
+    Actions.pop(this.props.refresh());
   }
   check=(idx)=>{
     var carr=this.state.checked;
@@ -128,7 +128,7 @@ export default class Detail extends Component {
             if(res.status===0){
               ToastAndroid.showWithGravity(res.data,500,ToastAndroid.CENTER);
               setTimeout(()=>{
-                Actions.pop();
+                Actions.pop(this.props.refresh());
               }
               ,1000);
             }
