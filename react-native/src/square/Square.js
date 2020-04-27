@@ -207,7 +207,7 @@ export default class Square extends Component {
                 </View>
               </View>
               <View style={square.contentcenter}>
-                <TouchableOpacity onPress={()=>{Actions.details1({'did':item.did,'page':'square'})}}>
+                <TouchableOpacity onPress={()=>{Actions.details1({'did':item.did,'page':'square',refresh:()=>{this.refreshs()}})}}>
                 <View style={square.contenttext}>
                   <Text style={square.contenttexts}>{item.dtitle}</Text>
                 </View>

@@ -149,7 +149,49 @@ export default class Home extends Component {
     // Actions.pop({refresh:{data:arr,isRefresh:true}});
     Actions.pop(this.props.refresh());
   }
-
+ //返回刷新
+ refreshs=()=>{
+   console.log('shuaxin')
+  AsyncStorage.getItem('token').then((res)=>{
+    this.setState({
+      token:res
+    },()=>{
+      myFetch.get('/square/userhome/'+this.state.token+'/'+this.state.uid)
+      .then(res=>{
+        var datas=res.data;
+        if(datas.diary!=='当前用户没有日记！'){
+            for(var i=0;i<datas.diary.length;i++){
+                var times=datas.diary[i].dtime;
+                var times1=times.split(' ')[0];
+                var times2=times1.split('/');
+                var month=times2[0];
+                var day=times2[1];
+                var year=times2[2];
+                // datas.diary[i].month=month;
+                // datas.diary[i].day=day;
+                // datas.diary[i].year=year;
+                datas.diary[i].time=times1;
+                if(month<10){
+                  datas.diary[i].time1=year+'-'+'0'+month+'-'+day;
+                }else{
+                  datas.diary[i].time1=year+'-'+month+'-'+day;
+                }
+                
+            }
+            this.setState({
+                data:datas,
+                diary:datas.diary
+            })
+        }else{
+          this.setState({
+              data:datas,
+              diary:null
+          })
+        }
+      })
+    })
+  })
+ }
   render() {
     var weekday=new Array(7);
     weekday[0]="星期日";
@@ -196,7 +238,7 @@ export default class Home extends Component {
                 this.state.diary.map((item,idx)=>(
                   <View style={home.content}> 
                     <View style={home.leftbox}>
-                      <TouchableOpacity onPress={()=>{Actions.details1({'did':item.did,'page':'square'})}}>
+                      <TouchableOpacity onPress={()=>{Actions.details1({'did':item.did,'page':'square',refresh:()=>{this.refreshs()}})}}>
                         <View style={home.lefttop}>
                           <Text style={home.leftTopText0}>{item.time}</Text>
                           <Text style={home.leftTopText}>{weekday[new Date(item.time1).getDay()]}</Text>

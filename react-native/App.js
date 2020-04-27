@@ -127,6 +127,7 @@ const App= () => {
                   <Scene key='squares' component={Square}/>  
                   <Scene key='home' hideTabBar component={Home} />
                   <Scene key='details1' hideTabBar={true} component={details} />
+                  <Scene key='comment1' hideTabBar={true} component={comment} />
                 </Scene> 
                 <Scene
                     key="exchange"
@@ -149,6 +150,8 @@ const App= () => {
                   <Scene key="exchat" hideTabBar component={ExChat} />
                   <Scene key="exmeet" hideTabBar component={ExMeet} />
                   <Scene key="exchoice" hideTabBar component={ExChoice} />
+                  <Scene key='details2' hideTabBar={true} component={details} />
+                  <Scene key='comment2' hideTabBar={true} component={comment} />
                   {/* <Scene key="exaddfri" hideTabBar component={ExAddfri} /> */}
                 </Scene>
                 <Scene key='diaryPage'

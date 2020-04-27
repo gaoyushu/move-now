@@ -71,12 +71,13 @@ export default class comment extends Component{
                     // Toast.success('评论日记成功！',1);
                     setTimeout(() => {
                         //返回刷新日记
-                        if(this.props.page==='own'){
-                            Actions.details({'did':this.props.did,'page':'own'});
-                        }
-                        if(this.props.page==='square'){
-                            Actions.details({'did':this.props.did,'page':'square','pageItem':this.props.pageItem})
-                        }
+                        // if(this.props.page==='own'){
+                        //     Actions.details({'did':this.props.did,'page':'own'});
+                        // }
+                        // if(this.props.page==='square'){
+                        //     Actions.details({'did':this.props.did,'page':'square','pageItem':this.props.pageItem})
+                        // }
+                        Actions.pop(this.props.refresh())
                         
                     }, 1000);
                 }
@@ -94,7 +95,7 @@ export default class comment extends Component{
                     colors={['#8bcca1' , '#57a099']}
                     style={{height: 50, flex: 1,flexDirection:'row'}}> */}
                     <TouchableOpacity style={style.headLeft} 
-                         onPress={()=>Actions.pop()}
+                         onPress={()=>Actions.pop(this.props.refresh())}
                          >
                     <View >
                         <Text style={style.headLeftT}>取消</Text>

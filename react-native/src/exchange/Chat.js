@@ -36,6 +36,7 @@ export default class Detail extends Component {
          //初始化
          myFetch.get('/changed/detail/'+this.state.token+'/'+this.state.shortdes_id)
          .then(res=>{
+           console.log(res.data)
            this.setState({
              data:res.data
            })
@@ -131,7 +132,7 @@ export default class Detail extends Component {
                       </View>
                       <Text style={chat.meheadertext}>朝花夕拾</Text>
                    </View>
-                   <TouchableOpacity style={chat.mecontents}>
+                   <TouchableOpacity style={chat.mecontents} onPress={()=>Actions.details2({'did':item.diaryid,'page':'exchange'})}>
                       <View style={chat.mecontent}>
                         <Text style={chat.mecontenttext}>{item.title}</Text>
                     </View>
@@ -145,7 +146,7 @@ export default class Detail extends Component {
                       </View>
                       <Text style={chat.otherheadertext}>朝花夕拾</Text>
                    </View>
-                   <TouchableOpacity style={chat.othercontents}>
+                   <TouchableOpacity style={chat.othercontents} onPress={()=>Actions.details2({'did':item.diaryid,'page':'exchange'})}>
                       <View style={chat.othercontent}>
                         <Text style={chat.othercontenttext}>{item.title}</Text>
                     </View>
@@ -161,7 +162,7 @@ export default class Detail extends Component {
                       </View>
                       <Text style={chat.meheadertext}>朝花夕拾</Text>
                    </View>
-                   {/* <TouchableOpacity style={chat.mecontents}> */}
+                   <TouchableOpacity onPress={()=>Actions.details2({'did':item.diaryid,'page':'exchange'})}>
                    <View style={chat.mecontents}>
                       <View style={chat.mecontent}>
                         <Text style={chat.mecontenttext}>{item.title}</Text>
@@ -170,7 +171,7 @@ export default class Detail extends Component {
                         </View>
                       </View>
                     </View>
-                   {/* </TouchableOpacity> */}
+                   </TouchableOpacity>
                  </View>
                  :
                  <View style={chat.otherbox}>
@@ -180,7 +181,7 @@ export default class Detail extends Component {
                       </View>
                       <Text style={chat.otherheadertext}>朝花夕拾</Text>
                    </View>
-                   {/* <TouchableOpacity style={chat.othercontents}> */}
+                   <TouchableOpacity onPress={()=>Actions.details2({'did':item.diaryid,'page':'exchange'})}>
                    <View style={chat.othercontents}>
                       <View style={chat.othercontent}>
                         <Text style={chat.othercontenttext}>{item.title}</Text>
@@ -190,7 +191,7 @@ export default class Detail extends Component {
                       </View>
                     </View>
                     
-                   {/* </TouchableOpacity> */}
+                   </TouchableOpacity>
                  </View>
                  :
                  item.isMe=='false'

@@ -51,6 +51,7 @@ export default class details extends Component{
         }
     }
     componentDidMount(){
+        // console.log('99999'+this.props.refresh())
         console.disableYellowBox = true;
         this.setState({
             page:this.props.page
@@ -219,16 +220,64 @@ export default class details extends Component{
                             com:false,
                         });
                         //评论后刷新页面
-                        if(this.props.page==='own'){
-                            Actions.details({'did':this.state.data.did,'page':'own'});
-                        }
-                        if(this.props.page==='square'){
-                            Actions.details({'did':this.state.data.did,'page':'square','pageItem':this.props.pageItem})
-                        }
+                        fetch('http://116.62.14.0:8666/diary/detail/'+this.props.did+'/'+result)
+                        .then(res =>{ return res.json() })
+                        .then(res =>{
+                            console.log(res); 
+                            if(res.data.dimage===-1){
+                                var a=res.data;
+                                a.dimage=null;
+                                this.setState({
+                                    data:a,
+                                    comments:a.comments,
+                                    isLoading:true
+                    
+                                });
+                            }
+                             else{
+                                //设置图片自适应尺寸
+                                let screenWidth = Dimensions.get('window').width;
+                                let screenHeight = Dimensions.get('window').height;
+                                Image.getSize("http://116.62.14.0:8666/api/image/"+res.data.dimage,(width,height) => {
+                                    this.setState({
+                                        w:0.6*screenWidth,
+                                        h:(0.6*screenWidth*height)/width,
+                                        data:res.data,
+                                        comments:res.data.comments,
+                                        isLoading:true
+                                    })
+                                })
+                            }
+                            if(res.data.dtype=='private'){
+                                this.setState({
+                                    value:'公开',
+                                    isLock:'lock-open-outline'
+                                })
+                            }else{
+                                this.setState({
+                                    value:'锁住',
+                                    isLock:'lock-outline'
+                                })
+                            }
+                            if(res.data.isGood==='true'){
+                                this.setState({
+                                    isLike:'heart',
+                                    isLikeColor:'red'
+                                })
+                            }else{
+                                this.setState({
+                                    isLike:'heart-outline',
+                                    isLikeColor:'#535151'
+                                })
+                            }
+                        });
+
+
                         
                     }, 1000);
                 }
             });
+           
         })
     }
     goComment=()=>{
@@ -236,16 +285,19 @@ export default class details extends Component{
             com:false,
         });
         if(this.props.page==='own'){
-            Actions.comment({'did':this.state.data.did,'page':'own'})
+            Actions.comment({'did':this.state.data.did,refresh:()=>{this.refreshs()}})
         }
         if(this.props.page==='square'){
-            Actions.comment({'did':this.state.data.did,'page':'square','pageItem':this.props.pageItem})
+            Actions.comment1({'did':this.state.data.did,refresh:()=>{this.refreshs()}})
+        }
+        if(this.props.page==='exchange'){
+            Actions.comment2({'did':this.state.data.did,refresh:()=>{this.refreshs()}})
         }
         
     }
     goEdit=()=>{
         if(this.props.page==='own'){
-            Actions.edit({'did':this.state.data.did,'page':'own','page1':'edit'})
+            Actions.edit({'did':this.state.data.did,'page':'own','page1':'edit',refresh:()=>{this.refreshs()}})
         }
         // if(this.props.page==='square'){
         //     Actions.edit({'did':this.state.data.did,'page':'square','pageItem':this.props.pageItem})
@@ -254,7 +306,13 @@ export default class details extends Component{
     }
     //返回
     goBack=()=>{
-        Actions.pop()
+        if(this.props.page==='exchange'){
+            // console.log('exchange')
+            Actions.pop()
+        }else{
+            Actions.pop(this.props.refresh())
+        }
+        
         // console.log(this.state.page);
         // console.log(this.props.page)
         // if(this.state.page==='own'){
@@ -287,6 +345,63 @@ export default class details extends Component{
         //     Actions.home({'pageItem':this.props.pageItem,'uid':this.props.uid})
         // }
     }
+    //返回刷新
+    refreshs=()=>{
+        console.log('shuaxin')
+        AsyncStorage.getItem('token').then((result)=>{
+            fetch('http://116.62.14.0:8666/diary/detail/'+this.props.did+'/'+result)
+            .then(res =>{ return res.json() })
+            .then(res =>{
+                console.log(res); 
+                if(res.data.dimage===-1){
+                    var a=res.data;
+                    a.dimage=null;
+                    this.setState({
+                        data:a,
+                        comments:a.comments,
+                        isLoading:true
+        
+                    });
+                }
+                 else{
+                    //设置图片自适应尺寸
+                    let screenWidth = Dimensions.get('window').width;
+                    let screenHeight = Dimensions.get('window').height;
+                    Image.getSize("http://116.62.14.0:8666/api/image/"+res.data.dimage,(width,height) => {
+                        this.setState({
+                            w:0.6*screenWidth,
+                            h:(0.6*screenWidth*height)/width,
+                            data:res.data,
+                            comments:res.data.comments,
+                            isLoading:true
+                        })
+                    })
+                }
+                if(res.data.dtype=='private'){
+                    this.setState({
+                        value:'公开',
+                        isLock:'lock-open-outline'
+                    })
+                }else{
+                    this.setState({
+                        value:'锁住',
+                        isLock:'lock-outline'
+                    })
+                }
+                if(res.data.isGood==='true'){
+                    this.setState({
+                        isLike:'heart',
+                        isLikeColor:'red'
+                    })
+                }else{
+                    this.setState({
+                        isLike:'heart-outline',
+                        isLikeColor:'#535151'
+                    })
+                }
+            });})
+       
+      }
     render(){
         return(
             <View style={style.body}>
@@ -496,6 +611,30 @@ export default class details extends Component{
                         :  
                         <></> 
                     }
+
+{
+                        //底栏评论
+                        this.state.page==='exchange'
+                        ?
+                        <View style={style.square}>
+                            <TouchableOpacity style={style.exchange} onPress={()=>this.comment()}>
+                                <View style={{flexDirection:'row'}}>
+                                    <Icon name="comment-processing-outline" color="#535151" size={20} style={{marginTop:10}}/>
+                                    <Text style={style.squareLT}>评论</Text>
+                                </View>
+                            </TouchableOpacity>
+                            {/* <View style={style.squareMiddle}></View>
+                            <TouchableOpacity style={style.squareRight} onPress={()=>this.changeLike()}>
+                                <View style={{flexDirection:'row'}}>
+                                    <Icon name={this.state.isLike} color={this.state.isLikeColor} size={20} style={{marginTop:10}}/>
+                                    <Text style={style.squareRT}>点赞</Text>
+                                </View>
+                            </TouchableOpacity> */}
+                        </View>
+                        :  
+                        <></> 
+                    }
+
 
                     {/* 评论遮罩弹框 */}
                     <Modal
