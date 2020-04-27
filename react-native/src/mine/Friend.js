@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { Text, View, TouchableOpacity, Image, ScrollView ,AsyncStorage} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient'//渐变插件
 import { Actions } from 'react-native-router-flux';
 
@@ -8,19 +8,37 @@ export default class Friend extends Component {
         super(props);
         this.state = {
             data: [],
-            status: 0
+            status: 0,
+            token:''
         }
     }
     componentDidMount() {
-        fetch('http://116.62.14.0:8666/chat/friends/1587910080066')
-            .then(res => { return res.json() })
-            .then(res => {
-                console.log(res.data[0].uimage);
-                this.setState({
-                    data: res.data,
-                    status: res.status
+        AsyncStorage.getItem('token')
+        .then(res=>{
+            this.setState({
+                token:res
+            },()=>{
+                fetch('http://116.62.14.0:8666/chat/friends/'+this.state.token)
+                    .then(res => { return res.json() })
+                    .then(res => {
+                        console.log(res.data[0].uimage);
+                        this.setState({
+                            data: res.data,
+                            status: res.status
+                        })
+                    });
+
                 })
-            });
+            })
+        // fetch('http://116.62.14.0:8666/chat/friends/1587910080066')
+        //     .then(res => { return res.json() })
+        //     .then(res => {
+        //         console.log(res.data[0].uimage);
+        //         this.setState({
+        //             data: res.data,
+        //             status: res.status
+        //         })
+        //     });
 
     }
     render() {

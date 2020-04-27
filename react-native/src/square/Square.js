@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, ScrollView, Dimensions, TouchableOpacity,TextInput,Image} from 'react-native'
+import { Text, View, ScrollView, Dimensions, TouchableOpacity,TextInput,Image, AsyncStorage} from 'react-native'
 import  Icon  from 'react-native-vector-icons/Feather';
 
 import square from '../../css/square/Square';
@@ -17,50 +17,65 @@ export default class Square extends Component {
             data:[],
             imgh:[],
             unlike:{uri:"http://116.62.14.0:8666/api/image/29"},
-            like:{uri:"http://116.62.14.0:8666/api/image/28"}
+            like:{uri:"http://116.62.14.0:8666/api/image/28"},
+            token:''
         }
     }
     //初始化
     componentDidMount(){
-      myFetch.get('/square/new/1586768446984')
+      AsyncStorage.getItem('token')
       .then(res=>{
-        // console.log(res.data)
         this.setState({
-          data:res.data
+          token:res
+        },()=>{
+          myFetch.get('/square/new/'+this.state.token)
+          .then(res=>{
+            // console.log(res.data)
+            this.setState({
+              data:res.data
+            })
+          })
         })
       })
+      // myFetch.get('/square/new/1586768446984')
+      // .then(res=>{
+      //   // console.log(res.data)
+      //   this.setState({
+      //     data:res.data
+      //   })
+      // })
     }
     //pop回来刷新数据
-    UNSAFE_componentWillReceiveProps(nextProps){
-      console.log(nextProps)
-      console.log(nextProps.isRefresh)
-      console.log(nextProps.data)
-      if(nextProps.isRefresh){
-         if(this.state.isActive1){
-          myFetch.get('/square/follow/1586768446984')
-          .then(res=>{
-            this.setState({
-              data:res.data
-            })
-          })
-        }else if(this.state.isActive2){
-          myFetch.get('/square/new/1586768446984')
-          .then(res=>{
-            this.setState({
-              data:res.data
-            })
-          })
-        }else{
-          myFetch.get('/square/hot/1586768446984')
-          .then(res=>{
-            this.setState({
-              data:res.data
-            })
-          })
-        }
-      }
+    // UNSAFE_componentWillReceiveProps(nextProps){
+    //   console.log(nextProps)
+    //   console.log(nextProps.isRefresh)
+    //   console.log(nextProps.data)
+    //   if(nextProps.isRefresh){
+    //      if(this.state.isActive1){
+    //       myFetch.get('/square/follow/1586768446984')
+    //       .then(res=>{
+    //         this.setState({
+    //           data:res.data
+    //         })
+    //       })
+    //     }else if(this.state.isActive2){
+    //       myFetch.get('/square/new/1586768446984')
+    //       .then(res=>{
+    //         this.setState({
+    //           data:res.data
+    //         })
+    //       })
+    //     }else{
+    //       myFetch.get('/square/hot/1586768446984')
+    //       .then(res=>{
+    //         this.setState({
+    //           data:res.data
+    //         })
+    //       })
+    //     }
+    //   }
      
-    }
+    // }
     //点击关注
     onpress1=()=>{
       this.setState({
@@ -68,7 +83,7 @@ export default class Square extends Component {
         isActive1:true,
         isActive3:false,
       })
-      myFetch.get('/square/follow/1586768446984')
+      myFetch.get('/square/follow/'+this.state.token)
       .then(res=>{
         // console.log(res.data)
         this.setState({
@@ -84,7 +99,7 @@ export default class Square extends Component {
         isActive2:true,
         isActive3:false,
       })
-      myFetch.get('/square/new/1586768446984')
+      myFetch.get('/square/new/'+this.state.token)
       .then(res=>{
         this.setState({
           data:res.data
@@ -99,7 +114,7 @@ export default class Square extends Component {
         isActive3:true,
         isActive1:false,
       })
-      myFetch.get('/square/hot/1586768446984')
+      myFetch.get('/square/hot/'+this.state.token)
       .then(res=>{
         this.setState({
           data:res.data
@@ -119,7 +134,7 @@ export default class Square extends Component {
     }
     //点赞
     setLike=(idx)=>{
-      let url='/square/praise/1586768446984/'+`${this.state.data[idx].did}`;
+      let url='/square/praise/'+this.state.token+'/'+`${this.state.data[idx].did}`;
       myFetch.put(url)
       if(this.state.data[idx].pstatus==='true'){
         let arrs=this.state.data;
@@ -174,7 +189,9 @@ export default class Square extends Component {
             </View>
           </View>
           <View style={square.content}>
-          {this.state.data.map((item,idx)=>(
+          {
+          this.state.data?
+          this.state.data.map((item,idx)=>(
             <View style={square.box}>
               <View style={square.contenttop}>
                 <TouchableOpacity onPress={()=>{Actions.home({uid:item.uid})}}>
@@ -192,6 +209,7 @@ export default class Square extends Component {
                 </View>
               </View>
               <View style={square.contentcenter}>
+                <TouchableOpacity onPress={()=>{Actions.details1({'did':item.did,'page':'square'})}}>
                 <View style={square.contenttext}>
                   <Text style={square.contenttexts}>{item.dtitle}</Text>
                 </View>
@@ -200,6 +218,7 @@ export default class Square extends Component {
                   :
                   <Image onLoadStart={()=>{this.getsize(item.dimage,idx)}} source={{uri:"http://116.62.14.0:8666/api/image/"+item.dimage}} style={{width:width*0.84,height:this.state.imgh[idx],resizeMode:'cover'}} />
                 }
+                </TouchableOpacity>
               </View>
               <View style={square.contentbottom}>
                 <TouchableOpacity style={square.button}>
@@ -213,7 +232,12 @@ export default class Square extends Component {
                 
               </View>
             </View>
-          ))}
+          ))
+                :
+                <View style={square.bottombox}>
+                  <Text style={square.bottomboxtext}>您还未关注用户！</Text>
+                </View>
+        }
           </View>
         </ScrollView>
       </View>

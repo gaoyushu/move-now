@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Text, Button, AsyncStorage} from 'react-native';
 import {Scene, Actions} from 'react-native-router-flux';
 
 const path = 'http://116.62.14.0:8666/';
@@ -13,6 +13,7 @@ export default class Detail extends Component {
     this.state = {
       status: 0,
       data: [],
+      token:''
     };
   }
   componentDidMount() {
@@ -25,6 +26,14 @@ export default class Detail extends Component {
     //       data: res.data,
     //     });
     //   });
+    AsyncStorage.getItem('token')
+    .then(res=>{
+       this.setState({
+         token:res
+       },()=>{
+         //初始化
+       })
+    })
   }
   render() {
     return (

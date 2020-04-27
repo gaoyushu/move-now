@@ -254,34 +254,38 @@ export default class details extends Component{
     }
     //返回
     goBack=()=>{
-        if(this.props.page==='own'){
-            Actions.diary()
-        }
-        if(this.state.page==='square'){
-            // if(this.state.pageItem==='one'){
+        Actions.pop()
+        // console.log(this.state.page);
+        // console.log(this.props.page)
+        // if(this.state.page==='own'){
+        //     // Actions.diary()
+        //     Actions.pop()
+        // }
+        // else if(this.state.page==='square'){
+        //     // if(this.state.pageItem==='one'){
                 
-            //     Actions.squares({isActive1:true,isActive2:false,isActive3:false,})
-            // }
-            // if(this.state.pageItem==='two'){
-            //     Actions.squares({isActive2:true,isActive1:false,isActive3:false,})
-            // }
-            // if(this.state.pageItem==='three'){
-            //     Actions.squares({isActive3:true,isActive2:false,isActive1:false,})
-            // }
-            Actions.pop()
-        }
-        if(this.props.page==='home'){
-            // if(this.props.pageItem==='one'){
-            //     Actions.home({'pageItem':'one'})
-            // }
-            // if(this.props.pageItem==='two'){
-            //     Actions.home({'pageItem':'two'})
-            // }
-            // if(this.props.pageItem==='three'){
-            //     Actions.home({'pageItem':'one'})
-            // }
-            Actions.home({'pageItem':this.props.pageItem,'uid':this.props.uid})
-        }
+        //     //     Actions.squares({isActive1:true,isActive2:false,isActive3:false,})
+        //     // }
+        //     // if(this.state.pageItem==='two'){
+        //     //     Actions.squares({isActive2:true,isActive1:false,isActive3:false,})
+        //     // }
+        //     // if(this.state.pageItem==='three'){
+        //     //     Actions.squares({isActive3:true,isActive2:false,isActive1:false,})
+        //     // }
+        //     Actions.popTo('square')
+        // }
+        // else if(this.props.page==='home'){
+        //     // if(this.props.pageItem==='one'){
+        //     //     Actions.home({'pageItem':'one'})
+        //     // }
+        //     // if(this.props.pageItem==='two'){
+        //     //     Actions.home({'pageItem':'two'})
+        //     // }
+        //     // if(this.props.pageItem==='three'){
+        //     //     Actions.home({'pageItem':'one'})
+        //     // }
+        //     Actions.home({'pageItem':this.props.pageItem,'uid':this.props.uid})
+        // }
     }
     render(){
         return(
@@ -292,7 +296,7 @@ export default class details extends Component{
                     // start={{x: 0, y: 0}} end={{x: 1, y: 1}}
                     colors={['#8bcca1' , '#57a099']}
                     style={{height: 50, flex: 1,flexDirection:'row'}}>
-                         <TouchableOpacity style={style.headLeft} onPress={this.goBack}>
+                         <TouchableOpacity style={style.headLeft} onPress={()=>{this.goBack()}}>
                     <View >
                         <Icon name="chevron-left" color="#fff" size={30}/>
                     </View>

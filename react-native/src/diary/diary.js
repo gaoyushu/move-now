@@ -44,6 +44,12 @@ export default class diary extends Component{
     }
     componentDidMount(){
         console.disableYellowBox = true;
+        AsyncStorage.getItem('token')
+        .then(res=>{
+            this.setState({
+                token:res
+            })
+        })
     //     myFetch.get('diary/metto')
     //     .then(res =>{ 
     //         console.log(res)
@@ -130,7 +136,8 @@ export default class diary extends Component{
                 'Content-Type': 'application/json'
             },
             // body: JSON.stringify({ token:localStorage.getItem('token'), diaryid:`${this.state.list[idx].did}`})})
-            body: JSON.stringify({ token:'1586762147741', diaryid:`${this.state.list[idx].did}`})})
+            // body: JSON.stringify({ token:'1586762147741', diaryid:`${this.state.list[idx].did}`})})
+            body: JSON.stringify({ token:this.state.token, diaryid:`${this.state.list[idx].did}`})})
             .then(res =>{ return res.json() })
             .then(res =>{ 
                 console.log(res);

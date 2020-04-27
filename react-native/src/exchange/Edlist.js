@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Button, ScrollView, TouchableOpacity, Image} from 'react-native';
+import {View, Text, Button, ScrollView, TouchableOpacity, Image, AsyncStorage} from 'react-native';
 import {Scene, Actions} from 'react-native-router-flux';
 import {BVLinearGradient} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -18,15 +18,29 @@ export default class Detail extends Component {
     this.state = {
       status: 0,
       data: [],
+      token:''
     };
   }
   componentDidMount() {
-    myFetch.get('/chat/exchange/1586768446984')
+    AsyncStorage.getItem('token')
     .then(res=>{
       this.setState({
-        data:res.data
+        token:res
+      },()=>{
+        myFetch.get('/chat/exchange/'+this.state.token)
+        .then(res=>{
+          this.setState({
+            data:res.data
+          })
+        })
       })
     })
+    // myFetch.get('/chat/exchange/1586768446984')
+    // .then(res=>{
+    //   this.setState({
+    //     data:res.data
+    //   })
+    // })
   }
   //返回
   pops=()=>{

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, Dimensions } from 'react-native'
-const {width,scale} = Dimensions.get('window');
+const {width,scale,height} = Dimensions.get('window');
 const s = width / 640;
 var square = StyleSheet.create({
     tabbox:{
@@ -120,13 +120,26 @@ var square = StyleSheet.create({
         alignItems:'center',
     },
     bottomtext:{
-        width:20*s,
+        width:30*s,
         height:35*s,
         alignItems:'center',
         marginLeft:5*s
     },
     button:{
         flexDirection:'row'
+    },
+    bottombox:{
+        alignItems:'center',
+        backgroundColor:'#f5f6f8',
+        width:width,
+        flex:1,
+        // height:'100%'
+        height:height*0.815,
+       paddingTop:40
+    },
+    bottomboxtext:{
+        color:'#8bcca1',
+        fontSize:13
     }
 
 

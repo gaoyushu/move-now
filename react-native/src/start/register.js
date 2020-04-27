@@ -6,7 +6,7 @@ import { Actions } from 'react-native-router-flux';
 // import {myFetch} from '../utils'
 import style from '../../css/start/register';
 import LinearGradient from 'react-native-linear-gradient';
-import RadioModal from 'react-native-radio-master';
+// import RadioModal from 'react-native-radio-master';
 export default class Register extends Component {
     constructor(){
         super();

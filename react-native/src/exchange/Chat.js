@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, ScrollView, Image, TouchableOpacity} from 'react-native';
+import {View, Text, ScrollView, Image, TouchableOpacity ,AsyncStorage} from 'react-native';
 import {Scene, Actions} from 'react-native-router-flux';
 import {BVLinearGradient} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -24,15 +24,30 @@ export default class Detail extends Component {
       val2:'婉拒',
       disabled:false,
       val:'',
+      token:''
     };
   }
   componentDidMount() {
-    myFetch.get('/changed/detail/1586768446984/'+this.state.shortdes_id)
+    AsyncStorage.getItem('token')
     .then(res=>{
-      this.setState({
-        data:res.data
-      })
+       this.setState({
+         token:res
+       },()=>{
+         //初始化
+         myFetch.get('/changed/detail/'+this.state.token+'/'+this.state.shortdes_id)
+         .then(res=>{
+           this.setState({
+             data:res.data
+           })
+         })
+       })
     })
+    // myFetch.get('/changed/detail/1586768446984/'+this.state.shortdes_id)
+    // .then(res=>{
+    //   this.setState({
+    //     data:res.data
+    //   })
+    // })
     
   }
   pops=()=>{
@@ -48,7 +63,7 @@ export default class Detail extends Component {
     this.state.data.map((item,id)=>{
       if(item==this.state.data[idx]){
         var aid=item.aid;
-        myFetch.put('/changed/repfri',{ token:'1586768446984',aid:aid,reply:1})
+        myFetch.put('/changed/repfri',{ token:this.state.token,aid:aid,reply:1})
       }
     })
   }
@@ -62,7 +77,7 @@ export default class Detail extends Component {
     this.state.data.map((item,id)=>{
       if(item==this.state.data[idx]){
         var aid=item.aid;
-        myFetch.put('/changed/repfri',{ token:'1586768446984',aid:aid,reply:-1})
+        myFetch.put('/changed/repfri',{ token:this.state.token,aid:aid,reply:-1})
       }
     })
   }
@@ -189,8 +204,12 @@ export default class Detail extends Component {
                     {!item.isReply
                     ?
                     <View style={chat.mereply}>
-                      <button onPress={()=>this.receive(idx)} style={this.state.val=='接受'?chat.button1:chat.button} disabled={this.state.disabled}>{this.state.val1}</button>
-                      <button onPress={()=>this.unreceive(idx)} style={this.state.val=='婉拒'?chat.button1:chat.button} disabled={this.state.disabled}>{this.state.val2}</button>
+                      <Button onPress={()=>this.receive(idx)} style={this.state.val=='接受'?chat.button1:chat.button} disabled={this.state.disabled}>
+                        {this.state.val1}
+                      </Button>
+                      <Button onPress={()=>this.unreceive(idx)} style={this.state.val=='婉拒'?chat.button1:chat.button} disabled={this.state.disabled}>
+                        {this.state.val2}
+                      </Button>
                     </View>
                     :
                     !item.reply
