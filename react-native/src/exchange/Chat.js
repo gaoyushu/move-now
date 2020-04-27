@@ -36,6 +36,7 @@ export default class Detail extends Component {
          //初始化
          myFetch.get('/changed/detail/'+this.state.token+'/'+this.state.shortdes_id)
          .then(res=>{
+           console.log(res.data)
            this.setState({
              data:res.data
            })
@@ -81,6 +82,15 @@ export default class Detail extends Component {
       }
     })
   }
+  //pop返回刷新页面
+  refreshs=()=>{
+    myFetch.get('/changed/detail/'+this.state.token+'/'+this.state.shortdes_id)
+    .then(res=>{
+      this.setState({
+        data:res.data
+      })
+    })
+  }
   render() {
     return (
       <View>
@@ -97,7 +107,7 @@ export default class Detail extends Component {
         </LinearGradient>
         <ScrollView>
           <View style={chat.icons}> 
-            <TouchableOpacity onPress={()=>{Actions.exchoice({shortdes_id:this.state.shortdes_id})}} style={chat.images1} >
+            <TouchableOpacity onPress={()=>{Actions.exchoice({shortdes_id:this.state.shortdes_id,refresh:()=>{this.refreshs()}})}} style={chat.images1} >
               <Image source={{uri:"http://116.62.14.0:8666/api/image/26"}} style={chat.images} />
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>{Actions.exmeet()}} style={chat.images2}>
@@ -122,7 +132,7 @@ export default class Detail extends Component {
                       </View>
                       <Text style={chat.meheadertext}>朝花夕拾</Text>
                    </View>
-                   <TouchableOpacity style={chat.mecontents}>
+                   <TouchableOpacity style={chat.mecontents} onPress={()=>Actions.details2({'did':item.diaryid,'page':'exchange'})}>
                       <View style={chat.mecontent}>
                         <Text style={chat.mecontenttext}>{item.title}</Text>
                     </View>
@@ -136,7 +146,7 @@ export default class Detail extends Component {
                       </View>
                       <Text style={chat.otherheadertext}>朝花夕拾</Text>
                    </View>
-                   <TouchableOpacity style={chat.othercontents}>
+                   <TouchableOpacity style={chat.othercontents} onPress={()=>Actions.details2({'did':item.diaryid,'page':'exchange'})}>
                       <View style={chat.othercontent}>
                         <Text style={chat.othercontenttext}>{item.title}</Text>
                     </View>
@@ -152,7 +162,7 @@ export default class Detail extends Component {
                       </View>
                       <Text style={chat.meheadertext}>朝花夕拾</Text>
                    </View>
-                   {/* <TouchableOpacity style={chat.mecontents}> */}
+                   <TouchableOpacity onPress={()=>Actions.details2({'did':item.diaryid,'page':'exchange'})}>
                    <View style={chat.mecontents}>
                       <View style={chat.mecontent}>
                         <Text style={chat.mecontenttext}>{item.title}</Text>
@@ -161,7 +171,7 @@ export default class Detail extends Component {
                         </View>
                       </View>
                     </View>
-                   {/* </TouchableOpacity> */}
+                   </TouchableOpacity>
                  </View>
                  :
                  <View style={chat.otherbox}>
@@ -171,7 +181,7 @@ export default class Detail extends Component {
                       </View>
                       <Text style={chat.otherheadertext}>朝花夕拾</Text>
                    </View>
-                   {/* <TouchableOpacity style={chat.othercontents}> */}
+                   <TouchableOpacity onPress={()=>Actions.details2({'did':item.diaryid,'page':'exchange'})}>
                    <View style={chat.othercontents}>
                       <View style={chat.othercontent}>
                         <Text style={chat.othercontenttext}>{item.title}</Text>
@@ -181,7 +191,7 @@ export default class Detail extends Component {
                       </View>
                     </View>
                     
-                   {/* </TouchableOpacity> */}
+                   </TouchableOpacity>
                  </View>
                  :
                  item.isMe=='false'

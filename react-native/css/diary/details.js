@@ -290,6 +290,11 @@ var style = StyleSheet.create(
         left: 0,
         backgroundColor: 'rgba(0, 0, 0, 0.5)'
       },
+      exchange:{
+        width:'100%',
+        flexDirection:'row',
+        justifyContent:'center'
+    },
    
 
 });

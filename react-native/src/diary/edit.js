@@ -127,12 +127,13 @@ export default class edit extends Component{
                     if(res.status===0){
                         ToastAndroid.showWithGravity('编辑成功！',10,ToastAndroid.CENTER);
                         setTimeout(()=>{
-                            if(this.props.page==='own'){
-                                Actions.details({'did':this.props.did,'page':'own'});
-                            }
+                            // if(this.props.page==='own'){
+                            //     Actions.details({'did':this.props.did,'page':'own'});
+                            // }
                             // if(this.props.page==='square'){
                             //     Actions.details({'did':this.props.did,'page':'square','pageItem':this.props.pageItem})
                             // }
+                            Actions.pop(this.props.refresh())
                         },1000)
                     }
                 });
@@ -154,7 +155,8 @@ export default class edit extends Component{
                         if(res.status===0){
                             ToastAndroid.showWithGravity('发布成功！',10,ToastAndroid.CENTER);
                             setTimeout(()=>{
-                                Actions.details({'did':res.data,'page':'own'})
+                                // Actions.details({'did':res.data,'page':'own'})
+                                Actions.pop(this.props.refresh())
                             },1000)
                         }
                     });
@@ -162,7 +164,71 @@ export default class edit extends Component{
             })
        }
        //选择图片
-       takephoto = () => {
+    //    takephoto = () => {
+    //     ImagePicker.showImagePicker(options, (response) => {
+    //         if (response.didCancel) {
+    //             return;
+    //         } else if (response.error) {
+    //             console.log('Error:', response.error);
+    //         } else if (response.customButton) {
+    //             console.log('custom:', response.customButton);
+    //         } else {
+    //             const source = { uri: response.uri };
+    //             this.setState({
+    //                 imageUrl: source.uri,
+    //                 isTaking:true
+    //             });
+    //             console.log(response.fileName)
+    //             let formData = new FormData();
+    //     let file = {uri: response.uri, type: 'multipart/form-data', name: response.fileName};   //这里的key(uri和type和name)不能改变,
+    //     formData.append("files",file); 
+        
+    //     fetch('http://116.62.14.0:8666/api/image', {
+    //         method: 'POST',
+    //         // mode:"cors",
+    //         headers:{
+    //             'Content-Type':'multipart/form-data',
+    //         },          
+    //         body: formData,
+    //     })
+    //     .then((response) => response.text() )
+    //     .then((responseData)=>{
+    //         console.log('ceshi')
+    //         console.log(response.imageid)
+    //         console.log('responseData',responseData);
+    //     })
+    //     .catch((error)=>{console.error('error',error)});
+    //     // .then(res=>res.json())
+    //     // .then(res=>{
+    //     //     console.log('ceshi')
+    //     //     console.log(res.data)
+    //     //     console.log(res.imageid+'9999999')
+    //     //     if(res.imageid){
+    //     //         this.setState({
+    //     //             imgid:res.imageid
+    //     //         })
+    //     //     }else{
+    //     //         ToastAndroid.showWithGravity(res.data,10,ToastAndroid.CENTER);
+    //     //         // Toast.fail(res.data,1);
+    //     //     }
+    //     // }
+    //     // )
+    //             console.log(this.state.isTaking+'1111')
+    //         }
+    //         // console.log(this.state.isTaking)
+    //         // console.log(this.state.w+'666')
+    //         // console.log(this.state.h+'777')
+    //         // console.log(this.state.imageUrl)
+    //     });
+        
+        
+        
+    // }
+    takephoto = (e) => {
+        // const file = e.target.files[0];
+        AsyncStorage.getItem('token').then((result)=>{
+        var formData = new FormData();
+        
         ImagePicker.showImagePicker(options, (response) => {
             if (response.didCancel) {
                 return;
@@ -172,57 +238,61 @@ export default class edit extends Component{
                 console.log('custom:', response.customButton);
             } else {
                 const source = { uri: response.uri };
+                // console.log(response)
+                const file={uri: response.uri, type: response.type, name: response.fileName};
+                formData.append('image', file);
+
                 this.setState({
                     imageUrl: source.uri,
                     isTaking:true
+                }, () => {
+                    // console.log(this.state.imageUrl)
+                    fetch('http://116.62.14.0:8666/api/image', {
+                        method: 'POST',
+                        mode:"cors",          
+                        body: formData
+                    }).then(res=>res.json())
+                    .then(res=>{
+                        // console.log(response)
+                        if(res.imageid){
+                                        this.setState({
+                                            imgid:res.imageid
+                                        })
+                                    }else{
+                                        ToastAndroid.showWithGravity(res.data,10,ToastAndroid.CENTER);
+                                        // Toast.fail(res.data,1);
+                                    }
+                        // console.log(source.uri)
+                        // if(res.imageid){
+                        //     fetch('http://116.62.14.0:8666/mine/mine', {
+                        //         method: 'POST',
+                        //         mode:"cors",          
+                        //         body: JSON.stringify({token:result,imgid:res.imageid})
+                        //     }).then(res=>res.json()).then(res=>{
+                        //         if(res.status===0){
+                        //            // console.log(res.imgid);
+                        //             // Toast.success(res.data,1);
+                        //             ToastAndroid.showWithGravity(res.data,10,ToastAndroid.CENTER);
+                        //             this.setState({
+                        //                 uimage:res.imgid
+                        //             })
+                        //         }
+                        //         // else{
+                        //         //     Toast.fail(res.data,1);
+                        //         // }
+                        //     })
+                        // }
+                        // else{
+                        //     Toast.fail(res.data,1);
+                        // }
+                    })
                 });
-                console.log(response.fileName)
-                let formData = new FormData();
-        let file = {uri: response.uri, type: 'multipart/form-data', name: response.fileName};   //这里的key(uri和type和name)不能改变,
-        formData.append("files",file); 
-        
-        fetch('http://116.62.14.0:8666/api/image', {
-            method: 'POST',
-            // mode:"cors",
-            headers:{
-                'Content-Type':'multipart/form-data',
-            },          
-            body: formData,
-        })
-        .then((response) => response.text() )
-        .then((responseData)=>{
-            console.log('ceshi')
-            console.log(response.imageid)
-            console.log('responseData',responseData);
-        })
-        .catch((error)=>{console.error('error',error)});
-        // .then(res=>res.json())
-        // .then(res=>{
-        //     console.log('ceshi')
-        //     console.log(res.data)
-        //     console.log(res.imageid+'9999999')
-        //     if(res.imageid){
-        //         this.setState({
-        //             imgid:res.imageid
-        //         })
-        //     }else{
-        //         ToastAndroid.showWithGravity(res.data,10,ToastAndroid.CENTER);
-        //         // Toast.fail(res.data,1);
-        //     }
-        // }
-        // )
-                console.log(this.state.isTaking+'1111')
             }
-            // console.log(this.state.isTaking)
-            // console.log(this.state.w+'666')
-            // console.log(this.state.h+'777')
-            // console.log(this.state.imageUrl)
         });
-        
-        
-        
+    })
+
     }
-   
+
     
     
     render(){

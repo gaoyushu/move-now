@@ -167,6 +167,47 @@ export default class diary extends Component{
             })
         }
       }
+      //返回刷新
+    refreshs=()=>{
+        console.log('刷新')
+        AsyncStorage.getItem('token').then((result)=>{
+            fetch('http://116.62.14.0:8666/diary/list/'+ result).then(res =>{ return res.json() })
+           // fetch('http://116.62.14.0:8666/diary/list/1586762147741').then(res =>{ return res.json() })
+            .then(res =>{ 
+                console.log(res.data);
+                if(res.data!=='获取日记列表失败！'){
+                var ss=res.data;
+                for(var i=0;i<ss.length;i++){
+                  var time =ss[i].dtime;
+                  var time1=time.split(' ')[0];
+                  var time2=time1.split('/');
+                  var year=time2[2];
+                  var month=time2[0];
+                  var day=time2[1];
+                  ss[i].time=time1;
+                  if(month<10){
+                   ss[i].time1=year+'-'+'0'+month+'-'+day;
+                 }else{
+                   ss[i].time1=year+'-'+month+'-'+day;
+                 }
+               //    ss[i].time1=year+'-'+month+'-'+day;
+               //    ss[i].month=month;
+               //    ss[i].day=day;
+                }
+               this.setState({
+                   list:ss
+               })
+           }else{
+               ToastAndroid.showWithGravity(
+                   '开始你的日记之旅吧',
+                   ToastAndroid.SHORT,
+                   ToastAndroid.CENTER,
+                 )
+               // Toast.info('开始你的日记之旅吧',1)
+           }
+             });
+           });
+    }
     render(){
         var weekday=new Array(7);
         weekday[0]="星期日";
@@ -193,7 +234,7 @@ export default class diary extends Component{
                     {this.state.list.map((item,idx)=>(
                         <View style={style.diary}>
                             <View style={style.left}>
-                            <TouchableOpacity onPress={()=>Actions.details({'did':item.did,'page':'own'})}>
+                            <TouchableOpacity onPress={()=>Actions.details({'did':item.did,'page':'own',refresh:()=>{this.refreshs()}})}>
                                 <View style={style.leftTop}>
                                     <Text style={style.leftTopText0}>{item.time}</Text>
                                     <Text style={style.leftTopText}>{weekday[new Date(item.time1).getDay()]}</Text>
@@ -240,7 +281,7 @@ export default class diary extends Component{
                    
                 </ScrollView>
                  {/* 加号 */}
-                 <TouchableOpacity style={style.ten} onPress={()=>Actions.edit({'did':this.state.data.did,'page':'own','page1':'add'})}>
+                 <TouchableOpacity style={style.ten} onPress={()=>Actions.edit({'did':this.state.data.did,'page':'own','page1':'add',refresh:()=>{this.refreshs()}})}>
                     <View >
                         <Icon name="add-circle" color="#8bcca1" size={36} />
                    </View>
