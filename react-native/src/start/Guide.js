@@ -15,20 +15,26 @@ export default class Guide extends Component {
         <View style={styles.slide1}>
           <Image
             style={styles.img}
-            source={require('../../assets/slide1.png')}
+            source={{uri:"http://116.62.14.0:8666/api/image/73"}} 
           />
           
         </View>
         <View style={styles.slide1}>
           <Image
             style={styles.img}
-            source={require('../../assets/slide2.png')}
+            source={{uri:"http://116.62.14.0:8666/api/image/71"}} 
+          />
+        </View>
+        <View style={styles.slide1}>
+          <Image
+            style={styles.img}
+            source={{uri:"http://116.62.14.0:8666/api/image/72"}} 
           />
         </View>
         <View style={styles.slide1} >
           <Image
             style={styles.img}
-            source={require('../../assets/slide3.png')}
+            source={{uri:"http://116.62.14.0:8666/api/image/74"}} 
           />
           <TouchableOpacity style={styles.start}  onPress={this.start}>
             <Text style={{color: '#fff',fontSize:17}}>开始体验</Text>

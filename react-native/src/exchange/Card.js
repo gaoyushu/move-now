@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Image, TouchableOpacity, Button} from 'react-native';
+import {View, Text, Image, TouchableOpacity, Button, AsyncStorage} from 'react-native';
 import {Actions} from 'react-native-router-flux';
 
 import styles from '../../css/exchange/Card';
@@ -9,7 +9,22 @@ const path = 'http://116.62.14.0:8666/';
 const imgpath = path + 'api/image/'; // 图片路径
 
 export default class Card extends Component {
-  
+  constructor(){
+    super();
+    this.state={
+      token:''
+    }
+  }
+  componentDidMount(){
+    AsyncStorage.getItem('token')
+    .then(res=>{
+       this.setState({
+         token:res
+       },()=>{
+         //初始化
+       })
+    })
+  }
   // 跳转本条详情
   jumpDetail = (id) => {
     var data=this.props.data.shortdes_id;

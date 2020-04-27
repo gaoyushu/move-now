@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Image, TouchableOpacity, ScrollView} from 'react-native'
+import { Text, View, Image, TouchableOpacity, ScrollView, TouchableOpacityBase, AsyncStorage } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'//渐变插件
 import { Actions } from 'react-native-router-flux'
 
@@ -22,118 +22,235 @@ export default class Infer extends Component {
             value1: [],
             value2: [],
             data1: [],
-            reply: 0
+            reply: 0,
+            token:''
         };
     }
 
     componentDidMount() {
-        fetch('http://116.62.14.0:8666/news/comment/1587900926601')
-            .then(res => { return res.json() })
-            .then(res => {
-                if (res.data !== '您没有评论消息') {
-                    this.setState({
-                        datac: res.data
-                    }, () => {
-                        var datas = this.state.datac;
-                        for (var i = 0; i < datas.length; i++) {
-                            if (datas[i].dtime) {
-                                var time = datas[i].dtime.split(' ')[0];
-                                var time1 = time.split('/');
-                                var year = time1[0];
-                                var month = time1[1];
-                                var day = time1[2];
-                                datas[i].year = year;
-                                datas[i].month = month;
-                                datas[i].day = day;
-                                this.setState({
-                                    datac: datas
-                                })
-                            }
-                            else {
-                                datas[i].year = '2019';
-                                datas[i].month = '12';
-                                datas[i].day = '1';
-                                this.setState({
-                                    datac: datas
-                                })
-                            }
+        AsyncStorage.getItem('token')
+        .then(res=>{
+            this.setState({
+                token:res
+            },()=>{
+                //初始化
+                fetch('http://116.62.14.0:8666/news/comment/'+this.state.token)
+                    .then(res => { return res.json() })
+                    .then(res => {
+                        if (res.data !== '您没有评论消息') {
+                            this.setState({
+                                datac: res.data
+                            }, () => {
+                                var datas = this.state.datac;
+                                for (var i = 0; i < datas.length; i++) {
+                                    if (datas[i].dtime) {
+                                        var time = datas[i].dtime.split(' ')[0];
+                                        var time1 = time.split('/');
+                                        var year = time1[0];
+                                        var month = time1[1];
+                                        var day = time1[2];
+                                        datas[i].year = year;
+                                        datas[i].month = month;
+                                        datas[i].day = day;
+                                        this.setState({
+                                            datac: datas
+                                        })
+                                    }
+                                    else {
+                                        datas[i].year = '2019';
+                                        datas[i].month = '12';
+                                        datas[i].day = '1';
+                                        this.setState({
+                                            datac: datas
+                                        })
+                                    }
+                                }
+
+                            })
                         }
 
-                    })
-                }
+                    });
 
-            });
+                fetch('http://116.62.14.0:8666/news/good/'+this.state.token)
+                    .then(res => { return res.json() })
+                    .then(res => {
+                        if (res.data !== '您没有点赞消息！') {
+                            this.setState({
+                                dataz: res.data
+                            }, () => {
+                                var datas = this.state.dataz;
+                                for (var i = 0; i < datas.length; i++) {
+                                    if (datas[i].dtime) {
+                                        var time = datas[i].dtime.split(' ')[0];
+                                        var time1 = time.split('/');
+                                        var year = time1[0];
+                                        var month = time1[1];
+                                        var day = time1[2];
+                                        datas[i].year = year;
+                                        datas[i].month = month;
+                                        datas[i].day = day;
+                                        this.setState({
+                                            dataz: datas
+                                        })
+                                    }
+                                    else {
+                                        datas[i].year = '2019';
+                                        datas[i].month = '12';
+                                        datas[i].day = '1';
+                                        this.setState({
+                                            dataz: datas
+                                        })
+                                    }
+                                }
 
-        fetch('http://116.62.14.0:8666/news/good/1587900926601')
-            .then(res => { return res.json() })
-            .then(res => {
-                if (res.data !== '您没有点赞消息！') {
-                    this.setState({
-                        dataz: res.data
-                    }, () => {
-                        var datas = this.state.dataz;
-                        for (var i = 0; i < datas.length; i++) {
-                            if (datas[i].dtime) {
-                                var time = datas[i].dtime.split(' ')[0];
-                                var time1 = time.split('/');
-                                var year = time1[0];
-                                var month = time1[1];
-                                var day = time1[2];
-                                datas[i].year = year;
-                                datas[i].month = month;
-                                datas[i].day = day;
-                                this.setState({
-                                    dataz: datas
-                                })
+                            })
+                        }
+                    });
+
+                fetch('http://116.62.14.0:8666/news/exchange/'+this.state.token)
+                    .then(res => { return res.json() })
+                    .then(res => {
+                        var arr = [];
+                        var brr = [];
+                        for (var i = 0; i < res.data.length; i++) {
+                            if (res.data[i].astatus == '0') {
+                                arr[i] = '接受';
+                                brr[i] = '拒绝';
+
+                            }
+                            else if (res.data[i].astatus == '1') {
+                                arr[i] = '已接受';
+                                brr[i] = '拒绝';
                             }
                             else {
-                                datas[i].year = '2019';
-                                datas[i].month = '12';
-                                datas[i].day = '1';
-                                this.setState({
-                                    dataz: datas
-                                })
-                            }
+                                arr[i] = '接受';
+                                brr[i] = '已拒绝'
+                            } 
                         }
+                        this.setState({
+                            data: res.data,
+                            value1: arr,
+                            value2: brr
+
+                        })
+                    });
+                fetch('http://116.62.14.0:8666/news/myreq/'+this.state.token)
+                    .then(res => { return res.json() })
+                    .then(res => {
+                        this.setState({
+                            data1: res.data
+                        })
+                    });
 
                     })
-                }
-            });
-
-        fetch('http://116.62.14.0:8666/news/exchange/1587900926601')
-            .then(res => { return res.json() })
-            .then(res => {
-                var arr = [];
-                var brr = [];
-                for (var i = 0; i < res.data.length; i++) {
-                    if (res.data[i].astatus == '0') {
-                        arr[i] = '接受';
-                        brr[i] = '拒绝';
-
-                    }
-                    else if (res.data[i].astatus == '1') {
-                        arr[i] = '已接受';
-                        brr[i] = '拒绝';
-                    }
-                    else {
-                        arr[i] = '接受';
-                        brr[i] = '已拒绝'
-                    } 
-                }
-                this.setState({
-                    data: res.data,
-                    value1: arr,
-                    value2: brr
-
                 })
-            });
-        fetch('http://116.62.14.0:8666/news/myreq/1587900926601')
-            .then(res => { return res.json() })
-            .then(res => {
-                this.setState({
-                    data1: res.data
-                })
-            });
+        // fetch('http://116.62.14.0:8666/news/comment/1587900926601')
+        //     .then(res => { return res.json() })
+        //     .then(res => {
+        //         if (res.data !== '您没有评论消息') {
+        //             this.setState({
+        //                 datac: res.data
+        //             }, () => {
+        //                 var datas = this.state.datac;
+        //                 for (var i = 0; i < datas.length; i++) {
+        //                     if (datas[i].dtime) {
+        //                         var time = datas[i].dtime.split(' ')[0];
+        //                         var time1 = time.split('/');
+        //                         var year = time1[0];
+        //                         var month = time1[1];
+        //                         var day = time1[2];
+        //                         datas[i].year = year;
+        //                         datas[i].month = month;
+        //                         datas[i].day = day;
+        //                         this.setState({
+        //                             datac: datas
+        //                         })
+        //                     }
+        //                     else {
+        //                         datas[i].year = '2019';
+        //                         datas[i].month = '12';
+        //                         datas[i].day = '1';
+        //                         this.setState({
+        //                             datac: datas
+        //                         })
+        //                     }
+        //                 }
+
+        //             })
+        //         }
+
+        //     });
+
+        // fetch('http://116.62.14.0:8666/news/good/1587900926601')
+        //     .then(res => { return res.json() })
+        //     .then(res => {
+        //         if (res.data !== '您没有点赞消息！') {
+        //             this.setState({
+        //                 dataz: res.data
+        //             }, () => {
+        //                 var datas = this.state.dataz;
+        //                 for (var i = 0; i < datas.length; i++) {
+        //                     if (datas[i].dtime) {
+        //                         var time = datas[i].dtime.split(' ')[0];
+        //                         var time1 = time.split('/');
+        //                         var year = time1[0];
+        //                         var month = time1[1];
+        //                         var day = time1[2];
+        //                         datas[i].year = year;
+        //                         datas[i].month = month;
+        //                         datas[i].day = day;
+        //                         this.setState({
+        //                             dataz: datas
+        //                         })
+        //                     }
+        //                     else {
+        //                         datas[i].year = '2019';
+        //                         datas[i].month = '12';
+        //                         datas[i].day = '1';
+        //                         this.setState({
+        //                             dataz: datas
+        //                         })
+        //                     }
+        //                 }
+
+        //             })
+        //         }
+        //     });
+
+        // fetch('http://116.62.14.0:8666/news/exchange/1587900926601')
+        //     .then(res => { return res.json() })
+        //     .then(res => {
+        //         var arr = [];
+        //         var brr = [];
+        //         for (var i = 0; i < res.data.length; i++) {
+        //             if (res.data[i].astatus == '0') {
+        //                 arr[i] = '接受';
+        //                 brr[i] = '拒绝';
+
+        //             }
+        //             else if (res.data[i].astatus == '1') {
+        //                 arr[i] = '已接受';
+        //                 brr[i] = '拒绝';
+        //             }
+        //             else {
+        //                 arr[i] = '接受';
+        //                 brr[i] = '已拒绝'
+        //             } 
+        //         }
+        //         this.setState({
+        //             data: res.data,
+        //             value1: arr,
+        //             value2: brr
+
+        //         })
+        //     });
+        // fetch('http://116.62.14.0:8666/news/myreq/1587900926601')
+        //     .then(res => { return res.json() })
+        //     .then(res => {
+        //         this.setState({
+        //             data1: res.data
+        //         })
+        //     });
     }
 
     click1 = (key) => {

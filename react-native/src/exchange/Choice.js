@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, ScrollView, ToastAndroid} from 'react-native';
+import {View, Text, ScrollView, ToastAndroid, AsyncStorage} from 'react-native';
 import {Scene, Actions} from 'react-native-router-flux';
 import CheckBox from 'react-native-check-box';
 import {myFetch} from '../utils';
@@ -21,42 +21,82 @@ export default class Detail extends Component {
       data: [],
       shortdes_id:props.shortdes_id,
       checked:[],
-      id:-1
+      id:-1,
+      token:''
     };
   }
   componentDidMount() {
-    myFetch.get('/changed/choose/1586768446984')
+    AsyncStorage.getItem('token')
     .then(res=>{
-      if (res.data !== '您没有可选日记') {
-        var ss = res.data;
-        for (var i = 0; i < ss.length; i++) {
-            var time = ss[i].dtime;
-            var time1 = time.split(' ')[0];
-            var time2 = time1.split('/');
-            var year = time2[2];
-            var month = time2[0];
-            var day = time2[1];
-            ss[i].year = year;
-            ss[i].month = month;
-            ss[i].day = day;
-        }
-        var carr = [];
-        for (var i = 0; i < res.data.length; i++) {
-            carr[i] = false;
+      this.setState({
+        token:res
+      },()=>{
+        myFetch.get('/changed/choose/'+this.state.token)
+        .then(res=>{
+          if (res.data !== '您没有可选日记') {
+            var ss = res.data;
+            for (var i = 0; i < ss.length; i++) {
+                var time = ss[i].dtime;
+                var time1 = time.split(' ')[0];
+                var time2 = time1.split('/');
+                var year = time2[2];
+                var month = time2[0];
+                var day = time2[1];
+                ss[i].year = year;
+                ss[i].month = month;
+                ss[i].day = day;
+            }
+            var carr = [];
+            for (var i = 0; i < res.data.length; i++) {
+                carr[i] = false;
+                this.setState({
+                    checked: carr
+                })
+            }
             this.setState({
-                checked: carr
+                data: ss
             })
-        }
-        this.setState({
-            data: ss
+          } else {
+              ToastAndroid.showWithGravity(res.data,500,ToastAndroid.CENTER)
+              setTimeout(()=>{
+                Actions.pop()
+              },2000);
+          }
         })
-      } else {
-          ToastAndroid.showWithGravity(res.data,500,ToastAndroid.CENTER)
-          setTimeout(()=>{
-            Actions.pop()
-          },2000);
-      }
+      })
     })
+    // myFetch.get('/changed/choose/1586768446984')
+    // .then(res=>{
+    //   if (res.data !== '您没有可选日记') {
+    //     var ss = res.data;
+    //     for (var i = 0; i < ss.length; i++) {
+    //         var time = ss[i].dtime;
+    //         var time1 = time.split(' ')[0];
+    //         var time2 = time1.split('/');
+    //         var year = time2[2];
+    //         var month = time2[0];
+    //         var day = time2[1];
+    //         ss[i].year = year;
+    //         ss[i].month = month;
+    //         ss[i].day = day;
+    //     }
+    //     var carr = [];
+    //     for (var i = 0; i < res.data.length; i++) {
+    //         carr[i] = false;
+    //         this.setState({
+    //             checked: carr
+    //         })
+    //     }
+    //     this.setState({
+    //         data: ss
+    //     })
+    //   } else {
+    //       ToastAndroid.showWithGravity(res.data,500,ToastAndroid.CENTER)
+    //       setTimeout(()=>{
+    //         Actions.pop()
+    //       },2000);
+    //   }
+    // })
   }
   pops=()=>{
     Actions.pop()
@@ -83,7 +123,7 @@ export default class Detail extends Component {
         this.setState({
           id:this.state.data[idx].did
         },()=>{
-          myFetch.post('/changed/choose',{token:'1586768446984', oneid: `${this.state.shortdes_id}`, diaryid: `${this.state.id}`})
+          myFetch.post('/changed/choose',{token:this.state.token, oneid: `${this.state.shortdes_id}`, diaryid: `${this.state.id}`})
           .then(res=>{
             if(res.status===0){
               ToastAndroid.showWithGravity(res.data,500,ToastAndroid.CENTER);
@@ -104,9 +144,6 @@ export default class Detail extends Component {
   render() {
     return (
       <View>
-      {/* <Button title='确定返回' onPress={()=>{Actions.pop()}}/>
-        <Text>选择日记 传回值</Text>
-        <Text>跳转 回到上个页面</Text> */}
         <LinearGradient
           start={{x: 0, y: 0}} end={{x: 1, y: 1}}//默认竖向
           colors={['#8bcca1' , '#57a099']}

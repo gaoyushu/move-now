@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, ScrollView, Dimensions, ImageBackground, Image, TouchableOpacity } from 'react-native'
+import { Text, View, ScrollView, Dimensions, ImageBackground, Image, TouchableOpacity, AsyncStorage} from 'react-native'
 import home from '../../css/square/Home';
 import {myFetch} from '../utils'
 import { Actions } from 'react-native-router-flux';
@@ -17,46 +17,89 @@ export default class Home extends Component {
       follow:{uri:'http://116.62.14.0:8666/api/image/19'},
       unfollow:{uri:'http://116.62.14.0:8666/api/image/20'},
       data:{},
-      diary:[]
+      diary:[],
+      token:''
     }
   }
+  //初始化
   componentDidMount(){
-    myFetch.get('/square/userhome/1586768446984/'+this.state.uid)
-    .then(res=>{
-      var datas=res.data;
-      if(datas.diary!=='当前用户没有日记！'){
-          for(var i=0;i<datas.diary.length;i++){
-              var times=datas.diary[i].dtime;
-              var times1=times.split(' ')[0];
-              var times2=times1.split('/');
-              var month=times2[0];
-              var day=times2[1];
-              var year=times2[2];
-              // datas.diary[i].month=month;
-              // datas.diary[i].day=day;
-              // datas.diary[i].year=year;
-              datas.diary[i].time=times1;
-              if(month<10){
-                datas.diary[i].time1=year+'-'+'0'+month+'-'+day;
-              }else{
-                datas.diary[i].time1=year+'-'+month+'-'+day;
+    AsyncStorage.getItem('token').then((res)=>{
+      this.setState({
+        token:res
+      },()=>{
+        myFetch.get('/square/userhome/'+this.state.token+'/'+this.state.uid)
+        .then(res=>{
+          var datas=res.data;
+          if(datas.diary!=='当前用户没有日记！'){
+              for(var i=0;i<datas.diary.length;i++){
+                  var times=datas.diary[i].dtime;
+                  var times1=times.split(' ')[0];
+                  var times2=times1.split('/');
+                  var month=times2[0];
+                  var day=times2[1];
+                  var year=times2[2];
+                  // datas.diary[i].month=month;
+                  // datas.diary[i].day=day;
+                  // datas.diary[i].year=year;
+                  datas.diary[i].time=times1;
+                  if(month<10){
+                    datas.diary[i].time1=year+'-'+'0'+month+'-'+day;
+                  }else{
+                    datas.diary[i].time1=year+'-'+month+'-'+day;
+                  }
+                  
               }
-              
+              this.setState({
+                  data:datas,
+                  diary:datas.diary
+              })
+          }else{
+            this.setState({
+                data:datas,
+                diary:null
+            })
           }
-          this.setState({
-              data:datas,
-              diary:datas.diary
-          })
-      }else{
-        this.setState({
-            data:datas,
-            diary:null
         })
-      }
+      })
     })
+    // myFetch.get('/square/userhome/1586768446984/'+this.state.uid)
+    // .then(res=>{
+    //   var datas=res.data;
+    //   if(datas.diary!=='当前用户没有日记！'){
+    //       for(var i=0;i<datas.diary.length;i++){
+    //           var times=datas.diary[i].dtime;
+    //           var times1=times.split(' ')[0];
+    //           var times2=times1.split('/');
+    //           var month=times2[0];
+    //           var day=times2[1];
+    //           var year=times2[2];
+    //           // datas.diary[i].month=month;
+    //           // datas.diary[i].day=day;
+    //           // datas.diary[i].year=year;
+    //           datas.diary[i].time=times1;
+    //           if(month<10){
+    //             datas.diary[i].time1=year+'-'+'0'+month+'-'+day;
+    //           }else{
+    //             datas.diary[i].time1=year+'-'+month+'-'+day;
+    //           }
+              
+    //       }
+    //       this.setState({
+    //           data:datas,
+    //           diary:datas.diary
+    //       })
+    //   }else{
+    //     this.setState({
+    //         data:datas,
+    //         diary:null
+    //     })
+    //   }
+    // })
   }
+
+  //关注
   setFollow=()=>{
-    let url='/square/concerns/1586768446984';
+    let url='/square/concerns/'+this.state.token;
     myFetch.put(url,{
       cuid:`${this.state.data.uid}`
     })
@@ -77,8 +120,9 @@ export default class Home extends Component {
         })
     }
   }
+  //点赞
   setLike=(idx)=>{
-    let url='/square/praise/1586768446984/'+`${this.state.diary[idx].did}`;
+    let url='/square/praise/'+this.state.token+'/'+`${this.state.diary[idx].did}`;
     myFetch.put(url)
     if(this.state.diary[idx].pstatus==='true'){
       let arrs=this.state.diary;
@@ -97,6 +141,7 @@ export default class Home extends Component {
         })
     }
   }
+  //返回
   pops=()=>{
     var arr=[];
     arr=this.state.diary;
@@ -143,12 +188,14 @@ export default class Home extends Component {
             <View>
               {
                 this.state.diary===null?
-                <View></View>
+                <View>
+                  <Text>此用户没有日记！</Text>
+                </View>
                 :
                 this.state.diary.map((item,idx)=>(
                   <View style={home.content}> 
                     <View style={home.leftbox}>
-                      <TouchableOpacity>
+                      <TouchableOpacity onPress={()=>{Actions.details1({'did':item.did,'page':'square'})}}>
                         <View style={home.lefttop}>
                           <Text style={home.leftTopText0}>{item.time}</Text>
                           <Text style={home.leftTopText}>{weekday[new Date(item.time1).getDay()]}</Text>

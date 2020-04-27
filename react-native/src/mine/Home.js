@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity ,AsyncStorage} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient'//渐变插件
 
 import ImagePicker from 'react-native-image-picker';
@@ -28,26 +28,48 @@ export default class App extends Component {
             ufans: 0,
             uconcern: 0,
             ufriend: 0,
-            imageUrl: "http://116.62.14.0:8666/api/image/"
+            imageUrl: "http://116.62.14.0:8666/api/image/",
+            token:''
         }
     }
     componentDidMount() {
-        fetch('http://116.62.14.0:8666/mine/mine/1587910080066').then(res => res.json())
-            .then(res => {
-                this.setState({
-                    data: res.dataone,
-                    uimage: res.dataone.uimage,
-                    uname: res.dataone.uname,
-                    uintroduce: res.dataone.uintroduce,
-                    ufans: res.dataone.ufans,
-                    uconcern: res.dataone.uconcern,
-                    ufriend: res.dataone.ufriend,
-                    imageUrl: this.state.imageUrl + res.dataone.uimage
+        AsyncStorage.getItem('token')
+        .then(res=>{
+            this.setState({
+                token:res
+            },()=>{
+                //初始化
+                fetch('http://116.62.14.0:8666/mine/mine/'+this.state.token).then(res => res.json())
+                .then(res => {
+                    this.setState({
+                        data: res.dataone,
+                        uimage: res.dataone.uimage,
+                        uname: res.dataone.uname,
+                        uintroduce: res.dataone.uintroduce,
+                        ufans: res.dataone.ufans,
+                        uconcern: res.dataone.uconcern,
+                        ufriend: res.dataone.ufriend,
+                        imageUrl: this.state.imageUrl + res.dataone.uimage
+                    })
                 })
             })
+        })
+        // fetch('http://116.62.14.0:8666/mine/mine/1587840424595').then(res => res.json())
+        //     .then(res => {
+        //         this.setState({
+        //             data: res.dataone,
+        //             uimage: res.dataone.uimage,
+        //             uname: res.dataone.uname,
+        //             uintroduce: res.dataone.uintroduce,
+        //             ufans: res.dataone.ufans,
+        //             uconcern: res.dataone.uconcern,
+        //             ufriend: res.dataone.ufriend,
+        //             imageUrl: this.state.imageUrl + res.dataone.uimage
+        //         })
+        //     })
     }
     componentDidUpdate() {
-        fetch('http://116.62.14.0:8666/mine/mine/1587910080066').then(res => res.json())
+        fetch('http://116.62.14.0:8666/mine/mine/'+this.state.token).then(res => res.json())
             .then(res => {
                 this.setState({
                     data: res.dataone,
@@ -89,7 +111,6 @@ export default class App extends Component {
                 });
             }
         });
-
     }
 
     render() {
@@ -98,7 +119,7 @@ export default class App extends Component {
         return (
             <View style={styles.all}>
                 <View style={styles.one}>
-                    <View style={{ width: '35%', height: 170}}>
+                    <View style={{ width: '35%', height: 190 }}>
                         <TouchableOpacity onPress={() => { this.takephoto() }}>
                             <Image
                                 style={styles.imgOne}
@@ -161,9 +182,9 @@ export default class App extends Component {
                     colors={['#8bcca1', '#57a099']}
                     style={styles.login}
                 >
-                    {/* <TouchableOpacity onPress={()=>Actions.login}> 退出登录*/}
-                    <Text style={{ fontSize: 23, color: 'white' }}>退出登录</Text>
-                    {/* </TouchableOpacity> */}
+                    <TouchableOpacity onPress={()=>{Actions.login(); AsyncStorage.removeItem('token')}}>
+                        <Text style={{ fontSize: 23, color: 'white' }}>退出登录</Text>
+                    </TouchableOpacity>
                 </LinearGradient>
             </View>
         )
