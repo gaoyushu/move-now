@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     bigThreea: {
         width: 430,
         height: 250,
-        backgroundColor: 'pink',
+        backgroundColor: 'white',
         borderBottomWidth: 6,
         borderBottomColor: '#F0F0F0',
         paddingTop: 20
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     },
 
     bigThreec: {
-        backgroundColor: 'red',
+        backgroundColor: 'white',
         width: 430,
         height: 60,
         flexDirection: 'row',

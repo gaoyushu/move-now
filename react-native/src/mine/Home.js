@@ -93,9 +93,8 @@ export default class App extends Component {
     }
 
     render() {
-        // const { height } = Dimensions.get('window');
-        // console.log(height)
-        //console.log(this.state.imageUrl)
+        const { height,width } = Dimensions.get('window');
+        // console.log(this.state.imageUrl)
         return (
             <View style={styles.all}>
                 <View style={styles.one}>
