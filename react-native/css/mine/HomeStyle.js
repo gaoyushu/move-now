@@ -1,4 +1,6 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet ,Dimensions} from 'react-native'
+
+const { height,width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   all: {
@@ -10,84 +12,84 @@ const styles = StyleSheet.create({
   },
   one: {
     backgroundColor: "#8bcca1",
-    width: '100%',
-    height: 170,
+    width: width,
+    height: height*0.2,
     flexDirection: 'row',
     justifyContent: 'center'
   },
   onepa: {
     fontSize: 25,
-    marginTop: 55,
-    marginLeft: 15,
+    marginTop: height*0.065,
+    marginLeft: width*0.05,
     color: '#fff'
   },
   onepb: {
     fontSize: 20,
-    marginTop: 15,
-    marginLeft: 15,
+    marginTop: height*0.018,
+    marginLeft: width*0.057,
     color: '#fff'
   },
   imgOne: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginLeft: 60,
-    marginTop: 45
+    width:width*0.23,
+    height: height*0.13,
+    borderRadius: width*0.23/2,
+    marginLeft: width*0.125,
+    marginTop: height*0.05
   },
   two: {
     width: '100%',
-    height: 75,
+    height: height*0.09,
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
   twoinner: {
-    width: 157,
-    height: 75,
+    width: width*0.33,
+    height: height*0.09,
     backgroundColor: 'white',
     marginLeft: 0,
     alignItems: 'center'
   },
   three: {
-    marginTop: 7,
-    width: '100%',
-    height: 115,
+    marginTop: height*0.007,
+    width: width,
+    height: height*0.135,
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
   threeinner: {
-    width: 238,
+    width: width*0.496,
     backgroundColor: 'white',
-    height: 115,
+    height: height*0.135,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center'
   },
   imgTwo: {
-    width: 55,
-    height: 55,
-    marginLeft: 50,
-    marginRight: 20,
-    marginTop: 5
+    width: width*0.114,
+    height: height*0.064,
+    marginLeft: width*0.104,
+    marginRight: width*0.042,
+    marginTop: height*0.006
   },
   four: {
-    marginTop: 7,
-    width: '100%',
-    height: 261,
+    marginTop: height*0.008,
+    width: width,
+    height: height*0.306,
     flexDirection: "column",
     justifyContent: 'flex-start'
   },
   fourinner: {
-    width: '100%',
-    paddingLeft: 40,
-    height: 80,
+    width: width,
+    paddingLeft: width*0.083,
+    height: height*0.094,
     backgroundColor: 'white',
-    marginBottom: 7,
+    marginBottom: height*0.008,
     justifyContent: 'center'
   },
   login: {
-    width: '100%',
-    height: 65,
-    marginTop: 10,
+    width: width,
+    height: height*0.076,
+    marginTop: height*0.012,
     justifyContent: 'center',
     alignItems: 'center'
   }

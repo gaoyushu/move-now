@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableOpacity, Image, ScrollView ,AsyncStorage} from 'react-native';
+import { Text, View, TouchableOpacity, Image, ScrollView, AsyncStorage } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient'//渐变插件
 import { Actions } from 'react-native-router-flux';
 
@@ -9,37 +9,28 @@ export default class Friend extends Component {
         this.state = {
             data: [],
             status: 0,
-            token:''
+            token: ""
         }
     }
     componentDidMount() {
         AsyncStorage.getItem('token')
-        .then(res=>{
-            this.setState({
-                token:res
-            },()=>{
-                fetch('http://116.62.14.0:8666/chat/friends/'+this.state.token)
-                    .then(res => { return res.json() })
-                    .then(res => {
-                        console.log(res.data[0].uimage);
-                        this.setState({
-                            data: res.data,
-                            status: res.status
-                        })
-                    });
-
+            .then(res => {
+                this.setState({
+                    token: res
+                }, () => {
+                    //初始化
+                    fetch('http://116.62.14.0:8666/chat/friends/'+this.state.token)
+                        .then(res => { return res.json() })
+                        .then(res => {
+                            console.log(res.data)
+                            console.log(res.data[0].uimage);
+                            this.setState({
+                                data: res.data,
+                                status: res.status
+                            })
+                        });
                 })
             })
-        // fetch('http://116.62.14.0:8666/chat/friends/1587910080066')
-        //     .then(res => { return res.json() })
-        //     .then(res => {
-        //         console.log(res.data[0].uimage);
-        //         this.setState({
-        //             data: res.data,
-        //             status: res.status
-        //         })
-        //     });
-
     }
     render() {
         return (
@@ -64,14 +55,16 @@ export default class Friend extends Component {
                         {
                             this.state.status !== -1
                                 ? this.state.data.map((item, key) => (
-                                    <View style={{ marginBottom: 5, width: 480, height: 100,backgroundColor:'white', flexDirection: 'row', justifyContent: "center", alignItems: "center" }}>
-                                        <View style={{ width: 400, height: 80,  flexDirection: "row", alignItems: 'center' }}>
-                                            <Image
-                                                style={{ width: 75, height: 75, borderRadius: 37.5 }}
-                                                source={{ uri: 'http://116.62.14.0:8666/api/image/' + this.state.data[key].uimage }} />
+                                    <View style={{ marginBottom: 5, width: 480, height: 100, backgroundColor: 'white', flexDirection: 'row', justifyContent: "center", alignItems: "center" }}>
+                                        <View style={{ width: 400, height: 80, flexDirection: "row", alignItems: 'center' }}>
+                                            <TouchableOpacity onPress={()=>Actions.person({uid:item.uid})}>
+                                                <Image
+                                                    style={{ width: 75, height: 75, borderRadius: 37.5 }}
+                                                    source={{ uri: 'http://116.62.14.0:8666/api/image/' + this.state.data[key].uimage }} />
+                                            </TouchableOpacity>
                                             <View style={{ marginLeft: 20, width: 305, height: 80 }}>
-                                                <Text style={{fontSize:18,marginBottom:10}}>{item.uname}</Text>
-                                                <Text style={{fontSize:18,color:'gray'}}>{item.uintroduce}</Text>
+                                                <Text style={{ fontSize: 18, marginBottom: 10 }}>{item.uname}</Text>
+                                                <Text style={{ fontSize: 18, color: 'gray' }}>{item.uintroduce}</Text>
                                             </View>
                                         </View>
                                     </View>

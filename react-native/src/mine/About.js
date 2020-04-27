@@ -6,7 +6,6 @@ export default class About extends Component {
     render() {
         return (
             <View style={{ flex: 1 }}>
-
                 <ImageBackground
                     style={{ flex: 1, width: null, height: null }}
                     source={require('../images/back1.png')} />

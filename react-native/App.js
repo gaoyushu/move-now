@@ -189,6 +189,9 @@ const App= () => {
                   <Scene key='mineAbout' hideTabBar component={About}/>
                   <Scene key='mineEdit' hideTabBar component={Edit}/>
                   <Scene key='myFriend' hideTabBar component={Friend}/>
+                  <Scene key='details3' hideTabBar={true} component={details} />
+                  <Scene key='exdetail1' hideTabBar={true} component={ExDetail} />
+                  <Scene key='person' hideTabBar={true} component={Home} />
                 </Scene>
             </Tabs>
             

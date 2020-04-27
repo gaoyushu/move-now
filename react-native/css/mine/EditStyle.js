@@ -1,4 +1,6 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet,Dimensions } from 'react-native'
+
+const { height,width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     big: {
@@ -9,108 +11,108 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     top: {
-        width: '100%',
-        height: 70,
+        width:width ,
+        height: height*0.082,
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center'
     },
     imga: {
-        width: 30,
-        height: 30,
-        marginRight: 150,
-        marginLeft: 10
+        width: width*0.063,
+        height: height*0.035,
+        marginRight: width*0.313,
+        marginLeft: width*0.021
     },
     imgb: {
-        width: 120,
-        height: 120,
-        borderRadius: 60,
-        marginTop: 43
+        width: width*0.25,
+        height: height*0.141,
+        borderRadius: width*0.25/2,
+        marginTop: height*0.05
     },
     bigOne: {
-        width: '100%',
-        height: 200,
+        width: width,
+        height: height*0.234,
         backgroundColor: 'white',
         alignItems: 'center'
     },
     bigTwo: {
-        width: '100%',
-        height: 250,
+        width: width,
+        height: height*0.293,
         backgroundColor: 'white',
         flexDirection: 'column',
         justifyContent: 'flex-start',
-        marginBottom: 10
+        marginBottom: height*0.012
     },
     bigThree: {
-        width: '100%',
-        height: 80,
+        width: width,
+        height: height*0.094,
         flexDirection: 'row',
         justifyContent: 'flex-start'
     },
     texta: {
-        width: 100,
+        width: width*0.21,
         fontSize: 25,
-        paddingTop: 20,
-        paddingLeft: 40,
-        paddingBottom: 20
+        paddingTop: height*0.023,
+        paddingLeft: width*0.083,
+        paddingBottom: height*0.023
     },
     textb: {
         borderBottomColor: 'black',
         borderBottomWidth: 1,
-        width: 300,
-        height: 45,
+        width: width*0.625,
+        height: height*0.053,
         fontSize: 20,
-        marginLeft: 20,
-        marginTop: 12
+        marginLeft: width*0.042,
+        marginTop: height*0.014
     },
     bigFour: {
-        width: '100%',
-        height: 80,
+        width: width,
+        height: height*0.094,
         flexDirection: 'row',
         justifyContent: 'flex-start'
     },
 
     textc: {
-        width: 100,
+        width: width*0.208,
         fontSize: 25,
-        paddingTop: 20,
-        paddingLeft: 40,
-        paddingBottom: 20
+        paddingTop: height*0.023,
+        paddingLeft: width*0.083,
+        paddingBottom:  height*0.023
     },
     textd: {
         borderBottomColor: 'black',
         borderBottomWidth: 1,
-        width: 300,
-        height: 45,
+        width: width*0.625,
+        height: height*0.053,
         fontSize: 20,
-        marginLeft: 20,
-        marginTop: 12
+        marginLeft: width*0.042,
+        marginTop: 0.014*height
     },
     bigFive: {
-        width: '100%',
-        height: 80,
+        width: width,
+        height: height*0.094,
         flexDirection: 'row',
         justifyContent: 'flex-start'
     },
     texte: {
-        width: 100,
+        width: width*0.208,
         fontSize: 25,
-        paddingTop: 20,
-        paddingLeft: 40,
-        paddingBottom: 20
+        paddingTop: height*0.023,
+        paddingLeft: width*0.083,
+        paddingBottom: height*0.023
     },
     textf: {
         borderBottomColor: 'black',
         borderBottomWidth: 1,
-        width: 300,
-        height: 45,
+        width: width*0.625,
+        height: height*0.053,
         fontSize: 20,
-        marginLeft: 20,
-        marginTop: 12
+        marginLeft: 0.042*width,
+        marginTop: height*0.014
     },
     bottom: {
-        width: '100%',
-        height: 65,
+        width: width,
+        height: 0.076*height,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'

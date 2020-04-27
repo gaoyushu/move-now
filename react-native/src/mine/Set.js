@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Text, View ,TouchableOpacity,Image} from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'//渐变插件
 import { Actions } from 'react-native-router-flux';
-import styles from '../../css/mine/SetStyle';
+import styles from '../../css/SetStyle';
 
 export default class Set extends Component {
     render() {

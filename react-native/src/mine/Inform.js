@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-import { Text, View, Image, TouchableOpacity, ScrollView, TouchableOpacityBase, AsyncStorage } from 'react-native'
+import { Text, View, Image, TouchableOpacity, ScrollView , AsyncStorage } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'//渐变插件
 import { Actions } from 'react-native-router-flux'
 
-import styles from '../../css/mine/InformStyle';
+import styles from '../../css/InformStyle';
 
 import Accordion from 'react-native-collapsible/Accordion';
 import Icon from 'react-native-vector-icons/Entypo';
+import Button from 'react-native-button';
 
 const SECTIONS = ['评论', '点赞', '申请', '我的申请'];
 
@@ -23,234 +24,130 @@ export default class Infer extends Component {
             value2: [],
             data1: [],
             reply: 0,
-            token:''
+            token: "",
+            disabled:false
         };
     }
 
     componentDidMount() {
         AsyncStorage.getItem('token')
-        .then(res=>{
-            this.setState({
-                token:res
-            },()=>{
-                //初始化
-                fetch('http://116.62.14.0:8666/news/comment/'+this.state.token)
-                    .then(res => { return res.json() })
-                    .then(res => {
-                        if (res.data !== '您没有评论消息') {
-                            this.setState({
-                                datac: res.data
-                            }, () => {
-                                var datas = this.state.datac;
-                                for (var i = 0; i < datas.length; i++) {
-                                    if (datas[i].dtime) {
-                                        var time = datas[i].dtime.split(' ')[0];
-                                        var time1 = time.split('/');
-                                        var year = time1[0];
-                                        var month = time1[1];
-                                        var day = time1[2];
-                                        datas[i].year = year;
-                                        datas[i].month = month;
-                                        datas[i].day = day;
-                                        this.setState({
-                                            datac: datas
-                                        })
+            .then(res => {
+                this.setState({
+                    token: res
+                }, () => {
+                    //初始化
+                    fetch('http://116.62.14.0:8666/news/comment/'+this.state.token)
+                        .then(res => { return res.json() })
+                        .then(res => {
+
+                            if (res.data !== '您没有评论消息') {
+                                this.setState({
+                                    datac: res.data
+                                }, () => {
+                                    var datas = this.state.datac;
+                                    for (var i = 0; i < datas.length; i++) {
+                                        if (datas[i].dtime) {
+                                            var time = datas[i].dtime.split(' ')[0];
+                                            var time1 = time.split('/');
+                                            var year = time1[0];
+                                            var month = time1[1];
+                                            var day = time1[2];
+                                            datas[i].year = year;
+                                            datas[i].month = month;
+                                            datas[i].day = day;
+                                            this.setState({
+                                                datac: datas
+                                            })
+                                        }
+                                        else {
+                                            datas[i].year = '2019';
+                                            datas[i].month = '12';
+                                            datas[i].day = '1';
+                                            this.setState({
+                                                datac: datas
+                                            })
+                                        }
                                     }
-                                    else {
-                                        datas[i].year = '2019';
-                                        datas[i].month = '12';
-                                        datas[i].day = '1';
-                                        this.setState({
-                                            datac: datas
-                                        })
+
+                                })
+                            }
+
+                        });
+
+                    fetch('http://116.62.14.0:8666/news/good/'+this.state.token)
+                        .then(res => { return res.json() })
+                        .then(res => {
+                            console.log(res.data)
+                            if (res.data !== '您没有点赞消息！') {
+                                this.setState({
+                                    dataz: res.data
+                                }, () => {
+                                    var datas = this.state.dataz;
+                                    for (var i = 0; i < datas.length; i++) {
+                                        if (datas[i].dtime) {
+                                            var time = datas[i].dtime.split(' ')[0];
+                                            var time1 = time.split('/');
+                                            var year = time1[0];
+                                            var month = time1[1];
+                                            var day = time1[2];
+                                            datas[i].year = year;
+                                            datas[i].month = month;
+                                            datas[i].day = day;
+                                            this.setState({
+                                                dataz: datas
+                                            })
+                                        }
+                                        else {
+                                            datas[i].year = '2019';
+                                            datas[i].month = '12';
+                                            datas[i].day = '1';
+                                            this.setState({
+                                                dataz: datas
+                                            })
+                                        }
                                     }
+
+                                })
+                            }
+                        });
+
+                    fetch('http://116.62.14.0:8666/news/exchange/'+this.state.token)
+                        .then(res => { return res.json() })
+                        .then(res => {
+                            var arr = [];
+                            var brr = [];
+                            for (var i = 0; i < res.data.length; i++) {
+                                if (res.data[i].astatus == '0') {
+                                    arr[i] = '接受';
+                                    brr[i] = '拒绝';
+
                                 }
+                                else if (res.data[i].astatus == '1') {
+                                    arr[i] = '已接受';
+                                    brr[i] = '拒绝';
+                                }
+                                else {
+                                    arr[i] = '接受';
+                                    brr[i] = '已拒绝'
+                                }
+                            }
+                            this.setState({
+                                data: res.data,
+                                value1: arr,
+                                value2: brr
 
                             })
-                        }
-
-                    });
-
-                fetch('http://116.62.14.0:8666/news/good/'+this.state.token)
-                    .then(res => { return res.json() })
-                    .then(res => {
-                        if (res.data !== '您没有点赞消息！') {
+                        });
+                    fetch('http://116.62.14.0:8666/news/myreq/'+this.state.token)
+                        .then(res => { return res.json() })
+                        .then(res => {
+                            console.log(res.data)
                             this.setState({
-                                dataz: res.data
-                            }, () => {
-                                var datas = this.state.dataz;
-                                for (var i = 0; i < datas.length; i++) {
-                                    if (datas[i].dtime) {
-                                        var time = datas[i].dtime.split(' ')[0];
-                                        var time1 = time.split('/');
-                                        var year = time1[0];
-                                        var month = time1[1];
-                                        var day = time1[2];
-                                        datas[i].year = year;
-                                        datas[i].month = month;
-                                        datas[i].day = day;
-                                        this.setState({
-                                            dataz: datas
-                                        })
-                                    }
-                                    else {
-                                        datas[i].year = '2019';
-                                        datas[i].month = '12';
-                                        datas[i].day = '1';
-                                        this.setState({
-                                            dataz: datas
-                                        })
-                                    }
-                                }
-
+                                data1: res.data
                             })
-                        }
-                    });
-
-                fetch('http://116.62.14.0:8666/news/exchange/'+this.state.token)
-                    .then(res => { return res.json() })
-                    .then(res => {
-                        var arr = [];
-                        var brr = [];
-                        for (var i = 0; i < res.data.length; i++) {
-                            if (res.data[i].astatus == '0') {
-                                arr[i] = '接受';
-                                brr[i] = '拒绝';
-
-                            }
-                            else if (res.data[i].astatus == '1') {
-                                arr[i] = '已接受';
-                                brr[i] = '拒绝';
-                            }
-                            else {
-                                arr[i] = '接受';
-                                brr[i] = '已拒绝'
-                            } 
-                        }
-                        this.setState({
-                            data: res.data,
-                            value1: arr,
-                            value2: brr
-
-                        })
-                    });
-                fetch('http://116.62.14.0:8666/news/myreq/'+this.state.token)
-                    .then(res => { return res.json() })
-                    .then(res => {
-                        this.setState({
-                            data1: res.data
-                        })
-                    });
-
-                    })
-                })
-        // fetch('http://116.62.14.0:8666/news/comment/1587900926601')
-        //     .then(res => { return res.json() })
-        //     .then(res => {
-        //         if (res.data !== '您没有评论消息') {
-        //             this.setState({
-        //                 datac: res.data
-        //             }, () => {
-        //                 var datas = this.state.datac;
-        //                 for (var i = 0; i < datas.length; i++) {
-        //                     if (datas[i].dtime) {
-        //                         var time = datas[i].dtime.split(' ')[0];
-        //                         var time1 = time.split('/');
-        //                         var year = time1[0];
-        //                         var month = time1[1];
-        //                         var day = time1[2];
-        //                         datas[i].year = year;
-        //                         datas[i].month = month;
-        //                         datas[i].day = day;
-        //                         this.setState({
-        //                             datac: datas
-        //                         })
-        //                     }
-        //                     else {
-        //                         datas[i].year = '2019';
-        //                         datas[i].month = '12';
-        //                         datas[i].day = '1';
-        //                         this.setState({
-        //                             datac: datas
-        //                         })
-        //                     }
-        //                 }
-
-        //             })
-        //         }
-
-        //     });
-
-        // fetch('http://116.62.14.0:8666/news/good/1587900926601')
-        //     .then(res => { return res.json() })
-        //     .then(res => {
-        //         if (res.data !== '您没有点赞消息！') {
-        //             this.setState({
-        //                 dataz: res.data
-        //             }, () => {
-        //                 var datas = this.state.dataz;
-        //                 for (var i = 0; i < datas.length; i++) {
-        //                     if (datas[i].dtime) {
-        //                         var time = datas[i].dtime.split(' ')[0];
-        //                         var time1 = time.split('/');
-        //                         var year = time1[0];
-        //                         var month = time1[1];
-        //                         var day = time1[2];
-        //                         datas[i].year = year;
-        //                         datas[i].month = month;
-        //                         datas[i].day = day;
-        //                         this.setState({
-        //                             dataz: datas
-        //                         })
-        //                     }
-        //                     else {
-        //                         datas[i].year = '2019';
-        //                         datas[i].month = '12';
-        //                         datas[i].day = '1';
-        //                         this.setState({
-        //                             dataz: datas
-        //                         })
-        //                     }
-        //                 }
-
-        //             })
-        //         }
-        //     });
-
-        // fetch('http://116.62.14.0:8666/news/exchange/1587900926601')
-        //     .then(res => { return res.json() })
-        //     .then(res => {
-        //         var arr = [];
-        //         var brr = [];
-        //         for (var i = 0; i < res.data.length; i++) {
-        //             if (res.data[i].astatus == '0') {
-        //                 arr[i] = '接受';
-        //                 brr[i] = '拒绝';
-
-        //             }
-        //             else if (res.data[i].astatus == '1') {
-        //                 arr[i] = '已接受';
-        //                 brr[i] = '拒绝';
-        //             }
-        //             else {
-        //                 arr[i] = '接受';
-        //                 brr[i] = '已拒绝'
-        //             } 
-        //         }
-        //         this.setState({
-        //             data: res.data,
-        //             value1: arr,
-        //             value2: brr
-
-        //         })
-        //     });
-        // fetch('http://116.62.14.0:8666/news/myreq/1587900926601')
-        //     .then(res => { return res.json() })
-        //     .then(res => {
-        //         this.setState({
-        //             data1: res.data
-        //         })
-        //     });
+                        });
+               })
+            })
     }
 
     click1 = (key) => {
@@ -263,6 +160,7 @@ export default class Infer extends Component {
             }
             arr[key] = '已接受'
             this.setState({
+                disabled:true,
                 reply: 1,
                 value1: arr
             }, () => {
@@ -280,9 +178,8 @@ export default class Infer extends Component {
                     .then(res => { return res.json() })
                     .then(res => {
                         console.log(res);
-                        Toast.success(res.data, 1)
+                        ToastAndroid.showWithGravity(res.data,10,ToastAndroid.CENTER);
                     });
-
             })
         }
     }
@@ -295,6 +192,7 @@ export default class Infer extends Component {
             }
             arr[key] = '已拒绝'
             this.setState({
+                disabled:true,
                 reply: -1,
                 value2: arr
             }, () => {
@@ -312,9 +210,8 @@ export default class Infer extends Component {
                     .then(res => { return res.json() })
                     .then(res => {
                         console.log(res + 'aa');
-                        Toast.success(res.data, 1)
+                        ToastAndroid.showWithGravity(res.data,10,ToastAndroid.CENTER);
                     });
-
             })
         }
     }
@@ -359,9 +256,9 @@ export default class Infer extends Component {
                                         <Text style={{ fontSize: 35, color: '#8BCCA1' }}>{this.state.datac[key].day}</Text>
                                         <Text style={{ fontSize: 20, color: '#8BCCA1' }}>{this.state.datac[key].year}/{this.state.datac[key].month}</Text>
                                     </View>
-                                    <View style={styles.bigOnef}>
+                                    <TouchableOpacity style={styles.bigOnef} onPress={()=>Actions.details3({'did':item.did,'page':'own'})}>
                                         <Text style={styles.textFour}>{item.dtitle}</Text>
-                                    </View>
+                                    </TouchableOpacity>
                                 </View>
                             </View>
                         </View>
@@ -381,9 +278,9 @@ export default class Infer extends Component {
                                             <Text style={{ fontSize: 35, color: '#8BCCA1' }}>{this.state.dataz[key].day}</Text>
                                             <Text style={{ fontSize: 20, color: '#8BCCA1' }}>{this.state.dataz[key].year}/{this.state.dataz[key].month}</Text>
                                         </View>
-                                        <View style={styles.bigTwof}>
+                                        <TouchableOpacity style={styles.bigTwof} onPress={()=>Actions.details3({'did':item.did,'page':'own'})}>
                                             <Text style={styles.textSeven}>{item.dtitle}</Text>
-                                        </View>
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
 
@@ -397,18 +294,22 @@ export default class Infer extends Component {
                                             <Text style={{ fontSize: 19 }}> {item.acontent}</Text>
                                         </View>
                                         <View style={styles.bigThreec}>
-                                            <TouchableOpacity
+                                            <Button
                                                 style={styles.bigThreed}
                                                 onPress={() => { this.click1(key) }}
+                                                disabled={this.state.disabled}
                                             >
-                                                <Text style={{ fontSize: 19, color: 'white' }}>{this.state.value1[key]}</Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity
+                                                {this.state.value1[key]}
+                                                {/* <Text style={{ fontSize: 19, color: 'white' }}></Text> */}
+                                           </Button>
+                                            <Button
                                                 style={styles.bigThreee}
                                                 onPress={() => { this.click2(key) }}
+                                                disabled={this.state.disabled}
                                             >
-                                                <Text style={{ fontSize: 19, color: 'white' }}>{this.state.value2[key]}</Text>
-                                            </TouchableOpacity>
+                                                {this.state.value2[key]}
+                                                {/* <Text style={{ fontSize: 19, color: 'white' }}></Text> */}
+                                            </Button>
                                         </View>
 
                                     </View>
@@ -418,9 +319,9 @@ export default class Infer extends Component {
                                     <View style={styles.bigFour}>
                                         <View style={styles.bigFoura}>
                                             <Text style={{ fontSize: 19 }}>您的交换日记申请已被<Text style={styles.textNine}> 接受</Text></Text>
-                                            <View style={styles.bigFourb}>
+                                            <TouchableOpacity style={styles.bigFourb} onPress={()=>Actions.exdetail1({'sid':item.shortdes_id})}>
                                                 <Text style={{ fontSize: 19 }}>{item.shortdes}</Text>
-                                            </View>
+                                            </TouchableOpacity>
                                         </View>
                                     </View>
                                 )) : <View></View> : null

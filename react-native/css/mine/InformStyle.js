@@ -1,15 +1,17 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet ,Dimensions} from 'react-native'
+
+const { height,width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     header: {
-        width: 480,
-        height: 70,
-        paddingRight: 20,
+        width: width,
+        height: 0.082*height,
+        paddingRight: width*0.041,
         backgroundColor: 'white',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingLeft: 25,
+        paddingLeft: 0.052*width,
         borderColor: '#F0F0F0',
         borderWidth: 0.5
     },
@@ -21,183 +23,183 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     topa: {
-        width: '100%',
-        height: 70,
+        width: width,
+        height: height*0.082,
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center'
     },
     imgOne: {
-        width: 30,
-        height: 30,
-        marginRight: 150,
-        marginLeft: 10
+        width: width*0.0625,
+        height: height*0.035,
+        marginRight: 0.3125*width,
+        marginLeft: 0.02*width
     },
     bigOne: {
         borderColor: '#F0F0F0',
-        width: 480,
-        height: 265,
+        width: width,
+        height: height*0.311,
         backgroundColor: 'white',
         borderWidth: 0.5,
         alignItems: 'center',
-        paddingTop: 7
+        paddingTop: height*0.008
     },
     bigOnea: {
-        width: 430,
-        height: 250,
+        width: width*0.896,
+        height: height*0.295,
         backgroundColor: 'white',
         borderBottomWidth: 6,
         borderBottomColor: '#F0F0F0'
     },
     bigOneb: {
-        width: 430,
-        height: 60,
+        width: width*0.896,
+        height: height*0.07,
         backgroundColor: 'white',
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: "center"
     },
     bigOnec: {
-        borderRadius: 22.5,
-        width: 45,
-        height: 45,
+        borderRadius: width*0.09375/2,
+        width: width*0.09375,
+        height:height*0.053,
         backgroundColor: "black",
         justifyContent: 'center',
         alignItems: 'center'
     },
     textOne: {
         fontSize: 19,
-        marginLeft: 15,
-        marginRight: 15
+        marginLeft: 0.03125*width,
+        marginRight: 0.03125*width
     },
     textTwo: {
         fontSize: 16,
         color: 'gray',
-        marginTop: 3
+        marginTop: 0.003517*height
     },
     textThree: {
         fontSize: 22,
-        marginTop: 5,
-        marginBottom: 23
+        marginTop: 0.006*height,
+        marginBottom: 0.027*height
     },
     bigOned: {
-        height: 110,
+        height: 0.129*height,
         backgroundColor: '#F0F0F0',
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center'
     },
     bigOnee: {
-        width: 115,
-        height: 90,
+        width: 0.240*width,
+        height: 0.106*height,
         borderRightColor: '#8BCCA1',
         borderRightWidth: 5,
         justifyContent: 'center',
         alignItems: 'center'
     },
     bigOnef: {
-        width: 305,
-        height: 110,
+        width: 0.635*width,
+        height: 0.129*height,
         justifyContent: 'center'
     },
     textFour: {
         fontSize: 18,
         color: "#8BCCA1",
-        marginLeft: 10,
-        marginRight: 5
+        marginLeft: 0.02*width,
+        marginRight: 0.006*width
     },
     bigTwo: {
         borderColor: '#F0F0F0',
-        width: 480,
-        height: 225,
+        width: width,
+        height: 0.264*height,
         backgroundColor: 'white',
         borderWidth: 0.5,
         alignItems: 'center',
-        paddingTop: 7
+        paddingTop: 0.008*height
     },
     bigTwoa: {
-        width: 430,
-        height: 210,
+        width: 0.896*width,
+        height: 0.246*height,
         backgroundColor: 'white',
-        borderBottomWidth: 6
-        , borderBottomColor: '#F0F0F0'
+        borderBottomWidth: 6,
+         borderBottomColor: '#F0F0F0'
     },
     bigTwob: {
-        width: 430,
-        height: 60,
+        width: 0.896*width,
+        height: 0.07*height,
         backgroundColor: 'white',
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: "center"
     },
     bigTwoc: {
-        borderRadius: 22.5,
-        width: 45,
-        height: 45,
+        borderRadius: width*0.09375/2,
+        width: width*0.09375,
+        height:height*0.053,
         backgroundColor: "black",
         justifyContent: 'center',
         alignItems: 'center'
     },
     textFive: {
         fontSize: 19,
-        marginLeft: 15,
-        marginRight: 15
+        marginLeft: 0.03125*width,
+        marginRight: 0.03125*width
     },
     textSix: {
         fontSize: 16,
         color: 'gray',
-        marginTop: 3
+        marginTop: 0.003517*height
     },
     bigTwod: {
-        height: 110,
+        height: 0.129*height,
         backgroundColor: '#F0F0F0',
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        marginTop: 20
+        marginTop: 0.023*height
     },
     bigTwoe: {
-        width: 115,
-        height: 90,
+        width: 0.240*width,
+        height: 0.11*height,
         borderRightColor: '#8BCCA1',
         borderRightWidth: 5,
         justifyContent: 'center',
         alignItems: 'center'
     },
     bigTwof: {
-        width: 305,
-        height: 110,
+        width: 0.635*width,
+        height: 0.129*height,
         justifyContent: 'center'
     },
     textSeven: {
         fontSize: 18,
         color: "#8BCCA1",
-        marginLeft: 10,
-        marginRight: 5
+        marginLeft: 0.02*width,
+        marginRight: 0.01*width
     },
     bigThree: {
-        width: 480,
-        height: 280,
+        width: width,
+        height: 0.328*height,
         backgroundColor: 'white',
         borderWidth: 0.5,
         borderColor: '#F0F0F0',
         alignItems: 'center',
-        paddingTop: 14
+        paddingTop: 0.016*height
     },
     bigThreea: {
-        width: 430,
-        height: 250,
+        width: 0.896*width,
+        height: 0.293*height,
         backgroundColor: 'white',
         borderBottomWidth: 6,
         borderBottomColor: '#F0F0F0',
-        paddingTop: 20
+        paddingTop: 0.023*height
     },
     bigThreeb: {
-        marginTop: 20,
-        width: 430,
-        height: 55,
+        marginTop: 0.023*height,
+        width: 0.896*width,
+        height: 0.064*height,
         backgroundColor: "#F0F0F0",
-        paddingLeft: 20,
+        paddingLeft: 0.042*width,
         justifyContent: "center"
     },
     textEight: {
@@ -209,42 +211,50 @@ const styles = StyleSheet.create({
 
     bigThreec: {
         backgroundColor: 'white',
-        width: 430,
-        height: 60,
+        width: 0.896*width,
+        height: 0.07*height,
         flexDirection: 'row',
         justifyContent: 'flex-end',
         alignItems: 'center'
     },
     bigThreed: {
-        width: 80,
-        height: 35,
+        width: 0.167*width,
+        height: 0.041*height,
         backgroundColor: "#8bcca1",
-        marginRight: 10,
-        borderRadius: 12,
-        justifyContent: "center",
-        alignItems: 'center'
+        marginRight: 0.02*width,
+        borderRadius: 0.055*width/2,
+        // flexDirection:'row',
+        // justifyContent: "center",
+        // alignItems: 'center',
+        paddingTop:5,
+        textAlign:'center',
+        fontSize: 19,
+        color: 'white'
     },
     bigThreee: {
-        width: 80,
-        height: 35,
+        width: 0.167*width,
+        height: 0.041*height,
         backgroundColor: "#8bcca1",
-        marginRight: 20,
-        borderRadius: 12,
-        justifyContent: "center",
-        alignItems: 'center'
+        marginRight: 0.041*width,
+        borderRadius: 0.055*width/2,
+        paddingTop:5,
+        // justifyContent: "center",
+        // alignItems: 'center',
+        fontSize: 19, 
+        color: 'white'
     },
     bigFour: {
         borderColor: '#F0F0F0',
-        width: 480,
-        height: 150,
+        width: width,
+        height: 0.176*height,
         backgroundColor: 'white',
         borderWidth: 0.5,
         alignItems: 'center',
-        paddingTop: 14
+        paddingTop: 0.016*height
     },
     bigFoura: {
-        width: 430,
-        height: 120,
+        width: 0.896*width,
+        height: 0.141*height,
         backgroundColor: 'white',
         borderBottomWidth: 6,
         borderBottomColor: '#F0F0F0',
@@ -255,11 +265,11 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline'
     },
     bigFourb: {
-        marginTop: 14,
-        width: 430,
-        height: 55,
+        marginTop: 0.016*height,
+        width: 0.896*width,
+        height: 0.064*height,
         backgroundColor: "#F0F0F0",
-        paddingLeft: 20,
+        paddingLeft: 0.042*width,
         justifyContent: "center"
     }
 })

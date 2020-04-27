@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity ,AsyncStorage} from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity, AsyncStorage, ToastAndroid } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient'//渐变插件
 
 import ImagePicker from 'react-native-image-picker';
-import styles from '../../css/mine/HomeStyle';
+import styles from '../../css/HomeStyle';
 import { Actions } from 'react-native-router-flux';
-import {Toast} from '@ant-design/react-native';
 
 
 console.disableYellowBox = true;
 
 const options = {
-    title: 'Select Avatar',
+    title: '请选择',
     // customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+    cancelButtonTitle: "取消",
+    takePhotoButtonTitle: "拍照",
+    chooseFromLibraryButtonTitle: "选择相册",
     storageOptions: {
         skipBackup: true,
         path: 'images',
@@ -29,63 +31,61 @@ export default class App extends Component {
             uconcern: 0,
             ufriend: 0,
             imageUrl: "http://116.62.14.0:8666/api/image/",
-            token:''
+            token: ''
         }
     }
     componentDidMount() {
         AsyncStorage.getItem('token')
-        .then(res=>{
-            this.setState({
-                token:res
-            },()=>{
-                //初始化
-                fetch('http://116.62.14.0:8666/mine/mine/'+this.state.token).then(res => res.json())
-                .then(res => {
-                    this.setState({
-                        data: res.dataone,
-                        uimage: res.dataone.uimage,
-                        uname: res.dataone.uname,
-                        uintroduce: res.dataone.uintroduce,
-                        ufans: res.dataone.ufans,
-                        uconcern: res.dataone.uconcern,
-                        ufriend: res.dataone.ufriend,
-                        imageUrl: this.state.imageUrl + res.dataone.uimage
-                    })
-                })
-            })
-        })
-        // fetch('http://116.62.14.0:8666/mine/mine/1587840424595').then(res => res.json())
-        //     .then(res => {
-        //         this.setState({
-        //             data: res.dataone,
-        //             uimage: res.dataone.uimage,
-        //             uname: res.dataone.uname,
-        //             uintroduce: res.dataone.uintroduce,
-        //             ufans: res.dataone.ufans,
-        //             uconcern: res.dataone.uconcern,
-        //             ufriend: res.dataone.ufriend,
-        //             imageUrl: this.state.imageUrl + res.dataone.uimage
-        //         })
-        //     })
-    }
-    componentDidUpdate() {
-        fetch('http://116.62.14.0:8666/mine/mine/'+this.state.token).then(res => res.json())
             .then(res => {
                 this.setState({
-                    data: res.dataone,
-                    uimage: res.dataone.uimage,
-                    uname: res.dataone.uname,
-                    uintroduce: res.dataone.uintroduce,
-                    ufans: res.dataone.ufans,
-                    uconcern: res.dataone.uconcern,
-                    ufriend: res.dataone.ufriend,
-                    imageUrl: this.state.imageUrl
+                    token: res
+                }, () => {
+                    //初始化
+                    fetch('http://116.62.14.0:8666/mine/mine/' + this.state.token).then(res => res.json())
+                        .then(res => {
+                            this.setState({
+                                data: res.dataone,
+                                uimage: res.dataone.uimage,
+                                uname: res.dataone.uname,
+                                uintroduce: res.dataone.uintroduce,
+                                ufans: res.dataone.ufans,
+                                uconcern: res.dataone.uconcern,
+                                ufriend: res.dataone.ufriend,
+                                imageUrl: this.state.imageUrl + res.dataone.uimage
+                            })
+                        })
+                })
+            })
+    }
+    componentDidUpdate() {
+        AsyncStorage.getItem('token')
+            .then(res => {
+                this.setState({
+                    token: res
+                }, () => {
+                    //初始化
+                    fetch('http://116.62.14.0:8666/mine/mine/' + this.state.token).then(res => res.json())
+                        .then(res => {
+                            this.setState({
+                                data: res.dataone,
+                                uimage: res.dataone.uimage,
+                                uname: res.dataone.uname,
+                                uintroduce: res.dataone.uintroduce,
+                                ufans: res.dataone.ufans,
+                                uconcern: res.dataone.uconcern,
+                                ufriend: res.dataone.ufriend,
+                                imageUrl: this.state.imageUrl
+                            }, () => {
+                                // console.log(this.state.imageUrl)
+                            })
+                        })
                 })
             })
 
     }
 
     takephoto = () => {
+        var formData = new FormData();
         ImagePicker.showImagePicker(options, (response) => {
             if (response.didCancel) {
                 return;
@@ -95,31 +95,71 @@ export default class App extends Component {
                 console.log('custom:', response.customButton);
             } else {
                 const source = { uri: response.uri };
+                console.log(response)
+                const file = { uri: response.uri, type: response.type, name: response.fileName };
+                formData.append('image', file);
+
                 this.setState({
                     imageUrl: source.uri,
                 }, () => {
+                    console.log(this.state.imageUrl)
                     fetch('http://116.62.14.0:8666/api/image', {
                         method: 'POST',
                         mode: "cors",
-                        body: this.state.imageUrl,
+                        body: formData
                     }).then(res => res.json())
                         .then(res => {
-                          console.log(res.data)
-                        }
-
-                        )
+                            //console.log(response)
+                            console.log(source.uri)
+                            if (res.imageid) {
+                                fetch('http://116.62.14.0:8666/mine/mine', {
+                                    method: 'POST',
+                                    mode: "cors",
+                                    body: JSON.stringify({ token: this.state.token, imgid: res.imageid })
+                                }).then(res => res.json()).then(res => {
+                                    if (res.status === 0) {
+                                        // console.log(res.imgid);
+                                        Toast.success(res.data, 1);
+                                        this.setState({
+                                            uimage: res.imgid
+                                        })
+                                    }
+                                    else{
+                                        ToastAndroid.showWithGravity(res.data,10,ToastAndroid.CENTER);
+                                    }
+                                })
+                            }
+                            else{
+                                ToastAndroid.showWithGravity(res.data,10,ToastAndroid.CENTER);
+                            }
+                        })
                 });
             }
         });
+
+    }
+    logout=()=>{
+        fetch('http://116.62.14.0:8666/user/exit/'+this.state.token)
+            .then(res =>{ return res.json() })
+            .then(res =>{ 
+                console.log(res);
+                if(res.data.status==-1){
+                     ToastAndroid.showWithGravity(res.data,10,ToastAndroid.CENTER);
+                }else{
+                    ToastAndroid.showWithGravity(res.data,10,ToastAndroid.CENTER);
+                    localStorage.removeItem('token')
+                }
+            });
     }
 
     render() {
-        const { height,width } = Dimensions.get('window');
+        const { height } = Dimensions.get('window');
+        // console.log(height)
         // console.log(this.state.imageUrl)
         return (
             <View style={styles.all}>
                 <View style={styles.one}>
-                    <View style={{ width: '35%', height: 190 }}>
+                    <View style={{ width: '35%', height: 170 }}>
                         <TouchableOpacity onPress={() => { this.takephoto() }}>
                             <Image
                                 style={styles.imgOne}
@@ -182,7 +222,7 @@ export default class App extends Component {
                     colors={['#8bcca1', '#57a099']}
                     style={styles.login}
                 >
-                    <TouchableOpacity onPress={()=>{Actions.login(); AsyncStorage.removeItem('token')}}>
+                    <TouchableOpacity onPress={() => {Actions.login(); AsyncStorage.removeItem('token'); this.logout()}}>
                         <Text style={{ fontSize: 23, color: 'white' }}>退出登录</Text>
                     </TouchableOpacity>
                 </LinearGradient>
