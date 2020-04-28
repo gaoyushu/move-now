@@ -1,44 +1,21 @@
-import React, {Component} from 'react';
-import {ScrollView, Text, Button, View, TouchableOpacity, Image} from 'react-native';
-import {Scene, Actions} from 'react-native-router-flux';
+import {StyleSheet,Dimensions} from 'react-native';
+let { height, width } = Dimensions.get('window');
 
-import styles from '../../css/exchange/Index'
+import color from '../color'
 
-import Tools from './Tools';
-import List from './List';
-import Detail from './Detail';
-import Publish from './Publish';
+var styles = StyleSheet.create({
+    box:{
+    },
+    btn:{
+        width: 60,
+        height: 60,
+        borderRadius: 60,
+        overflow: "hidden",
+        // position: 'absolute',
+        // bottom: 0.05*height,
+        // left: 0.05*width,
+        zIndex: 999,
+    }
+});
 
-const path = 'http://116.62.14.0:8666/';
-const imgpath = path + 'api/image/'; // 图片路径
-
-export default class Index extends Component {
-  constructor() {
-    super();
-    this.state = {
-      reload: 0, // tools里点击刷新时 更改这个值重新render 达到刷新界面的功能
-    };
-  }
-
-  changeReload = () => {
-    var num = ++this.state.reload;
-    this.setState({
-      reload: num,
-    });
-  };
-
-  jumpPublish = () =>{
-    Actions.expublish();
-  }
-
-  render() {
-    return (
-      <View>
-        <Tools changeReload={() => this.changeReload()} />
-        <TouchableOpacity onPress={this.jumpPublish}><Image style={styles.btn} source={{uri: imgpath + 26}} resizeMode="contain" /></TouchableOpacity>
-        <List type='list'/>
-        <Scene key="test" component={Detail} />
-      </View>
-    );
-  }
-}
+module.exports = styles;

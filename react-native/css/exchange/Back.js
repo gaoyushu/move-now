@@ -1,24 +1,26 @@
-import React from 'react';
-import {View, Text, Button} from 'react-native';
-import {Actions} from 'react-native-router-flux';
+import {StyleSheet,Dimensions} from 'react-native';
+let { height, width } = Dimensions.get('window');
 
-import color from '../../css/color';
-import styles from '../../css/exchange/Back';
+import color from '../color'
 
-const path = 'http://116.62.14.0:8666/';
+var styles = StyleSheet.create({
+    div:{
+        height: 0.07*height,
+        backgroundColor: color.green,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    btn:{
+        width: '15%',
+        backgroundColor: color.green
+    },
+    text:{
+        width: '85%',
+        textAlign: "center",
+        fontSize: 17,
+        color: '#fff'
+    }
+});
 
-export default class Tools extends React.Component {
-  // 返回功能
-  goBack = () => {
-    Actions.pop();
-  };
-
-  render() {
-    return (
-      <View style={styles.div}>
-        <Button onPress={this.goBack} color={color.green} style={styles.btn} title="<" />
-        <Text style={styles.text}>{this.props.title}</Text>
-      </View>
-    );
-  }
-}
+module.exports = styles;
