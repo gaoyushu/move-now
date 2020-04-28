@@ -53,6 +53,8 @@ export default class App extends Component {
                                 uconcern: res.dataone.uconcern,
                                 ufriend: res.dataone.ufriend,
                                 imageUrl: this.state.imageUrl + res.dataone.uimage
+                            },()=>{
+                                console.log(this.state.uconcern+"看这里")
                             })
                         })
                 })
@@ -77,7 +79,7 @@ export default class App extends Component {
                                 ufriend: res.dataone.ufriend,
                                 imageUrl: this.state.imageUrl
                             }, () => {
-                                // console.log(this.state.imageUrl)
+                                 console.log(this.state.imageUrl)
                             })
                         })
                 })
