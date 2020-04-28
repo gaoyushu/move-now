@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity, AsyncStora
 import LinearGradient from 'react-native-linear-gradient'//渐变插件
 
 import ImagePicker from 'react-native-image-picker';
-import styles from '../../css/HomeStyle';
+import styles from '../../css/mine/HomeStyle';
 import { Actions } from 'react-native-router-flux';
 
 const { height ,width} = Dimensions.get('window');

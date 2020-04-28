@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, Image, TouchableOpacity, TextInput, Dimensions , AsyncStorage } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'//渐变插件
 import { Actions } from 'react-native-router-flux';
-import styles from '../../css/EditStyle';
+import styles from '../../css/mine/EditStyle';
 
 const { width ,height} = Dimensions.get('window');
 
