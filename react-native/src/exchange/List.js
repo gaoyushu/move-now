@@ -1,13 +1,24 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, Text, TextInput, ToastAndroid} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+  ToastAndroid,
+  ScrollView,
+} from 'react-native';
 
 import styles from '../../css/exchange/List';
 import Card from './Card';
 
 // 请求路径
+const token = 1587997685612;
 const path = 'http://116.62.14.0:8666/';
 const imgpath = path + 'api/image/'; // 图片路径
-const datapath = path + 'change/list'; // 请求路径
+const listpath = path + 'change/list'; // 一句话请求路径
+const edlistpath = path + 'chat/exchange/' + token; // 匿名交换列表
+const chlistpath = path + 'changed/choose/' + token; // 选择日记列表
+const minepath = path + 'change/mine/' + token; // 我的一句话列表
 
 export default class List extends Component {
   constructor() {
@@ -19,12 +30,42 @@ export default class List extends Component {
   }
 
   componentDidMount() {
+    var datapath;
+    switch (this.props.type) {
+      case 'list':
+        datapath = listpath;
+        break;
+      case 'edlist':
+        datapath = edlistpath;
+        break;
+      case 'chlist':
+        datapath = chlistpath;
+        break;
+      case 'doinglist':
+        datapath = minepath;
+        break;
+      case 'finishlist':
+        datapath = minepath;
+        break;
+      default:
+        datapath = listpath;
+        break;
+    }
     fetch(datapath)
       .then((res) => res.json())
       .then((res) => {
+        var data=res.data;
+        // console.log('=========',this.props.type)
+        if (this.props.type == 'doinglist') {
+          data = res.data.open;
+        }
+        if (this.props.type == 'finishlist') {
+          data = res.data.close;
+          // console.log('000000000',res.data)
+        }
         this.setState({
           status: res.status,
-          data: res.data,
+          data: data,
         });
       });
   }
@@ -34,15 +75,28 @@ export default class List extends Component {
     var show1 = <Text>ERROR!code=500</Text>;
 
     // 列表为空 data为报错信息
-    var show2 = <Text>empty list</Text>;
-    
+    var show2 = <Text>列表为空</Text>;
+
     // 有信息
-    var show3 =<View>{this.state.data.map((item) => {return <Card data={item} />})}</View>
+    var show3 = (
+      <View>
+        {typeof(this.state.data)!='string'&&this.state.data?this.state.data.map((item) => {
+          return <Card type={this.props.type} data={item} />;
+        }):<Text>列表为空</Text>}
+      </View>
+    );
+    // console.log('=======',this.props.type,'---------',this.state.data);
 
     return (
-      <View style={styles.div}>
-          {this.state.status != 0 ? show1 : (typeof(this.state.data)=='string'?show2:show3)}
-      </View>
+      <ScrollView>
+        <View style={styles.div}>
+          {this.state.status != 0&&typeof this.state.data!='string'
+            ? show1
+            : typeof this.state.data == 'string'
+            ? show2
+            : show3}
+        </View>
+      </ScrollView>
     );
   }
 }

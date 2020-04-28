@@ -10,7 +10,7 @@ export default class Tools extends React.Component {
 
   // 刷新功能
   updata = () =>{
-    this.props.changeReload;
+    this.props.changeReload();
   }
 
   // 跳转匿名交换列表
