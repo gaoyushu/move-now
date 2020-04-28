@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { Text, View, Image, TouchableOpacity, TextInput, Dimensions , AsyncStorage } from 'react-native'
+import { Text, View, Image, TouchableOpacity, TextInput, Dimensions, AsyncStorage } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'//渐变插件
 import { Actions } from 'react-native-router-flux';
 import styles from '../../css/mine/EditStyle';
 
-const { width ,height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 export default class Edit extends Component {
     constructor() {
@@ -18,22 +18,30 @@ export default class Edit extends Component {
             name: '',
             introduce: '',
             email: '',
-            token:''
+            token: ''
             // imageUrl: "http://116.62.14.0:8666/api/image/"
         }
     }
     componentDidMount() {
-        fetch('http://116.62.14.0:8666/mine/mine/'+this.state.token).then(res => res.json())
+        AsyncStorage.getItem('token')
             .then(res => {
                 this.setState({
-                    data: res.dataone,
-                    uname: res.dataone.uname,
-                    uimage: res.dataone.uimage,
-                    uintroduce: res.dataone.uintroduce,
-                    uemail: res.dataone.uemail,
-                    name: res.dataone.uname,
-                    introduce: res.dataone.uintroduce,
-                    email: res.dataone.uemail
+                    token: res
+                }, () => {
+                    //初始化
+                    fetch('http://116.62.14.0:8666/mine/mine/' + this.state.token).then(res => res.json())
+                        .then(res => {
+                            this.setState({
+                                data: res.dataone,
+                                uname: res.dataone.uname,
+                                uimage: res.dataone.uimage,
+                                uintroduce: res.dataone.uintroduce,
+                                uemail: res.dataone.uemail,
+                                name: res.dataone.uname,
+                                introduce: res.dataone.uintroduce,
+                                email: res.dataone.uemail
+                            })
+                        })
                 })
             })
     }
@@ -67,7 +75,7 @@ export default class Edit extends Component {
     //     })
     // }
     render() {
-        
+
         // console.log(width)
         //console.log(this.state.imageUrl)
         return (
@@ -111,7 +119,7 @@ export default class Edit extends Component {
                         <Text style={styles.texte}>邮箱</Text>
                         <TextInput
                             style={styles.textf}
-                            // onChangeText={(Text) => { this.changeThree(Text) }}
+                        // onChangeText={(Text) => { this.changeThree(Text) }}
                         >{this.state.uemail}</TextInput>
 
                     </View>
