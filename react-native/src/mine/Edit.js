@@ -4,6 +4,7 @@ import LinearGradient from 'react-native-linear-gradient'//渐变插件
 import { Actions } from 'react-native-router-flux';
 import styles from '../../css/EditStyle';
 
+const { width ,height} = Dimensions.get('window');
 
 export default class Edit extends Component {
     constructor() {
@@ -66,7 +67,7 @@ export default class Edit extends Component {
     //     })
     // }
     render() {
-        const { width } = Dimensions.get('window');
+        
         // console.log(width)
         //console.log(this.state.imageUrl)
         return (
@@ -84,7 +85,7 @@ export default class Edit extends Component {
                         />
                     </TouchableOpacity>
 
-                    <Text style={{ fontSize: 25, color: 'white' }}>编辑信息</Text>
+                    <Text style={{ fontSize: 20, color: 'white' }}>编辑信息</Text>
                 </LinearGradient>
                 <View style={styles.bigOne}>
                     <Image style={styles.imgb} source={{ uri: 'http://116.62.14.0:8666/api/image/' + this.state.uimage }} />
@@ -123,7 +124,7 @@ export default class Edit extends Component {
                     style={styles.bottom}
                 >
                     <TouchableOpacity onPress={() => this.myChange()}>
-                        <Text style={{ fontSize: 23, color: 'white' }}>个性化信息修改</Text>
+                        <Text style={{ fontSize: 18, color: 'white' }}>个性化信息修改</Text>
                     </TouchableOpacity>
                 </LinearGradient>
             </View>

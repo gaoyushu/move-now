@@ -6,6 +6,7 @@ import ImagePicker from 'react-native-image-picker';
 import styles from '../../css/HomeStyle';
 import { Actions } from 'react-native-router-flux';
 
+const { height ,width} = Dimensions.get('window');
 
 console.disableYellowBox = true;
 
@@ -153,13 +154,13 @@ export default class App extends Component {
     }
 
     render() {
-        const { height } = Dimensions.get('window');
+        
         // console.log(height)
         // console.log(this.state.imageUrl)
         return (
             <View style={styles.all}>
                 <View style={styles.one}>
-                    <View style={{ width: '35%', height: 170 }}>
+                    <View style={{ width: 0.35*width, height: 0.199*height }}>
                         <TouchableOpacity onPress={() => { this.takephoto() }}>
                             <Image
                                 style={styles.imgOne}
@@ -168,7 +169,7 @@ export default class App extends Component {
                         </TouchableOpacity>
                     </View>
 
-                    <View style={{ width: '65%', height: 170 }}>
+                    <View style={{ width: width*0.65, height: height*0.199 }}>
                         <Text style={styles.onepa}>{this.state.data.uname}</Text>
                         <Text style={styles.onepb}>{this.state.uintroduce}</Text>
                     </View>
@@ -176,16 +177,16 @@ export default class App extends Component {
 
                 <View style={styles.two}>
                     <View style={styles.twoinner}>
-                        <Text style={{ fontSize: 23, paddingTop: 10 }}>{this.state.uconcern}</Text>
-                        <Text style={{ fontSize: 19 }}>关注</Text>
+                        <Text style={{ fontSize: 18, paddingTop: 0.012*height}}>{this.state.uconcern}</Text>
+                        <Text style={{ fontSize: 14 }}>关注</Text>
                     </View>
                     <View style={styles.twoinner}>
-                        <Text style={{ fontSize: 23, paddingTop: 10 }}>{this.state.ufans}</Text>
-                        <Text style={{ fontSize: 19 }}>粉丝</Text>
+                        <Text style={{ fontSize: 18, paddingTop: 0.012*height}}>{this.state.ufans}</Text>
+                        <Text style={{ fontSize: 14 }}>粉丝</Text>
                     </View>
                     <TouchableOpacity style={styles.twoinner} onPress={() => Actions.myFriend()}>
-                        <Text style={{ fontSize: 23, paddingTop: 10 }}>{this.state.ufriend}</Text>
-                        <Text style={{ fontSize: 19 }}>好友</Text>
+                        <Text style={{ fontSize: 18, paddingTop: 0.012*height }}>{this.state.ufriend}</Text>
+                        <Text style={{ fontSize: 14 }}>好友</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -194,25 +195,25 @@ export default class App extends Component {
                         <Image
                             style={styles.imgTwo}
                             source={{ uri: 'http://116.62.14.0:8666/api/image/39' }} />
-                        <Text style={{ fontSize: 21 }}>通知</Text>
+                        <Text style={{ fontSize: 16 }}>通知</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => Actions.mineEdit()} style={styles.threeinner}>
                         <Image
                             style={styles.imgTwo}
                             source={{ uri: 'http://116.62.14.0:8666/api/image/11' }} />
-                        <Text style={{ fontSize: 21 }}>编辑信息</Text>
+                        <Text style={{ fontSize: 16 }}>编辑信息</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.four}>
                     <TouchableOpacity style={styles.fourinner} onPress={() => Actions.mineSet()}>
-                        <Text style={{ fontSize: 22 }}>我的设置</Text>
+                        <Text style={{ fontSize: 17 }}>我的设置</Text>
                     </TouchableOpacity>
                     <View style={styles.fourinner}>
-                        <Text style={{ fontSize: 22 }}>用户反馈</Text>
+                        <Text style={{ fontSize: 17 }}>用户反馈</Text>
                     </View>
                     <TouchableOpacity style={styles.fourinner} onPress={() => Actions.mineAbout()}>
-                        <Text style={{ fontSize: 22 }}>关于我们</Text>
+                        <Text style={{ fontSize: 17 }}>关于我们</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -223,7 +224,7 @@ export default class App extends Component {
                     style={styles.login}
                 >
                     <TouchableOpacity onPress={() => {Actions.login(); AsyncStorage.removeItem('token'); this.logout()}}>
-                        <Text style={{ fontSize: 23, color: 'white' }}>退出登录</Text>
+                        <Text style={{ fontSize: 17, color: 'white' }}>退出登录</Text>
                     </TouchableOpacity>
                 </LinearGradient>
             </View>

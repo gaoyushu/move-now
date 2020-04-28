@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     },
     texta: {
         width: width*0.21,
-        fontSize: 25,
+        fontSize: 20,
         paddingTop: height*0.023,
         paddingLeft: width*0.083,
         paddingBottom: height*0.023
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         width: width*0.625,
         height: height*0.053,
-        fontSize: 20,
+        fontSize: 15,
         marginLeft: width*0.042,
         marginTop: height*0.014
     },
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
 
     textc: {
         width: width*0.208,
-        fontSize: 25,
+        fontSize: 20,
         paddingTop: height*0.023,
         paddingLeft: width*0.083,
         paddingBottom:  height*0.023
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         width: width*0.625,
         height: height*0.053,
-        fontSize: 20,
+        fontSize: 15,
         marginLeft: width*0.042,
         marginTop: 0.014*height
     },
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     },
     texte: {
         width: width*0.208,
-        fontSize: 25,
+        fontSize: 20,
         paddingTop: height*0.023,
         paddingLeft: width*0.083,
         paddingBottom: height*0.023
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         width: width*0.625,
         height: height*0.053,
-        fontSize: 20,
+        fontSize: 15,
         marginLeft: 0.042*width,
         marginTop: height*0.014
     },

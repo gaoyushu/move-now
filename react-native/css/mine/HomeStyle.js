@@ -18,13 +18,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   onepa: {
-    fontSize: 25,
+    fontSize: 20,
     marginTop: height*0.065,
     marginLeft: width*0.05,
     color: '#fff'
   },
   onepb: {
-    fontSize: 20,
+    fontSize: 15,
     marginTop: height*0.018,
     marginLeft: width*0.057,
     color: '#fff'

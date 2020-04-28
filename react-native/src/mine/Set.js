@@ -20,23 +20,23 @@ export default class Set extends Component {
                             source={require('../image/jiantouleft.png')}
                         />
                     </TouchableOpacity>
-                    <Text style={{ fontSize: 25, color: 'white' }}>设置</Text>
+                    <Text style={{ fontSize: 20, color: 'white' }}>设置</Text>
                 </LinearGradient>
                 <View style={{width:'100%',height:435}}>
                     <View style={styles.bigTwo} onPress={()=>Actions.mineSet()}>
-                        <Text style={{ fontSize: 22 }}>修改密码</Text>
+                        <Text style={{ fontSize: 17 }}>修改密码</Text>
                     </View>
                     <View style={styles.bigTwo}>
-                        <Text style={{ fontSize: 22 }}>消息设置</Text>
+                        <Text style={{ fontSize: 17 }}>消息设置</Text>
                     </View>
                     <View style={styles.bigTwo} onPress={()=>Actions.mineAbout()}>
-                        <Text style={{ fontSize: 22 }}>隐私设置</Text>
+                        <Text style={{ fontSize: 17 }}>隐私设置</Text>
                     </View>
                     <View style={styles.bigTwo} onPress={()=>Actions.mineAbout()}>
-                        <Text style={{ fontSize: 22 }}>通用设置</Text>
+                        <Text style={{ fontSize: 17 }}>通用设置</Text>
                     </View>
                     <View style={styles.bigTwo} onPress={()=>Actions.mineAbout()}>
-                        <Text style={{ fontSize: 22 }}>清除缓存</Text>
+                        <Text style={{ fontSize: 17 }}>清除缓存</Text>
                     </View>
                 </View>
             </View>

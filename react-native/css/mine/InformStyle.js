@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         width: width*0.896,
         height: height*0.295,
         backgroundColor: 'white',
-        borderBottomWidth: 6,
+        borderBottomWidth: 2,
         borderBottomColor: '#F0F0F0'
     },
     bigOneb: {
@@ -68,17 +68,17 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     textOne: {
-        fontSize: 19,
+        fontSize: 14,
         marginLeft: 0.03125*width,
         marginRight: 0.03125*width
     },
     textTwo: {
-        fontSize: 16,
+        fontSize: 11,
         color: 'gray',
         marginTop: 0.003517*height
     },
     textThree: {
-        fontSize: 22,
+        fontSize: 17,
         marginTop: 0.006*height,
         marginBottom: 0.027*height
     },
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
         width: 0.240*width,
         height: 0.106*height,
         borderRightColor: '#8BCCA1',
-        borderRightWidth: 5,
+        borderRightWidth: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     textFour: {
-        fontSize: 18,
+        fontSize: 13,
         color: "#8BCCA1",
         marginLeft: 0.02*width,
         marginRight: 0.006*width
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
         width: 0.896*width,
         height: 0.246*height,
         backgroundColor: 'white',
-        borderBottomWidth: 6,
+        borderBottomWidth: 2,
          borderBottomColor: '#F0F0F0'
     },
     bigTwob: {
@@ -141,12 +141,12 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     textFive: {
-        fontSize: 19,
+        fontSize: 14,
         marginLeft: 0.03125*width,
         marginRight: 0.03125*width
     },
     textSix: {
-        fontSize: 16,
+        fontSize: 11,
         color: 'gray',
         marginTop: 0.003517*height
     },
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
         width: 0.240*width,
         height: 0.11*height,
         borderRightColor: '#8BCCA1',
-        borderRightWidth: 5,
+        borderRightWidth: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     textSeven: {
-        fontSize: 18,
+        fontSize: 13,
         color: "#8BCCA1",
         marginLeft: 0.02*width,
         marginRight: 0.01*width
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
         width: 0.896*width,
         height: 0.293*height,
         backgroundColor: 'white',
-        borderBottomWidth: 6,
+        borderBottomWidth: 2,
         borderBottomColor: '#F0F0F0',
         paddingTop: 0.023*height
     },
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     textEight: {
-        fontSize: 22,
+        fontSize: 17,
         color: '#57A099',
         fontWeight: 'bold',
         textDecorationLine: 'underline'
@@ -226,9 +226,9 @@ const styles = StyleSheet.create({
         // flexDirection:'row',
         // justifyContent: "center",
         // alignItems: 'center',
-        paddingTop:5,
+        paddingTop:0.006*height,
         textAlign:'center',
-        fontSize: 19,
+        fontSize: 14,
         color: 'white'
     },
     bigThreee: {
@@ -237,10 +237,10 @@ const styles = StyleSheet.create({
         backgroundColor: "#8bcca1",
         marginRight: 0.041*width,
         borderRadius: 0.055*width/2,
-        paddingTop:5,
+        paddingTop:0.006*height,
         // justifyContent: "center",
         // alignItems: 'center',
-        fontSize: 19, 
+        fontSize: 14, 
         color: 'white'
     },
     bigFour: {
@@ -256,11 +256,11 @@ const styles = StyleSheet.create({
         width: 0.896*width,
         height: 0.141*height,
         backgroundColor: 'white',
-        borderBottomWidth: 6,
+        borderBottomWidth: 2,
         borderBottomColor: '#F0F0F0',
     },
     textNine: {
-        fontSize: 21,
+        fontSize: 16,
         fontWeight: 'bold',
         textDecorationLine: 'underline'
     },

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Image, TouchableOpacity, ScrollView , AsyncStorage } from 'react-native'
+import { Text, View, Image, TouchableOpacity, ScrollView , AsyncStorage,Dimensions } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'//渐变插件
 import { Actions } from 'react-native-router-flux'
 
@@ -10,6 +10,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import Button from 'react-native-button';
 
 const SECTIONS = ['评论', '点赞', '申请', '我的申请'];
+const { width ,height} = Dimensions.get('window');
 
 
 export default class Infer extends Component {
@@ -218,7 +219,7 @@ export default class Infer extends Component {
 
     _renderSectionTitle = section => {
         return (
-            <View style={{ width: 480, height: 0, backgroundColor: 'red' }}>
+            <View style={{ width: width, height: 0, backgroundColor: 'red' }}>
             </View>
         );
     }
@@ -230,8 +231,8 @@ export default class Infer extends Component {
             <View
                 style={styles.header}
             >
-                <Text style={{ fontSize: 23 }}>{content}</Text>
-                <Icon name={isActive ? 'chevron-thin-up' : 'chevron-thin-down'} size={25} color={'gray'} />
+                <Text style={{ fontSize: 18 }}>{content}</Text>
+                <Icon name={isActive ? 'chevron-thin-up' : 'chevron-thin-down'} size={20} color={'gray'} />
             </View>
         );
     };
@@ -253,8 +254,8 @@ export default class Infer extends Component {
                                 <Text style={styles.textThree}>{item.comcontent}</Text>
                                 <View style={styles.bigOned}>
                                     <View style={styles.bigOnee}>
-                                        <Text style={{ fontSize: 35, color: '#8BCCA1' }}>{this.state.datac[key].day}</Text>
-                                        <Text style={{ fontSize: 20, color: '#8BCCA1' }}>{this.state.datac[key].year}/{this.state.datac[key].month}</Text>
+                                        <Text style={{ fontSize: 30, color: '#8BCCA1' }}>{this.state.datac[key].day}</Text>
+                                        <Text style={{ fontSize: 15, color: '#8BCCA1' }}>{this.state.datac[key].year}/{this.state.datac[key].month}</Text>
                                     </View>
                                     <TouchableOpacity style={styles.bigOnef} onPress={()=>Actions.details3({'did':item.did,'page':'own'})}>
                                         <Text style={styles.textFour}>{item.dtitle}</Text>
@@ -275,8 +276,8 @@ export default class Infer extends Component {
                                     </View>
                                     <View style={styles.bigTwod}>
                                         <View style={styles.bigTwoe}>
-                                            <Text style={{ fontSize: 35, color: '#8BCCA1' }}>{this.state.dataz[key].day}</Text>
-                                            <Text style={{ fontSize: 20, color: '#8BCCA1' }}>{this.state.dataz[key].year}/{this.state.dataz[key].month}</Text>
+                                            <Text style={{ fontSize: 30, color: '#8BCCA1' }}>{this.state.dataz[key].day}</Text>
+                                            <Text style={{ fontSize: 15, color: '#8BCCA1' }}>{this.state.dataz[key].year}/{this.state.dataz[key].month}</Text>
                                         </View>
                                         <TouchableOpacity style={styles.bigTwof} onPress={()=>Actions.details3({'did':item.did,'page':'own'})}>
                                             <Text style={styles.textSeven}>{item.dtitle}</Text>
@@ -289,9 +290,9 @@ export default class Infer extends Component {
                             : content == '申请' ? this.state.data !== '您没有申请！' ? this.state.data.map((item, key) => (
                                 <View style={styles.bigThree}>
                                     <View style={styles.bigThreea}>
-                                        <Text style={{ fontSize: 20 }}>有一位用户向您的一句话<Text style={styles.textEight}>{item.shortdes}</Text>发送了交换日记的申请，申请理由如下：</Text>
+                                        <Text style={{ fontSize: 15 }}>有一位用户向您的一句话<Text style={styles.textEight}>{item.shortdes}</Text>发送了交换日记的申请，申请理由如下：</Text>
                                         <View style={styles.bigThreeb}>
-                                            <Text style={{ fontSize: 19 }}> {item.acontent}</Text>
+                                            <Text style={{ fontSize: 14 }}> {item.acontent}</Text>
                                         </View>
                                         <View style={styles.bigThreec}>
                                             <Button
@@ -318,9 +319,9 @@ export default class Infer extends Component {
                                 : content == '我的申请' ? this.state.data1 !== '暂无申请' ? this.state.data1.map((item, key) => (
                                     <View style={styles.bigFour}>
                                         <View style={styles.bigFoura}>
-                                            <Text style={{ fontSize: 19 }}>您的交换日记申请已被<Text style={styles.textNine}> 接受</Text></Text>
+                                            <Text style={{ fontSize: 14 }}>您的交换日记申请已被<Text style={styles.textNine}> 接受</Text></Text>
                                             <TouchableOpacity style={styles.bigFourb} onPress={()=>Actions.exdetail1({'sid':item.shortdes_id})}>
-                                                <Text style={{ fontSize: 19 }}>{item.shortdes}</Text>
+                                                <Text style={{ fontSize: 14 }}>{item.shortdes}</Text>
                                             </TouchableOpacity>
                                         </View>
                                     </View>
