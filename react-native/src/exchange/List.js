@@ -30,44 +30,51 @@ export default class List extends Component {
   }
 
   componentDidMount() {
-    var datapath;
-    switch (this.props.type) {
-      case 'list':
-        datapath = listpath;
-        break;
-      case 'edlist':
-        datapath = edlistpath;
-        break;
-      case 'chlist':
-        datapath = chlistpath;
-        break;
-      case 'doinglist':
-        datapath = minepath;
-        break;
-      case 'finishlist':
-        datapath = minepath;
-        break;
-      default:
-        datapath = listpath;
-        break;
-    }
-    fetch(datapath)
-      .then((res) => res.json())
-      .then((res) => {
-        var data=res.data;
-        // console.log('=========',this.props.type)
-        if (this.props.type == 'doinglist') {
-          data = res.data.open;
+    AsyncStorage.getItem('token')
+    .then(res=>{
+       this.setState({
+         token:res
+       },()=>{
+        var datapath;
+        switch (this.props.type) {
+          case 'list':
+            datapath = listpath;
+            break;
+          case 'edlist':
+            datapath = path + 'chat/exchange/' + this.state.token;
+            break;
+          case 'chlist':
+            datapath = path + 'changed/choose/' + this.state.token;
+            break;
+          case 'doinglist':
+            datapath = path + 'change/mine/' + this.state.token;
+            break;
+          case 'finishlist':
+            datapath = path + 'change/mine/' + this.state.token;
+            break;
+          default:
+            datapath = listpath;
+            break;
         }
-        if (this.props.type == 'finishlist') {
-          data = res.data.close;
-          // console.log('000000000',res.data)
-        }
-        this.setState({
-          status: res.status,
-          data: data,
-        });
-      });
+        fetch(datapath)
+          .then((res) => res.json())
+          .then((res) => {
+            var data=res.data;
+            // console.log('=========',this.props.type)
+            if (this.props.type == 'doinglist') {
+              data = res.data.open;
+            }
+            if (this.props.type == 'finishlist') {
+              data = res.data.close;
+              // console.log('000000000',res.data)
+            }
+            this.setState({
+              status: res.status,
+              data: data,
+            });
+          });
+       })
+    })
   }
 
   render() {
