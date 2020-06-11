@@ -5,7 +5,10 @@ import System from './content/System';
 import User from './content/User';
 import Diary from './content/Diary';
 import Comments from './content/Comments';
+import PictureExamine from './content/Pictureexamine';
 import Picture from './content/Picture';
+import DiaryExamine from './content/Diaryexamine';
+import CommentExamine from './content/Commentexamine';
 export default class Contents extends Component {
     render() {
         return (
@@ -15,7 +18,10 @@ export default class Contents extends Component {
                 <Route path='/user' component={User}/>
                 <Route path='/diary' component={Diary}/>
                 <Route path='/comments' component={Comments}/>
-                <Route path='/picture' component={Picture}/>
+                <Route path='/pictureexamine' component={PictureExamine}/>
+                <Route path='/diaryexamine/:id' component={DiaryExamine}/>
+                <Route path='/commentexamine/:id' component={CommentExamine}/>
+                <Route path={`/picture`} component={Picture}/>
             </div>
         )
     }

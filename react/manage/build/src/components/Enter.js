@@ -5,10 +5,13 @@ import System from './content/System';
 import User from './content/User';
 import Diary from './content/Diary';
 import Comments from './content/Comments';
-import Picture from './content/Picture';
+import PictureExamine from './content/Pictureexamine';
+import DiaryExamine from './content/Diaryexamine';
+import CommentExamine from './content/Commentexamine';
 import Home from './content/Home';
 import { HashRouter as Router,Route,Link} from 'react-router-dom';
 import pubsub from 'pubsub-js'
+import Picture from './content/Picture';
 
 export default class Enter extends Component {
     componentDidMount(){
@@ -34,6 +37,9 @@ export default class Enter extends Component {
                     <Route path={this.props.match.url+`/user`} component={User}/>
                     <Route path={this.props.match.url+`/diary`} component={Diary}/>
                     <Route path={this.props.match.url+`/comments`} component={Comments}/>
+                    <Route path={this.props.match.url+`/pictureexamine/:id`} component={PictureExamine}/>
+                    <Route path={this.props.match.url+`/diaryexamine/:id`} component={DiaryExamine}/>
+                    <Route path={this.props.match.url+`/commentexamine/:id`} component={CommentExamine}/>
                     <Route path={this.props.match.url+`/picture`} component={Picture}/>
                 </div>
             </div>

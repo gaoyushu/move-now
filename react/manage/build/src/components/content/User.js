@@ -45,7 +45,7 @@ export default class User extends Component {
                                 <tr key={idx}>
                                     <td>{item.uid}</td>
                                     <td>{item.uname}</td>
-                                    <td><img src={'http://116.62.14.0:8666/api/image/'+item.uimage} /></td>
+                                    <td className='temp'><img src={'http://116.62.14.0:8666/api/image/'+item.uimage} /></td>
                                     <td>{item.uemail}</td>
                                     <td>{item.uintroduce}</td>
                                     <td>{item.upassword}</td>
